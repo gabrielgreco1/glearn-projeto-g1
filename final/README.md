@@ -38,3 +38,9 @@ Tudo fica em `dados/`, que não vai para o Git:
 - O feed é pedido com o `etag` da última vez. Se não mudou, o servidor responde 304 e nada é baixado.
 - Se o site recusar um pedido, o programa para. Não tente contornar.
 - O texto das notícias é do G1. Ele fica só no seu computador.
+
+## O que o projeto não faz
+
+- Uma notícia guardada não é atualizada. Se a redação corrige o título depois, o arquivo fica com o título da primeira vez que o programa viu a notícia. A página da notícia, baixada pelo `materias.py`, traz o título da hora em que foi baixada.
+- As datas ficam como a fonte escreveu: o feed em `Sat, 14 Nov 2026 05:01:26 -0000`, o mapa do site e a página em outros formatos. Converter é trabalho da etapa Transformar.
+- Nada roda sozinho: o programa roda quando você manda.

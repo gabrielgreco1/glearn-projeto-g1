@@ -1,0 +1,19 @@
+[project]
+name = "projeto-g1"
+version = "0.1.0"
+description = "Acompanha as notícias de tecnologia do G1 pelo feed RSS, sem repetir."
+requires-python = ">=3.13"
+dependencies = [
+    "feedparser>=6.0.14",
+    "httpx>=0.28.1",
+    "python-dotenv>=1.2.4",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.2.0",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["testes"]
