@@ -1,0 +1,10 @@
+# 2026-11-14 01:02:48 -03 · uv run python rodar.py (terceira rodada)
+01:02:49 INFO etapa 1 de 4: o feed
+01:02:51 INFO o feed não mudou desde 2026-11-14T00:42:47-03:00, nada para baixar
+01:02:51 INFO etapa 2 de 4: guardar só o que é novo
+01:02:51 INFO etapa 3 de 4: a página das notícias que faltam
+01:03:39 INFO matérias: 20 baixadas nesta rodada, 42 ficam para a próxima
+01:03:39 INFO etapa 4 de 4: a tabela e a conferência
+01:03:43 INFO gravei 102 linhas em dados/noticias.csv
+01:03:43 INFO conferência: 102 notícias, 0 repetidas, 0 sem data, 0 sem título, 59 com a página lida
+01:03:43 INFO da mais antiga, 2026-10-31T21:17:00-03:00, até a mais nova, 2026-11-13T18:56:54-03:00
