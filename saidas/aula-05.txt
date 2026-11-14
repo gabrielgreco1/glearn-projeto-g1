@@ -1,0 +1,22 @@
+# 2026-11-14, horário de Brasília. Pasta modulo-1-extrair/aula-05-…/projeto copiada para uma pasta limpa e rodada do zero.
+$ uv run python baixar.py
+14:23:30 INFO baixei o feed: 590939 bytes em dados/bronze/feed/2026-11-14/17-23-29.xml
+$ uv run python acumular.py
+14:23:30 INFO feed: 100 notícias lidas, 100 novas, 0 já estavam guardadas. Total: 100
+$ uv run python sitemap.py 2026-11-01
+14:23:32 INFO baixei o mapa de 2026-11-01, parte 1: 213508 bytes em dados/bronze/sitemap/2026-11-01_1.xml
+14:23:34 INFO baixei o mapa de 2026-11-01, parte 2: 215 bytes em dados/bronze/sitemap/2026-11-01_2.xml
+14:23:34 INFO sitemap: 2 notícias lidas, 2 novas, 0 já estavam guardadas. Total: 102
+$ uv run python sitemap.py 2026-11-01
+14:23:34 INFO já tenho dados/bronze/sitemap/2026-11-01_1.xml, não peço de novo
+14:23:34 INFO já tenho dados/bronze/sitemap/2026-11-01_2.xml, não peço de novo
+14:23:34 INFO sitemap: 2 notícias lidas, 0 novas, 2 já estavam guardadas. Total: 102
+$ uv run python sitemap.py 2026-11-13
+14:23:36 INFO baixei o mapa de 2026-11-13, parte 1: 403281 bytes em dados/bronze/sitemap/2026-11-13_1.xml
+14:23:39 INFO baixei o mapa de 2026-11-13, parte 2: 215 bytes em dados/bronze/sitemap/2026-11-13_2.xml
+14:23:39 INFO sitemap: 13 notícias lidas, 0 novas, 13 já estavam guardadas. Total: 102
+$ uv run python sitemap.py 2030-01-01
+O dia 2030-01-01 ainda não chegou. O G1 responde com um mapa vazio.
+$ uv run pytest -q
+....                                                                     [100%]
+4 passed in 0.02s

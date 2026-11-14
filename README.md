@@ -22,12 +22,14 @@ O README de cada pasta diz a ordem dos comandos. O projeto pronto está em [fina
 
 ## O que foi rodado
 
-Em 14 de novembro de 2026, com Python 3.13, uv 0.10.11, httpx 0.28.1, feedparser 6.0.14, beautifulsoup4 4.15.0, python-dotenv 1.2.4 e pytest 9.2.0. As saídas estão em [saidas/](saidas).
+Em 14 de novembro de 2026, com Python 3.13, uv 0.10.11, httpx 0.28.1, feedparser 6.0.14, beautifulsoup4 4.15.0, python-dotenv 1.2.4 e pytest 9.2.0. Cada pasta de aula foi copiada para uma pasta limpa e rodada do zero com os comandos do README dela. As saídas estão em [saidas/](saidas), uma por aula.
 
 - Do zero (`rm -rf dados` e `uv run python rodar.py`): 1 pedido ao feed, 100 notícias novas, 20 páginas de notícia.
 - Segunda rodada, logo em seguida: o feed respondeu 304, nenhuma notícia nova, mais 20 páginas.
-- `uv run python sitemap.py 2026-11-01`: 2 notícias que o feed já não mostrava.
-- `uv run pytest`: 5 testes.
+- `uv run python sitemap.py 2026-11-01`: 2 notícias que o feed já não mostrava, lidas da parte 1 do mapa do dia (a parte 2 veio vazia).
+- `uv run pytest`: 6 testes.
+
+Os números mudam com o tempo: o feed é outro a cada hora.
 
 ## Regras do projeto
 

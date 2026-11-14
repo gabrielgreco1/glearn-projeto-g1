@@ -1,0 +1,24 @@
+# 2026-11-14, horário de Brasília. Pasta modulo-1-extrair/aula-03-…/projeto copiada para uma pasta limpa e rodada do zero.
+$ uv run python baixar.py
+14:05:49 INFO baixei o feed: 590939 bytes em dados/bronze/feed/2026-11-14/17-05-49.xml
+$ uv run python ler.py
+dados/bronze/feed/2026-11-14/17-05-49.xml: 100 notícias
+  id: https://g1.globo.com/tecnologia/noticia/2026/11/14/golpe-microsoft-alerta-outlook.ghtml
+  titulo: Microsoft alerta sobre tentativas de golpe após falha no Teams e no Outlook
+  subtitulo: Criminosos enviam e-mails falsos que simulam alertas oficiais e ameaçam apagar mensagens retidas durante a instabilidade do serviço; campanha pode ser usada para roubar senhas e dados de acesso.
+  link: https://g1.globo.com/tecnologia/noticia/2026/11/14/golpe-microsoft-alerta-outlook.ghtml
+  publicado: Sat, 14 Nov 2026 13:55:00 -0000
+  editoria: tecnologia
+  imagem: https://s2-g1.glbimg.com/Qw_LdXi7CmnBjBDppAcyxSu6DnA=/i.s3.glbimg.com/v1/AUTH_59edd422c0c84a879bd37670ae4f538a/internal_photos/bs/2026/x/u/Lck7p3RJeQg2pTCLzyYg/2026-11-13t111644z-1725727772-rc2q5da86e5v-rtrmadp-3-microsoft-outages.jpg
+$ uv run pytest
+============================= test session starts ==============================
+platform darwin -- Python 3.13.5, pytest-9.2.0, pluggy-1.7.0
+rootdir: .../projeto
+configfile: pyproject.toml
+testpaths: testes
+plugins: anyio-4.16.0
+collected 4 items
+
+testes/test_ler.py ....                                                  [100%]
+
+============================== 4 passed in 0.02s ===============================

@@ -24,12 +24,12 @@ uv run python sitemap.py 2026-11-01
 
 Tudo fica em `dados/`, que não vai para o Git:
 
-- `bronze/feed/AAAA-MM-DD/HH-MM-SS.xml`: cada feed baixado, como veio, numa pasta com a data da coleta.
+- `bronze/feed/AAAA-MM-DD/HH-MM-SS.xml`: cada feed baixado, como veio, numa pasta com a data da coleta, em UTC (13h em Brasília aparece como 16h).
 - `bronze/sitemap/`: o mapa do site de cada dia recuperado.
 - `bronze/materias/`: a página de cada notícia, com o nome tirado do endereço.
 - `estado.json`: o que o programa lembra de uma rodada para a outra.
 - `noticias.jsonl`: uma notícia por linha, na ordem em que entraram.
-- `noticias.csv`: a tabela final, uma linha por notícia. As datas ficam como vieram da fonte; converter é trabalho da etapa Transformar.
+- `noticias.csv`: a tabela final, uma linha por notícia. As datas ficam como vieram da fonte; converter é trabalho da etapa Transformar. A tabela é para ler com programa (pandas, DuckDB). No Excel, um título que comece com `=` pode ser lido como fórmula.
 
 ## Regras de coleta
 

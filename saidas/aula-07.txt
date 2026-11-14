@@ -1,0 +1,41 @@
+# 2026-11-14, horário de Brasília. Pasta modulo-1-extrair/aula-07-…/projeto copiada para uma pasta limpa e rodada do zero.
+$ rm -rf dados
+$ uv run python rodar.py
+14:06:52 INFO etapa 1 de 4: o feed
+14:06:54 INFO baixei o feed: 590939 bytes em dados/bronze/feed/2026-11-14/17-06-54.xml
+14:06:54 INFO etapa 2 de 4: guardar só o que é novo
+14:06:55 INFO feed: 100 notícias lidas, 100 novas, 0 já estavam guardadas. Total: 100
+14:06:55 INFO etapa 3 de 4: a página das notícias que faltam
+14:07:36 INFO matérias: 20 baixadas nesta rodada, 80 ficam para a próxima
+14:07:36 INFO etapa 4 de 4: a tabela e a conferência
+14:07:37 INFO gravei 100 linhas em dados/noticias.csv
+14:07:37 INFO conferência: 100 notícias, 0 repetidas, 0 sem data, 0 sem título, 20 com a página lida
+14:07:37 INFO primeira guardada: Tue, 03 Nov 2026 16:58:54 -0000; última: Sat, 14 Nov 2026 13:55:00 -0000
+$ uv run python rodar.py
+14:07:38 INFO etapa 1 de 4: o feed
+14:07:40 INFO o feed não mudou desde 2026-11-14T17:06:54+00:00, nada para baixar
+14:07:40 INFO etapa 2 de 4: guardar só o que é novo
+14:07:40 INFO feed: 100 notícias lidas, 0 novas, 100 já estavam guardadas. Total: 100
+14:07:40 INFO etapa 3 de 4: a página das notícias que faltam
+14:08:22 INFO matérias: 20 baixadas nesta rodada, 60 ficam para a próxima
+14:08:22 INFO etapa 4 de 4: a tabela e a conferência
+14:08:24 INFO gravei 100 linhas em dados/noticias.csv
+14:08:24 INFO conferência: 100 notícias, 0 repetidas, 0 sem data, 0 sem título, 40 com a página lida
+14:08:24 INFO primeira guardada: Tue, 03 Nov 2026 16:58:54 -0000; última: Sat, 14 Nov 2026 13:55:00 -0000
+$ uv run pytest
+============================= test session starts ==============================
+platform darwin -- Python 3.13.5, pytest-9.2.0, pluggy-1.7.0
+rootdir: .../projeto
+configfile: pyproject.toml
+testpaths: testes
+plugins: anyio-4.16.0
+collected 6 items
+
+testes/test_ler.py ....                                                  [ 66%]
+testes/test_materias.py ..                                               [100%]
+
+============================== 6 passed in 0.08s ===============================
+$ head -3 dados/noticias.csv
+publicado,publicado_pagina,editoria,titulo,subtitulo,autor,secao,palavras,atualizado_em,origem,visto_em,link
+"Tue, 03 Nov 2026 16:58:54 -0000",,tecnologia,"Hackers usaram entrevista de emprego falsa para invadir sistema e roubar US$ 6,3 bi da Binance","Sistema foi invadido após ser comprometido por uma entrevista de emprego falsa. Segundo a empresa, uma ferramenta interna de IA também foi usada para obter controle sobre carteiras.",,,,,feed,2026-11-14T17:06:55+00:00,https://g1.globo.com/tecnologia/ciberseguranca/noticia/2026/11/03/hackers-binance-entrevista-de-emprego.ghtml
+"Tue, 03 Nov 2026 17:54:30 -0000",,tecnologia,"Documentos falsos e inteligência artificial: como KYC, biometria facial e análise de dispositivos trabalham juntos",Entenda por que conferir a verificação de documentos é apenas uma das etapas para validar uma identidade e avaliar riscos em jornadas digitais.,,,,,feed,2026-11-14T17:06:55+00:00,https://g1.globo.com/tecnologia/ciberseguranca/serasa/noticia/2026/11/03/documentos-falsos-e-inteligencia-artificial-como-kyc-biometria-facial-e-analise-de-dispositivos-trabalham-juntos.ghtml

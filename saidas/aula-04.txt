@@ -1,0 +1,14 @@
+# 2026-11-14, horário de Brasília. Pasta modulo-1-extrair/aula-04-…/projeto copiada para uma pasta limpa e rodada do zero.
+$ uv run python baixar.py
+14:05:53 INFO baixei o feed: 590939 bytes em dados/bronze/feed/2026-11-14/17-05-53.xml
+$ uv run python acumular.py
+14:05:53 INFO feed: 100 notícias lidas, 100 novas, 0 já estavam guardadas. Total: 100
+$ uv run python acumular.py
+14:05:53 INFO feed: 100 notícias lidas, 0 novas, 100 já estavam guardadas. Total: 100
+$ wc -l dados/noticias.jsonl
+     100 dados/noticias.jsonl
+$ head -1 dados/noticias.jsonl
+{"id": "https://g1.globo.com/tecnologia/ciberseguranca/noticia/2026/11/03/hackers-binance-entrevista-de-emprego.ghtml", "titulo": "Hackers usaram entrevista de emprego falsa para invadir sistema e roubar US$ 6,3 bi da Binance", "subtitulo": "Sistema foi invadido após ser comprometido por uma entrevista de emprego falsa. Segundo a empresa, uma ferramenta interna de IA também foi usada para obter controle sobre carteiras.", "link": "https://g1.globo.com/tecnologia/ciberseguranca/noticia/2026/11/03/hackers-binance-entrevista-de-emprego.ghtml", "publicado": "Tue, 03 Nov 2026 16:58:54 -0000", "editoria": "tecnologia", "imagem": "https://s2-g1.glbimg.com/uFxcT6H10eC6k3x6MmMTbuVwiHg=/i.s3.glbimg.com/v1/AUTH_59edd422c0c84a879bd37670ae4f538a/internal_photos/bs/2026/d/Q/OErXq2Q4Crc8URBjiyUg/2026-10-27t145741z-1217147951-rc27jx99ilqc-rtrmadp-3-cryptocurrency-binance-russia.jpg", "origem": "feed", "visto_em": "2026-11-14T17:05:53+00:00"}
+$ uv run pytest -q
+....                                                                     [100%]
+4 passed in 0.02s

@@ -6,7 +6,7 @@ import json
 import logging
 import os
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 import httpx
@@ -29,8 +29,8 @@ registro = logging.getLogger("g1")
 
 
 def agora():
-    """O instante atual, no relógio do seu computador, sem os milissegundos."""
-    return datetime.now().replace(microsecond=0)
+    """O instante atual em UTC, sem os milissegundos. Em UTC, duas coletas se comparam em qualquer computador."""
+    return datetime.now(timezone.utc).replace(microsecond=0)
 
 
 def ler_estado():
@@ -65,7 +65,7 @@ def baixar_feed():
     if resposta.status_code == 404:
         raise RuntimeError(f"o feed não existe mais em {FEED}")
     instante = agora()
-    destino = Path("dados/bronze/feed") / f"{instante:%Y-%m-%d}" / f"{instante:%H-%M-%S}.xml"  # bronze: como veio, com a data da coleta
+    destino = Path("dados/bronze/feed") / f"{instante:%Y-%m-%d}" / f"{instante:%H-%M-%S}.xml"  # bronze: como veio, com a data da coleta em UTC
     destino.parent.mkdir(parents=True, exist_ok=True)
     destino.write_bytes(resposta.content)
     gravar_estado({**estado, "etag": resposta.headers.get("etag"), "baixado_em": instante.isoformat()})

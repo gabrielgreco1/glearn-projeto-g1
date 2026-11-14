@@ -1,3 +1,0 @@
-$ uv run python sitemap.py 2026-11-01
-02:21:40 INFO baixei o mapa de 2026-11-01: 213508 bytes em dados/bronze/sitemap/2026-11-01.xml
-02:21:40 INFO sitemap: 2 notícias lidas, 2 novas, 0 já estavam guardadas. Total: 102

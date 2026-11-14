@@ -1,0 +1,22 @@
+# 2026-11-14, horário de Brasília. Pasta modulo-1-extrair/aula-06-…/projeto copiada para uma pasta limpa e rodada do zero.
+$ uv run python baixar.py
+14:06:09 INFO baixei o feed: 590939 bytes em dados/bronze/feed/2026-11-14/17-06-09.xml
+$ uv run python acumular.py
+14:06:09 INFO feed: 100 notícias lidas, 100 novas, 0 já estavam guardadas. Total: 100
+$ uv run python materias.py
+14:06:51 INFO matérias: 20 baixadas nesta rodada, 80 ficam para a próxima
+$ uv run pytest
+============================= test session starts ==============================
+platform darwin -- Python 3.13.5, pytest-9.2.0, pluggy-1.7.0
+rootdir: .../projeto
+configfile: pyproject.toml
+testpaths: testes
+plugins: anyio-4.16.0
+collected 6 items
+
+testes/test_ler.py ....                                                  [ 66%]
+testes/test_materias.py ..                                               [100%]
+
+============================== 6 passed in 0.07s ===============================
+$ ls dados/bronze/materias | wc -l
+      20
