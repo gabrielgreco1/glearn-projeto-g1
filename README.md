@@ -11,8 +11,14 @@ Você faz o projeto na SUA pasta, `projeto-g1/`, no SEU repositório, seguindo a
 | Aula | Pasta | O que roda |
 |---|---|---|
 | 1 | [Antes de raspar, procure o feed](modulo-1-extrair/aula-01-antes-de-raspar-procure-o-feed) | Nada para rodar. Só o `README.md` com o plano. |
+| 2 | [Pedir o feed, e só quando ele mudou](modulo-1-extrair/aula-02-pedir-o-feed) | `uv run python baixar.py` |
+| 3 | [Do feed à notícia](modulo-1-extrair/aula-03-do-feed-a-noticia) | `uv run python ler.py` e `uv run pytest` |
+| 4 | [Guardar sem repetir](modulo-1-extrair/aula-04-guardar-sem-repetir) | `uv run python acumular.py` |
+| 5 | [O que o feed já não mostra](modulo-1-extrair/aula-05-o-que-o-feed-nao-mostra) | `uv run python sitemap.py 2026-11-01` |
+| 6 | [A página de cada notícia, poucas por vez](modulo-1-extrair/aula-06-a-pagina-de-cada-noticia) | `uv run python materias.py` |
+| 7 | [Fechar o projeto: uma rodada, um comando](modulo-1-extrair/aula-07-fechar-o-projeto) | `uv run python rodar.py` e `uv run pytest` |
 
-As aulas 2 a 7 ainda não têm pasta. O projeto pronto está em [final/](final).
+O README de cada pasta diz a ordem dos comandos. O projeto pronto está em [final/](final), igual à aula 7.
 
 ## O que foi rodado
 
