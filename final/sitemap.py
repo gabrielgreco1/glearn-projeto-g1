@@ -17,9 +17,10 @@ EDITORIA = "tecnologia"
 
 
 def baixar_mapa(dia, parte):
-    """Baixa uma parte do mapa do dia. A de um dia que já passou não muda mais, então o arquivo é reaproveitado."""
+    """Baixa uma parte do mapa do dia. Se o arquivo foi gravado depois que o dia acabou, ele é reaproveitado:
+    o mapa daquele dia não ganha mais notícia nova."""
     destino = Path("dados/bronze/sitemap") / f"{dia}_{parte}.xml"
-    if destino.exists() and dia < date.today():
+    if destino.exists() and date.fromtimestamp(destino.stat().st_mtime) > dia:
         registro.info("já tenho %s, não peço de novo", destino)
         return destino
     resposta = pedir(MAPA.format(dia=dia, parte=parte))
