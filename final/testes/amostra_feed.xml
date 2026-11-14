@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Amostra escrita à mão para os testes. O conteúdo é inventado; a estrutura é a do feed do G1. -->
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" version="2.0">
+  <channel>
+    <title>g1 &gt; Tecnologia</title>
+    <link>https://g1.globo.com/tecnologia/</link>
+    <item>
+      <title>Notícia inventada número dois</title>
+      <atom:subtitle>Subtítulo inventado da segunda notícia.</atom:subtitle>
+      <link>https://g1.globo.com/tecnologia/noticia/2026/11/13/noticia-inventada-dois.ghtml</link>
+      <guid isPermaLink="true">https://g1.globo.com/tecnologia/noticia/2026/11/13/noticia-inventada-dois.ghtml</guid>
+      <description>&lt;img src="https://exemplo.invalid/foto.jpg" /&gt;&lt;br /&gt; Texto inventado.</description>
+      <media:content url="https://exemplo.invalid/foto.jpg" medium="image"/>
+      <category>G1</category>
+      <pubDate>Fri, 13 Nov 2026 20:28:07 -0000</pubDate>
+    </item>
+    <item>
+      <title>Notícia inventada número um</title>
+      <link>https://g1.globo.com/economia/noticia/2026/11/13/noticia-inventada-um.ghtml</link>
+      <guid isPermaLink="true">https://g1.globo.com/economia/noticia/2026/11/13/noticia-inventada-um.ghtml</guid>
+      <description>Texto inventado.</description>
+      <category>G1</category>
+      <pubDate>Fri, 13 Nov 2026 02:05:00 -0000</pubDate>
+    </item>
+  </channel>
+</rss>

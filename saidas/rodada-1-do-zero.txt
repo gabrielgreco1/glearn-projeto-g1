@@ -1,0 +1,11 @@
+# 2026-11-14 00:42:45 -03 · rm -rf dados; uv run python rodar.py
+00:42:45 INFO etapa 1 de 4: o feed
+00:42:47 INFO baixei o feed: 586921 bytes em dados/feed/2026-11-14T00-42-47.xml
+00:42:47 INFO etapa 2 de 4: guardar só o que é novo
+00:42:47 INFO feed: 100 notícias lidas, 100 novas, 0 já estavam guardadas. Total: 100
+00:42:47 INFO etapa 3 de 4: a página das notícias que faltam
+00:43:29 INFO matérias: 20 baixadas nesta rodada, 80 ficam para a próxima
+00:43:29 INFO etapa 4 de 4: a tabela e a conferência
+00:43:30 INFO gravei 100 linhas em dados/noticias.csv
+00:43:30 INFO conferência: 100 notícias, 0 repetidas, 0 sem data, 0 sem título, 20 com a página lida
+00:43:30 INFO da mais antiga, 2026-11-02T08:53:51-03:00, até a mais nova, 2026-11-13T18:56:54-03:00
