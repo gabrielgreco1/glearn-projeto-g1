@@ -1,0 +1,12 @@
+$ curl -s -A "..." https://g1.globo.com/rss/g1/tecnologia/ | grep -o "<item>" | wc -l
+     100
+$ curl -s --compressed -A "..." https://g1.globo.com/rss/g1/tecnologia/ | grep -o "<item>" | wc -l
+     100
+$ curl -s --compressed -A "..." https://g1.globo.com/rss/g1/ | grep -o "<item>" | wc -l
+     100
+$ curl -s -I -A "..." https://g1.globo.com/rss/g1/tecnologia/
+HTTP/2 200 
+cache-control: max-age=600, public
+etag: "837bfacee98cf7227934670cf954924149c22e4f"
+content-type: application/xml; charset=UTF-8
+content-encoding: gzip

@@ -1,0 +1,13 @@
+# 2026-11-14, horário de Brasília. Pasta modulo-1-extrair/aula-02-…/projeto copiada para uma pasta limpa e rodada do zero.
+$ uv run python baixar.py
+14:05:45 INFO baixei o feed: 590939 bytes em dados/bronze/feed/2026-11-14/17-05-45.xml
+$ uv run python baixar.py
+14:05:47 INFO o feed não mudou desde 2026-11-14T17:05:45+00:00, nada para baixar
+$ cat dados/estado.json
+{
+  "etag": "\"345a154b4ff2d7cd7d95c20866b264fa76138c1f\"",
+  "baixado_em": "2026-11-14T17:05:45+00:00"
+}
+$ find dados -type f
+dados/bronze/feed/2026-11-14/17-05-45.xml
+dados/estado.json

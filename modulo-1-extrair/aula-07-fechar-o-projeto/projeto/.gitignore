@@ -1,0 +1,8 @@
+# O contato de verdade fica só no seu computador.
+.env
+# O que o programa baixa e gera. O texto das notícias é do G1 e não vai para o seu repositório.
+dados/
+# O ambiente que o uv cria e os restos do Python.
+.venv/
+__pycache__/
+.pytest_cache/
