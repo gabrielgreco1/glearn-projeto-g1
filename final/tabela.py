@@ -8,7 +8,7 @@ from baixar import registro
 from materias import arquivo_da, ler_materia
 
 CSV = Path("dados/noticias.csv")
-COLUNAS = ["publicado_em", "editoria", "titulo", "subtitulo", "autor", "secao", "palavras", "atualizado_em",
+COLUNAS = ["publicado", "publicado_pagina", "editoria", "titulo", "subtitulo", "autor", "secao", "palavras", "atualizado_em",
            "origem", "visto_em", "link"]
 
 
@@ -21,10 +21,8 @@ def montar():
         pagina = ler_materia(html) if html else {}
         linha = {**noticia, **pagina}
         linha["titulo"] = noticia["titulo"] or pagina.get("titulo_pagina", "")  # o mapa do site não traz título
-        if pagina.get("publicado_pagina"):  # a data da página vale mais que a do mapa do site
-            linha["publicado_em"] = pagina["publicado_pagina"][:19] + pagina["publicado_pagina"][-6:]
         linhas.append({coluna: linha.get(coluna, "") for coluna in COLUNAS})
-    return sorted(linhas, key=lambda linha: linha["publicado_em"])
+    return linhas  # na ordem em que entraram no noticias.jsonl
 
 
 def gravar_csv(linhas, destino=CSV):

@@ -12,7 +12,7 @@ def conferir(caminho=CSV):
         linhas = list(csv.DictReader(arquivo))
     links = [linha["link"] for linha in linhas]
     repetidas = len(links) - len(set(links))
-    sem_data = sum(1 for linha in linhas if not linha["publicado_em"])
+    sem_data = sum(1 for linha in linhas if not linha["publicado"])
     sem_titulo = sum(1 for linha in linhas if not linha["titulo"])
     com_pagina = sum(1 for linha in linhas if linha["palavras"] not in ("", "0"))
     registro.info("conferência: %s notícias, %s repetidas, %s sem data, %s sem título, %s com a página lida",
@@ -20,7 +20,7 @@ def conferir(caminho=CSV):
     if repetidas or sem_data:
         raise SystemExit("A conferência achou problema. Leia a linha acima.")
     if linhas:
-        registro.info("da mais antiga, %s, até a mais nova, %s", linhas[0]["publicado_em"], linhas[-1]["publicado_em"])
+        registro.info("primeira guardada: %s; última: %s", linhas[0]["publicado"], linhas[-1]["publicado"])
     return len(linhas)
 
 

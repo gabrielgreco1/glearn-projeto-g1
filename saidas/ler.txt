@@ -1,10 +1,8 @@
-# uv run python ler.py
-dados/feed/2026-11-14T00-42-47.xml: 100 notícias
-da mais nova, 2026-11-13T18:56:54-03:00, até a mais antiga, 2026-11-02T08:53:51-03:00
-  id: https://g1.globo.com/tecnologia/ciberseguranca/serasa/noticia/2026/11/13/biometria-facial-contra-deepfakes-o-que-avaliar-em-liveness-escala-e-privacidade.ghtml
-  titulo: Biometria facial contra deepfakes: o que avaliar em liveness, escala e privacidade
-  subtitulo: Entenda como a prova de vida e a análise biométrica ajudam a verificar identidades em jornadas digitais.
-  link: https://g1.globo.com/tecnologia/ciberseguranca/serasa/noticia/2026/11/13/biometria-facial-contra-deepfakes-o-que-avaliar-em-liveness-escala-e-privacidade.ghtml
-  publicado_em: 2026-11-13T18:56:54-03:00
-  editoria: tecnologia
-  imagem: https://s2-g1.glbimg.com/GDVrkNwYNRFiOzfk6Kw-_kqs4_o=/i.s3.glbimg.com/v1/AUTH_59edd422c0c84a879bd37670ae4f538a/internal_photos/bs/2026/W/X/SZJmbFTAmgUpWgAuKhNw/imagem1.png
+dados/bronze/feed/2026-11-14/02-20-03.xml: 100 notícias
+  id: https://g1.globo.com/mundo/noticia/2026/11/14/fbi-desmantela-rede-de-hackers-da-coreia-do-norte-objetivo-do-golpe-era-financiar-armas-ilicitas-no-pais.ghtml
+  titulo: FBI desmantela rede de hackers da Coreia do Norte; objetivo do golpe era financiar armas ilícitas no país
+  subtitulo: Autoridades apreendem servidores vinculados a esquema que usou videochamadas falsas e deepfakes para roubar mais de 400 milhões de dólares em criptomoedas.
+  link: https://g1.globo.com/mundo/noticia/2026/11/14/fbi-desmantela-rede-de-hackers-da-coreia-do-norte-objetivo-do-golpe-era-financiar-armas-ilicitas-no-pais.ghtml
+  publicado: Sat, 14 Nov 2026 05:01:26 -0000
+  editoria: mundo
+  imagem: https://s2-g1.glbimg.com/pM22IfaoPXsQeAYV3cnQzbbggLw=/i.s3.glbimg.com/v1/AUTH_59edd422c0c84a879bd37670ae4f538a/internal_photos/bs/2026/4/g/xBWaxKSoumEeYwrgux6w/2026-10-30t064256z-417233320-rc29doacz2fd-rtrmadp-3-northkorea-arms.jpg

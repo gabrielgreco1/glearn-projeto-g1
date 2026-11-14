@@ -4,11 +4,11 @@ Uso: uv run python sitemap.py 2026-11-01"""
 
 import sys
 import xml.etree.ElementTree as ET
-from datetime import date, datetime
+from datetime import date
 from pathlib import Path
 
 from acumular import acumular
-from baixar import FUSO, pedir, registro
+from baixar import pedir, registro
 from ler import editoria
 
 MAPA = "https://g1.globo.com/sitemap/g1/{dia:%Y/%m/%d}_1.xml"
@@ -18,7 +18,7 @@ EDITORIA = "tecnologia"
 
 def baixar_mapa(dia):
     """Baixa o mapa do dia. O de um dia que já passou não muda mais, então o arquivo é reaproveitado."""
-    destino = Path("dados/sitemap") / f"{dia}.xml"
+    destino = Path("dados/bronze/sitemap") / f"{dia}.xml"
     if destino.exists() and dia < date.today():
         registro.info("já tenho %s, não peço de novo", destino)
         return destino
@@ -39,9 +39,8 @@ def ler_mapa(xml):
         link = url.findtext("mapa:loc", namespaces=APELIDOS).strip()
         if editoria(link) != EDITORIA or "/noticia/" not in link:
             continue
-        mudou = datetime.fromisoformat(url.findtext("mapa:lastmod", namespaces=APELIDOS))
         noticias.append({"id": link, "titulo": "", "subtitulo": "", "link": link,
-                         "publicado_em": mudou.astimezone(FUSO).replace(microsecond=0).isoformat(),
+                         "publicado": url.findtext("mapa:lastmod", default="", namespaces=APELIDOS),  # como veio
                          "editoria": EDITORIA, "imagem": ""})
     return noticias
 

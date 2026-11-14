@@ -8,7 +8,6 @@ import os
 import time
 from datetime import datetime
 from pathlib import Path
-from zoneinfo import ZoneInfo
 
 import httpx
 from dotenv import load_dotenv
@@ -22,7 +21,6 @@ if not USER_AGENT:
 FEED = "https://g1.globo.com/rss/g1/tecnologia/"
 CABECALHOS = {"User-Agent": USER_AGENT}
 PAUSA = 2.0  # segundos de espera depois de cada pedido
-FUSO = ZoneInfo("America/Sao_Paulo")
 ESTADO = Path("dados/estado.json")
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s", datefmt="%H:%M:%S")
@@ -31,8 +29,8 @@ registro = logging.getLogger("g1")
 
 
 def agora():
-    """O instante atual, no horário de Brasília, sem os milissegundos."""
-    return datetime.now(FUSO).replace(microsecond=0)
+    """O instante atual, no relógio do seu computador, sem os milissegundos."""
+    return datetime.now().replace(microsecond=0)
 
 
 def ler_estado():
@@ -67,7 +65,7 @@ def baixar_feed():
     if resposta.status_code == 404:
         raise RuntimeError(f"o feed não existe mais em {FEED}")
     instante = agora()
-    destino = Path("dados/feed") / f"{instante:%Y-%m-%dT%H-%M-%S}.xml"
+    destino = Path("dados/bronze/feed") / f"{instante:%Y-%m-%d}" / f"{instante:%H-%M-%S}.xml"  # bronze: como veio, com a data da coleta
     destino.parent.mkdir(parents=True, exist_ok=True)
     destino.write_bytes(resposta.content)
     gravar_estado({**estado, "etag": resposta.headers.get("etag"), "baixado_em": instante.isoformat()})

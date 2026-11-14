@@ -1,20 +1,23 @@
 """Baixa a página de cada notícia guardada, poucas por rodada, e lê os dados que o feed não traz."""
 
-import hashlib
 from pathlib import Path
+from urllib.parse import urlparse
 
 from bs4 import BeautifulSoup
 
 from acumular import ler_noticias
 from baixar import pedir, registro
 
-PASTA = Path("dados/materias")
+PASTA = Path("dados/bronze/materias")
 LIMITE = 20  # páginas novas por rodada; o resto fica para a próxima
 
 
 def arquivo_da(noticia):
-    """O nome do arquivo sai do endereço da notícia: a mesma notícia cai sempre no mesmo arquivo."""
-    return PASTA / (hashlib.sha256(noticia["id"].encode()).hexdigest()[:16] + ".html")
+    """O nome do arquivo sai do caminho do endereço da notícia: a mesma notícia cai sempre no mesmo arquivo.
+    'https://g1.globo.com/tecnologia/noticia/2026/11/13/chat-gpt-wallet.ghtml'
+    vira 'tecnologia_noticia_2026_11_13_chat-gpt-wallet.html'."""
+    caminho = urlparse(noticia["link"]).path.strip("/").removesuffix(".ghtml").removesuffix(".html")
+    return PASTA / (caminho.replace("/", "_") + ".html")
 
 
 def baixar_materias():

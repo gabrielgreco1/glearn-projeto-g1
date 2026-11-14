@@ -16,12 +16,12 @@ As aulas 2 a 7 ainda não têm pasta. O projeto pronto está em [final/](final).
 
 ## O que foi rodado
 
-Em 14 de novembro de 2026, com Python 3.13, uv 0.10.11, httpx 0.28.1, beautifulsoup4 4.15.0, python-dotenv 1.2.4 e pytest 9.2.0. As saídas estão em [saidas/](saidas).
+Em 14 de novembro de 2026, com Python 3.13, uv 0.10.11, httpx 0.28.1, feedparser 6.0.14, beautifulsoup4 4.15.0, python-dotenv 1.2.4 e pytest 9.2.0. As saídas estão em [saidas/](saidas).
 
-- Do zero (`rm -rf dados` e `uv run python rodar.py`): 1 pedido ao feed, 100 notícias novas, 20 páginas de notícia, 45 segundos.
-- Segunda rodada, um minuto depois: o feed respondeu 304, nenhuma notícia nova, mais 20 páginas.
-- `uv run python sitemap.py 2026-11-01`: 2 notícias que o feed já não mostrava. Rodar de novo não repetiu o pedido.
-- `uv run pytest`: 4 testes.
+- Do zero (`rm -rf dados` e `uv run python rodar.py`): 1 pedido ao feed, 100 notícias novas, 20 páginas de notícia.
+- Segunda rodada, logo em seguida: o feed respondeu 304, nenhuma notícia nova, mais 20 páginas.
+- `uv run python sitemap.py 2026-11-01`: 2 notícias que o feed já não mostrava.
+- `uv run pytest`: 5 testes.
 
 ## Regras do projeto
 

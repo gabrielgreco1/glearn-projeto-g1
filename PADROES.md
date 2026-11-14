@@ -4,7 +4,7 @@
 
 - Python 3.13, a versão que o `uv init` gravou no `.python-version`.
 - Rodamos tudo com `uv`: `uv sync` para instalar, `uv run python arquivo.py` para rodar, `uv run pytest` para testar.
-- Os programas ficam na raiz da pasta do projeto, um arquivo por etapa: `baixar.py`, `ler.py`, `acumular.py`, `sitemap.py`, `materias.py`, `tabela.py`, `conferir.py`, `rodar.py`.
+- Os programas ficam na raiz da pasta do projeto, um arquivo por etapa: `baixar.py`, `ler.py` (com o feedparser), `acumular.py`, `sitemap.py`, `materias.py`, `tabela.py`, `conferir.py`, `rodar.py`.
 - Nomes de arquivos, funções e variáveis em português.
 - O programa registra com `logging`.
 - Testes com pytest onde há transformação de dado. Os testes usam amostras escritas à mão e rodam sem internet.
@@ -17,7 +17,8 @@
 
 ## Dados
 
-- Tudo o que o programa baixa ou gera fica em `dados/`.
+- Tudo o que o programa baixa ou gera fica em `dados/`. O que veio da fonte fica em `dados/bronze/`, como veio, com a data da coleta no caminho.
+- As datas ficam como a fonte escreveu. Converter fuso e formato é da etapa Transformar.
 - A pasta `dados/` não vai para o Git. O texto das notícias é do G1.
 - Rodar duas vezes não repete notícia nem estraga nada. O arquivo de notícias só cresce.
 
