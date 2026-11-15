@@ -1,0 +1,92 @@
+$ uv run python carregar.py
+06:29:29 INFO notícias: 110 na silver; novas 0, mudaram 0, iguais 110; saíram do banco 0
+06:29:29 INFO nomes: 0 novos, 0 mudaram de tipo; assinaturas: 0 saíram, 0 entraram
+06:29:29 INFO conferido: 110 notícias, 70109 palavras e 107 assinaturas, na silver e no banco
+$ docker compose exec banco psql -U postgres -c "SELECT id, precisao, titulo IS NULL AS sem_titulo, palavras, right(link, 50) AS link FROM noticias WHERE precisao = 'dia' ORDER BY id"
+ id | precisao | sem_titulo | palavras |                        link                        
+----+----------+------------+----------+----------------------------------------------------
+ 26 | dia      | t          |          | opeus-e-elevam-temperatura-de-freezers-a-50c.ghtml
+ 27 | dia      | t          |          | -us-36-bilhoes-da-binance-apos-ataque-hacker.ghtml
+ 28 | dia      | t          |          | 26/11/02/mercado-bitcoin-incidente-seguranca.ghtml
+ 29 | dia      | t          |          | a/ciberseguranca/noticia/2026/11/02/virus-ia.ghtml
+ 41 | dia      | t          |          | -ar-usuarios-relatam-problemas-no-aplicativo.ghtml
+ 42 | dia      | t          |          | ce-retoma-saques-apos-roubo-de-us-63-bilhoes.ghtml
+(6 rows)
+
+$ uv run python materias.py
+(rodado ao vivo na pasta de desenvolvimento; a saída real está em saidas/aula-18-materias-ao-vivo.txt; aqui as 6 páginas baixadas são copiadas)
+06:03:03 INFO matérias: 6 baixadas nesta rodada, 0 ficam para a próxima
+$ uv run python tabela.py
+06:29:35 INFO gravei 110 linhas em dados/noticias.csv
+$ uv run python transformar.py
+06:29:35 INFO transformar 1 de 3: a silver
+06:29:47 INFO 110 notícias; 3 repetidas; 1 pares para você ler (uv run python silver.py mostra)
+06:29:47 INFO transformar 2 de 3: as regras
+06:29:47 INFO lidas 110 = válidas 110 + rejeitadas 0
+06:29:47 INFO gravei 110 notícias em dados/silver/noticias.parquet e 0 rejeições em dados/silver/rejeitados.csv
+06:29:47 INFO transformar 3 de 3: a gold
+┌────────────┬──────────┬───────┬─────────┬────────────┬──────────────────┐
+│    dia     │ noticias │ do_g1 │ de_fora │ sem_pagina │ palavras_mediana │
+│    date    │  int64   │ int64 │  int64  │   int64    │      double      │
+├────────────┼──────────┼───────┼─────────┼────────────┼──────────────────┤
+│ 2026-10-31 │        1 │     1 │       0 │          0 │             62.0 │
+│ 2026-11-01 │        1 │     0 │       1 │          0 │            896.0 │
+│ 2026-11-02 │        4 │     2 │       2 │          0 │            637.0 │
+│ 2026-11-03 │        3 │     1 │       2 │          0 │            384.0 │
+│ 2026-11-04 │        7 │     6 │       1 │          0 │            680.0 │
+│ 2026-11-05 │        7 │     5 │       2 │          0 │            448.0 │
+│ 2026-11-06 │        7 │     3 │       4 │          0 │            715.0 │
+│ 2026-11-07 │        3 │     2 │       1 │          0 │            677.0 │
+│ 2026-11-08 │        2 │     1 │       1 │          0 │           1271.5 │
+│ 2026-11-09 │       11 │     8 │       3 │          0 │            679.5 │
+│ 2026-11-10 │       10 │     2 │       8 │          0 │            580.5 │
+│ 2026-11-11 │        6 │     4 │       2 │          0 │            558.5 │
+│ 2026-11-12 │       18 │    12 │       6 │          0 │            595.0 │
+│ 2026-11-13 │       16 │     9 │       7 │          0 │            533.5 │
+│ 2026-11-14 │        6 │     3 │       3 │          0 │            748.5 │
+│ 2026-11-15 │        3 │     2 │       1 │          0 │           1365.0 │
+└────────────┴──────────┴───────┴─────────┴────────────┴──────────────────┘
+  16 rows                                                       6 columns
+
+06:29:47 INFO gravei 16 linhas em dados/gold/por_dia.parquet
+┌─────────────┬──────────┬──────────┬──────────────────┐
+│    fonte    │ noticias │ porcento │ palavras_mediana │
+│   varchar   │  int64   │  double  │      double      │
+├─────────────┼──────────┼──────────┼──────────────────┤
+│ agência     │       44 │     41.1 │            594.0 │
+│ redação     │       38 │     35.5 │            534.0 │
+│ repórter    │       23 │     21.5 │            715.0 │
+│ publicidade │        2 │      1.9 │            566.0 │
+└─────────────┴──────────┴──────────┴──────────────────┘
+
+06:29:47 INFO gravei 4 linhas em dados/gold/por_fonte.parquet
+$ uv run python carregar.py
+06:29:47 INFO notícias: 110 na silver; novas 0, mudaram 6, iguais 104; saíram do banco 0
+06:29:47 INFO nomes: 1 novos, 0 mudaram de tipo; assinaturas: 0 saíram, 6 entraram
+06:29:47 INFO conferido: 110 notícias, 73515 palavras e 113 assinaturas, na silver e no banco
+$ docker compose exec banco psql -U postgres -c "SET TIME ZONE 'America/Sao_Paulo'" -c "SELECT id, precisao, left(titulo, 34) AS titulo, carregada_em::time(0) AS carregada, mudou_em::time(0) AS mudou FROM noticias WHERE mudou_em > carregada_em ORDER BY id"
+SET
+ id | precisao |               titulo               | carregada |  mudou   
+----+----------+------------------------------------+-----------+----------
+ 26 | hora     | Hackers atacam supermercados europ | 06:29:03  | 06:29:48
+ 27 | hora     | Binance registra saída de US$ 3,6  | 06:29:03  | 06:29:48
+ 28 | hora     | Mercado Bitcoin sofre ataque dias  | 06:29:03  | 06:29:48
+ 29 | hora     | IA cria vírus capaz de se espalhar | 06:29:03  | 06:29:48
+ 41 | hora     | Pluxee está fora do ar? Usuários r | 06:29:03  | 06:29:48
+ 42 | hora     | Binance retoma saques de bitcoin e | 06:29:03  | 06:29:48
+(6 rows)
+
+$ docker compose exec banco psql -U postgres -c 'SELECT id, noticias, novas, mudaram, iguais, sairam, nomes_novos, assinaturas_entraram FROM cargas ORDER BY id'
+ id | noticias | novas | mudaram | iguais | sairam | nomes_novos | assinaturas_entraram 
+----+----------+-------+---------+--------+--------+-------------+----------------------
+  1 |      110 |     0 |       0 |    110 |      0 |           0 |                    0
+  2 |      110 |     0 |       6 |    104 |      0 |           1 |                    6
+(2 rows)
+
+$ uv run python carregar.py
+06:29:47 INFO notícias: 110 na silver; novas 0, mudaram 0, iguais 110; saíram do banco 0
+06:29:47 INFO nomes: 0 novos, 0 mudaram de tipo; assinaturas: 0 saíram, 0 entraram
+06:29:47 INFO conferido: 110 notícias, 73515 palavras e 113 assinaturas, na silver e no banco
+$ uv run pytest
+
+============================== 33 passed in 0.24s ==============================

@@ -1,0 +1,14 @@
+$ uv run python banco.py
+Falta DATABASE_URL no arquivo .env. Copie as linhas do banco do .env.example.
+$ docker compose up -d --wait
+time="2026-11-15T06:36:50-03:00" level=warning msg="The \"POSTGRES_PASSWORD\" variable is not set. Defaulting to a blank string."
+ Volume projeto-g1_banco Creating 
+ Network projeto-g1_default Creating 
+ Volume projeto-g1_banco Created 
+ Network projeto-g1_default Created 
+ Container projeto-g1-banco-1 Creating 
+ Container projeto-g1-banco-1 Created 
+ Container projeto-g1-banco-1 Starting 
+ Container projeto-g1-banco-1 Started 
+ Container projeto-g1-banco-1 Waiting 
+container projeto-g1-banco-1 exited (1)

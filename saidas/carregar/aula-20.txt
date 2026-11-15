@@ -1,0 +1,135 @@
+# 2026-11-15 06:30:14 -0300
+$ uv run python rodar.py
+06:30:14 INFO etapa 1 de 6: o feed
+06:30:16 INFO baixei o feed: 601896 bytes em dados/bronze/feed/2026-11-15/09-30-16.xml
+06:30:16 INFO etapa 2 de 6: guardar só o que é novo
+06:30:17 INFO feed: 100 notícias lidas, 1 novas, 99 já estavam guardadas. Total: 111
+06:30:17 INFO etapa 3 de 6: a página das notícias que faltam
+06:30:19 INFO matérias: 1 baixadas nesta rodada, 0 ficam para a próxima
+06:30:19 INFO etapa 4 de 6: a tabela e a conferência
+06:30:25 INFO gravei 111 linhas em dados/noticias.csv
+06:30:25 INFO conferência: 111 notícias, 0 repetidas, 0 sem data, 0 sem título, 110 com a página lida
+06:30:25 INFO notícias do dia 2026-10-31 ao dia 2026-11-15
+06:30:25 INFO etapa 5 de 6: transformar
+06:30:25 INFO transformar 1 de 3: a silver
+06:30:37 INFO 111 notícias; 3 repetidas; 1 pares para você ler (uv run python silver.py mostra)
+06:30:37 INFO transformar 2 de 3: as regras
+06:30:37 INFO lidas 111 = válidas 111 + rejeitadas 0
+06:30:37 INFO gravei 111 notícias em dados/silver/noticias.parquet e 0 rejeições em dados/silver/rejeitados.csv
+06:30:37 INFO transformar 3 de 3: a gold
+┌────────────┬──────────┬───────┬─────────┬────────────┬──────────────────┐
+│    dia     │ noticias │ do_g1 │ de_fora │ sem_pagina │ palavras_mediana │
+│    date    │  int64   │ int64 │  int64  │   int64    │      double      │
+├────────────┼──────────┼───────┼─────────┼────────────┼──────────────────┤
+│ 2026-10-31 │        1 │     1 │       0 │          0 │             62.0 │
+│ 2026-11-01 │        1 │     0 │       1 │          0 │            896.0 │
+│ 2026-11-02 │        4 │     2 │       2 │          0 │            637.0 │
+│ 2026-11-03 │        3 │     1 │       2 │          0 │            384.0 │
+│ 2026-11-04 │        7 │     6 │       1 │          0 │            680.0 │
+│ 2026-11-05 │        7 │     5 │       2 │          0 │            448.0 │
+│ 2026-11-06 │        7 │     3 │       4 │          0 │            715.0 │
+│ 2026-11-07 │        3 │     2 │       1 │          0 │            677.0 │
+│ 2026-11-08 │        2 │     1 │       1 │          0 │           1271.5 │
+│ 2026-11-09 │       11 │     8 │       3 │          0 │            679.5 │
+│ 2026-11-10 │       10 │     2 │       8 │          0 │            580.5 │
+│ 2026-11-11 │        6 │     4 │       2 │          0 │            558.5 │
+│ 2026-11-12 │       18 │    12 │       6 │          0 │            595.0 │
+│ 2026-11-13 │       16 │     9 │       7 │          0 │            533.5 │
+│ 2026-11-14 │        6 │     3 │       3 │          0 │            748.5 │
+│ 2026-11-15 │        4 │     3 │       1 │          0 │           1058.5 │
+└────────────┴──────────┴───────┴─────────┴────────────┴──────────────────┘
+  16 rows                                                       6 columns
+
+06:30:37 INFO gravei 16 linhas em dados/gold/por_dia.parquet
+┌─────────────┬──────────┬──────────┬──────────────────┐
+│    fonte    │ noticias │ porcento │ palavras_mediana │
+│   varchar   │  int64   │  double  │      double      │
+├─────────────┼──────────┼──────────┼──────────────────┤
+│ agência     │       44 │     40.7 │            594.0 │
+│ redação     │       38 │     35.2 │            534.0 │
+│ repórter    │       24 │     22.2 │            725.0 │
+│ publicidade │        2 │      1.9 │            566.0 │
+└─────────────┴──────────┴──────────┴──────────────────┘
+
+06:30:37 INFO gravei 4 linhas em dados/gold/por_fonte.parquet
+06:30:37 INFO etapa 6 de 6: carregar no banco
+06:30:37 INFO notícias: 111 na silver; novas 1, mudaram 0, iguais 110; saíram do banco 0
+06:30:37 INFO nomes: 1 novos, 0 mudaram de tipo; assinaturas: 0 saíram, 1 entraram
+06:30:37 INFO conferido: 111 notícias, 74261 palavras e 114 assinaturas, na silver e no banco
+06:30:37 INFO conferido: as views por_dia e por_fonte dão as mesmas linhas que a gold
+$ uv run python rodar.py
+06:30:37 INFO etapa 1 de 6: o feed
+06:30:39 INFO o feed não mudou desde 2026-11-15T09:30:16+00:00, nada para baixar
+06:30:39 INFO etapa 2 de 6: guardar só o que é novo
+06:30:39 INFO feed: 100 notícias lidas, 0 novas, 100 já estavam guardadas. Total: 111
+06:30:39 INFO etapa 3 de 6: a página das notícias que faltam
+06:30:39 INFO matérias: 0 baixadas nesta rodada, 0 ficam para a próxima
+06:30:39 INFO etapa 4 de 6: a tabela e a conferência
+06:30:45 INFO gravei 111 linhas em dados/noticias.csv
+06:30:45 INFO conferência: 111 notícias, 0 repetidas, 0 sem data, 0 sem título, 110 com a página lida
+06:30:45 INFO notícias do dia 2026-10-31 ao dia 2026-11-15
+06:30:45 INFO etapa 5 de 6: transformar
+06:30:45 INFO transformar 1 de 3: a silver
+06:30:57 INFO 111 notícias; 3 repetidas; 1 pares para você ler (uv run python silver.py mostra)
+06:30:57 INFO transformar 2 de 3: as regras
+06:30:57 INFO lidas 111 = válidas 111 + rejeitadas 0
+06:30:57 INFO gravei 111 notícias em dados/silver/noticias.parquet e 0 rejeições em dados/silver/rejeitados.csv
+06:30:57 INFO transformar 3 de 3: a gold
+┌────────────┬──────────┬───────┬─────────┬────────────┬──────────────────┐
+│    dia     │ noticias │ do_g1 │ de_fora │ sem_pagina │ palavras_mediana │
+│    date    │  int64   │ int64 │  int64  │   int64    │      double      │
+├────────────┼──────────┼───────┼─────────┼────────────┼──────────────────┤
+│ 2026-10-31 │        1 │     1 │       0 │          0 │             62.0 │
+│ 2026-11-01 │        1 │     0 │       1 │          0 │            896.0 │
+│ 2026-11-02 │        4 │     2 │       2 │          0 │            637.0 │
+│ 2026-11-03 │        3 │     1 │       2 │          0 │            384.0 │
+│ 2026-11-04 │        7 │     6 │       1 │          0 │            680.0 │
+│ 2026-11-05 │        7 │     5 │       2 │          0 │            448.0 │
+│ 2026-11-06 │        7 │     3 │       4 │          0 │            715.0 │
+│ 2026-11-07 │        3 │     2 │       1 │          0 │            677.0 │
+│ 2026-11-08 │        2 │     1 │       1 │          0 │           1271.5 │
+│ 2026-11-09 │       11 │     8 │       3 │          0 │            679.5 │
+│ 2026-11-10 │       10 │     2 │       8 │          0 │            580.5 │
+│ 2026-11-11 │        6 │     4 │       2 │          0 │            558.5 │
+│ 2026-11-12 │       18 │    12 │       6 │          0 │            595.0 │
+│ 2026-11-13 │       16 │     9 │       7 │          0 │            533.5 │
+│ 2026-11-14 │        6 │     3 │       3 │          0 │            748.5 │
+│ 2026-11-15 │        4 │     3 │       1 │          0 │           1058.5 │
+└────────────┴──────────┴───────┴─────────┴────────────┴──────────────────┘
+  16 rows                                                       6 columns
+
+06:30:57 INFO gravei 16 linhas em dados/gold/por_dia.parquet
+┌─────────────┬──────────┬──────────┬──────────────────┐
+│    fonte    │ noticias │ porcento │ palavras_mediana │
+│   varchar   │  int64   │  double  │      double      │
+├─────────────┼──────────┼──────────┼──────────────────┤
+│ agência     │       44 │     40.7 │            594.0 │
+│ redação     │       38 │     35.2 │            534.0 │
+│ repórter    │       24 │     22.2 │            725.0 │
+│ publicidade │        2 │      1.9 │            566.0 │
+└─────────────┴──────────┴──────────┴──────────────────┘
+
+06:30:57 INFO gravei 4 linhas em dados/gold/por_fonte.parquet
+06:30:57 INFO etapa 6 de 6: carregar no banco
+06:30:57 INFO notícias: 111 na silver; novas 0, mudaram 0, iguais 111; saíram do banco 0
+06:30:57 INFO nomes: 0 novos, 0 mudaram de tipo; assinaturas: 0 saíram, 0 entraram
+06:30:57 INFO conferido: 111 notícias, 74261 palavras e 114 assinaturas, na silver e no banco
+06:30:57 INFO conferido: as views por_dia e por_fonte dão as mesmas linhas que a gold
+$ docker compose exec banco psql -U postgres -c 'SELECT id, noticias, novas, mudaram, iguais, sairam, nomes_novos, assinaturas_entraram FROM cargas ORDER BY id'
+ id | noticias | novas | mudaram | iguais | sairam | nomes_novos | assinaturas_entraram 
+----+----------+-------+---------+--------+--------+-------------+----------------------
+  1 |      110 |     0 |       0 |    110 |      0 |           0 |                    0
+  2 |      110 |     0 |       6 |    104 |      0 |           1 |                    6
+  3 |      110 |     0 |       0 |    110 |      0 |           0 |                    0
+  4 |      110 |     0 |       0 |    110 |      0 |           0 |                    0
+  5 |      110 |     0 |       0 |    110 |      0 |           0 |                    0
+  6 |      111 |     1 |       0 |    110 |      0 |           1 |                    1
+  7 |      111 |     0 |       0 |    111 |      0 |           0 |                    0
+(7 rows)
+
+$ uv run pytest
+
+============================== 34 passed in 0.24s ==============================
+$ docker compose stop
+ Container projeto-g1-banco-1 Stopping 
+ Container projeto-g1-banco-1 Stopped 

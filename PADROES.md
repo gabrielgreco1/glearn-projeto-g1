@@ -4,7 +4,7 @@
 
 - Python 3.13, a versão que o `uv init` gravou no `.python-version`.
 - Rodamos tudo com `uv`: `uv sync` para instalar, `uv run python arquivo.py` para rodar, `uv run pytest` para testar.
-- Os programas ficam na raiz da pasta do projeto, um arquivo por etapa: `baixar.py`, `ler.py` (com o feedparser), `acumular.py`, `sitemap.py`, `materias.py`, `tabela.py`, `conferir.py`, `rodar.py` na extração; `silver.py`, `texto.py`, `assinatura.py`, `repetidas.py`, `validar.py`, `gold.py` e `transformar.py` na transformação.
+- Os programas ficam na raiz da pasta do projeto, um arquivo por etapa: `baixar.py`, `ler.py` (com o feedparser), `acumular.py`, `sitemap.py`, `materias.py`, `tabela.py`, `conferir.py`, `rodar.py` na extração; `silver.py`, `texto.py`, `assinatura.py`, `repetidas.py`, `validar.py`, `gold.py` e `transformar.py` na transformação; `banco.py` e `carregar.py` na carga.
 - Nomes de arquivos, funções e variáveis em português.
 - O programa registra com `logging`.
 - Testes com pytest onde há transformação de dado. Os testes usam amostras escritas à mão e rodam sem internet.
@@ -30,6 +30,17 @@
 - O texto das notícias é do G1: ele é lido das páginas guardadas para contar as palavras e comparar notícias, mas não vai para a silver.
 - Duas listas são mantidas à mão, porque pedem uma decisão: `boilerplate.txt` (as frases que saem do texto) e `fontes.csv` (o tipo de cada nome que não é de um repórter). Os programas mostram o que conferir.
 - Nenhuma notícia é apagada em silêncio: o que quebra uma regra de erro vai para `dados/silver/rejeitados.csv`, com o motivo; o que quebra um aviso fica na silver, marcado. A notícia repetida fica, com o link da primeira em `mesma_que`.
+
+## Carregar
+
+- O destino é um Postgres 18 que roda no Docker, descrito no `compose.yaml` da pasta, na porta 5435. A senha e o endereço ficam no `.env`.
+- O `schema.sql` cria as tabelas e as views com `IF NOT EXISTS` e `CREATE OR REPLACE`: rodar de novo não apaga nada.
+- Cada notícia uma vez, pelo link (`UNIQUE`). O id é do banco, e é por ele que as outras tabelas apontam para a notícia.
+- A carga é um upsert pelo link, a partir de uma tabela temporária gravada com COPY: a notícia nova entra, a que mudou é atualizada (`mudou_em`) sem perder quando entrou (`carregada_em`), a igual fica como está, e a que saiu da silver sai do banco.
+- Quem assina fica em duas tabelas: `autores` (cada nome uma vez, com o tipo da fonte) e `assinaturas` (a notícia, a ordem e o nome), ligadas por chaves estrangeiras.
+- Tudo numa transação. Antes de confirmar, o banco tem de ter as mesmas notícias, a mesma soma das palavras e as mesmas assinaturas que a silver, e as views `por_dia` e `por_fonte` têm de dar o mesmo que a gold.
+- O texto das notícias não vai para o banco, só as palavras.
+- Os testes não precisam do banco.
 
 ## Educação com o site do G1
 

@@ -1,0 +1,173 @@
+$ uv run python carregar.py
+06:29:04 INFO notícias: 110 na silver; novas 0, mudaram 0, iguais 110; saíram do banco 0
+06:29:04 INFO nomes: 26 novos, 0 mudaram de tipo; assinaturas: 0 saíram, 107 entraram
+$ docker compose exec banco psql -U postgres -c 'SELECT a.nome, a.tipo, count(*) AS noticias FROM assinaturas s JOIN autores a ON a.id = s.autor_id GROUP BY a.nome, a.tipo ORDER BY noticias DESC, a.nome LIMIT 8'
+       nome        |   tipo   | noticias 
+-------------------+----------+----------
+ Redação g1        | redação  |       36
+ Reuters           | agência  |       18
+ France Presse     | agência  |        9
+ Darlan Helder     | repórter |        6
+ BBC               | agência  |        5
+ Associated Press  | agência  |        3
+ Deutsche Welle    | agência  |        3
+ Victor Hugo Silva | repórter |        3
+(8 rows)
+
+$ docker compose exec banco psql -U postgres -c 'SELECT tipo, count(*) AS nomes FROM autores GROUP BY tipo ORDER BY nomes DESC'
+    tipo     | nomes 
+-------------+-------
+ repórter    |    15
+ agência     |     8
+ redação     |     2
+ publicidade |     1
+(4 rows)
+
+$ docker compose exec banco psql -U postgres -c "SELECT left(n.titulo, 50) AS titulo, s.ordem, a.nome FROM assinaturas s JOIN noticias n ON n.id = s.noticia_id JOIN autores a ON a.id = s.autor_id WHERE s.noticia_id IN (SELECT noticia_id FROM assinaturas WHERE ordem = 2) ORDER BY n.id, s.ordem"
+                       titulo                       | ordem |       nome        
+----------------------------------------------------+-------+-------------------
+ Governo publica novas regras para combater golpes  |     1 | Darlan Helder
+ Governo publica novas regras para combater golpes  |     2 | Lígia Vieira
+ Lula vai regular redes sociais? Por que presidente |     1 | Victor Hugo Silva
+ Lula vai regular redes sociais? Por que presidente |     2 | Darlan Helder
+ 'Já tirei R$ 5 mil no mês': como funciona o trabal |     1 | Rayane Moura
+ 'Já tirei R$ 5 mil no mês': como funciona o trabal |     2 | Victor Hugo Silva
+(6 rows)
+
+$ uv run python carregar.py
+06:29:04 INFO notícias: 110 na silver; novas 0, mudaram 0, iguais 110; saíram do banco 0
+06:29:04 INFO nomes: 0 novos, 0 mudaram de tipo; assinaturas: 0 saíram, 0 entraram
+$ docker compose exec banco psql -U postgres -c "DELETE FROM autores WHERE nome = 'Reuters'"
+ERROR:  update or delete on table "autores" violates foreign key constraint "assinaturas_autor_id_fkey" on table "assinaturas"
+DETAIL:  Key (id)=(22) is still referenced from table "assinaturas".
+$ docker compose exec banco psql -U postgres -c '\d assinaturas'
+               Table "public.assinaturas"
+   Column   |   Type   | Collation | Nullable | Default 
+------------+----------+-----------+----------+---------
+ noticia_id | bigint   |           | not null | 
+ ordem      | smallint |           | not null | 
+ autor_id   | bigint   |           | not null | 
+Indexes:
+    "assinaturas_pkey" PRIMARY KEY, btree (noticia_id, ordem)
+    "assinaturas_autor" btree (autor_id)
+Check constraints:
+    "assinaturas_ordem_check" CHECK (ordem >= 1)
+Foreign-key constraints:
+    "assinaturas_autor_id_fkey" FOREIGN KEY (autor_id) REFERENCES autores(id)
+    "assinaturas_noticia_id_fkey" FOREIGN KEY (noticia_id) REFERENCES noticias(id)
+
+$ git diff fontes.csv
+diff --git a/fontes.csv b/fontes.csv
+index 9ae3f73..5a1a7f4 100644
+--- a/fontes.csv
++++ b/fontes.csv
+@@ -1,7 +1,6 @@
+ nome,tipo
+ Redação g1,redação
+ Redação,redação
+-Reuters,agência
+ France Presse,agência
+ Associated Press,agência
+ Deutsche Welle,agência
+$ uv run python transformar.py
+06:29:05 INFO transformar 1 de 3: a silver
+06:29:16 INFO 110 notícias; 3 repetidas; 1 pares para você ler (uv run python silver.py mostra)
+06:29:16 INFO transformar 2 de 3: as regras
+06:29:16 INFO lidas 110 = válidas 110 + rejeitadas 0
+06:29:16 INFO gravei 110 notícias em dados/silver/noticias.parquet e 0 rejeições em dados/silver/rejeitados.csv
+06:29:16 INFO transformar 3 de 3: a gold
+┌────────────┬──────────┬───────┬─────────┬────────────┬──────────────────┐
+│    dia     │ noticias │ do_g1 │ de_fora │ sem_pagina │ palavras_mediana │
+│    date    │  int64   │ int64 │  int64  │   int64    │      double      │
+├────────────┼──────────┼───────┼─────────┼────────────┼──────────────────┤
+│ 2026-10-31 │        1 │     0 │       0 │          1 │             NULL │
+│ 2026-11-01 │        1 │     0 │       0 │          1 │             NULL │
+│ 2026-11-02 │        4 │     0 │       0 │          4 │             NULL │
+│ 2026-11-03 │        3 │     2 │       1 │          0 │            384.0 │
+│ 2026-11-04 │        7 │     6 │       1 │          0 │            680.0 │
+│ 2026-11-05 │        7 │     6 │       1 │          0 │            448.0 │
+│ 2026-11-06 │        7 │     5 │       2 │          0 │            715.0 │
+│ 2026-11-07 │        3 │     3 │       0 │          0 │            677.0 │
+│ 2026-11-08 │        2 │     2 │       0 │          0 │           1271.5 │
+│ 2026-11-09 │       11 │     9 │       2 │          0 │            679.5 │
+│ 2026-11-10 │       10 │     8 │       2 │          0 │            580.5 │
+│ 2026-11-11 │        6 │     4 │       2 │          0 │            558.5 │
+│ 2026-11-12 │       18 │    14 │       4 │          0 │            595.0 │
+│ 2026-11-13 │       16 │    11 │       5 │          0 │            533.5 │
+│ 2026-11-14 │        6 │     4 │       2 │          0 │            748.5 │
+│ 2026-11-15 │        3 │     2 │       1 │          0 │           1365.0 │
+└────────────┴──────────┴───────┴─────────┴────────────┴──────────────────┘
+  16 rows                                                       6 columns
+
+06:29:16 INFO gravei 16 linhas em dados/gold/por_dia.parquet
+┌─────────────┬──────────┬──────────┬──────────────────┐
+│    fonte    │ noticias │ porcento │ palavras_mediana │
+│   varchar   │  int64   │  double  │      double      │
+├─────────────┼──────────┼──────────┼──────────────────┤
+│ repórter    │       40 │     37.4 │            570.0 │
+│ redação     │       36 │     33.6 │            558.0 │
+│ agência     │       23 │     21.5 │            779.0 │
+│ sem página  │        6 │      5.6 │             NULL │
+│ publicidade │        2 │      1.9 │            566.0 │
+└─────────────┴──────────┴──────────┴──────────────────┘
+
+06:29:16 INFO gravei 5 linhas em dados/gold/por_fonte.parquet
+$ uv run python carregar.py
+06:29:16 INFO notícias: 110 na silver; novas 0, mudaram 0, iguais 110; saíram do banco 0
+06:29:16 INFO nomes: 0 novos, 1 mudaram de tipo; assinaturas: 0 saíram, 0 entraram
+$ docker compose exec banco psql -U postgres -c "SELECT a.nome, a.tipo, count(*) AS noticias FROM autores a JOIN assinaturas s ON s.autor_id = a.id WHERE a.nome = 'Reuters' GROUP BY a.nome, a.tipo"
+  nome   |   tipo   | noticias 
+---------+----------+----------
+ Reuters | repórter |       18
+(1 row)
+
+$ git diff fontes.csv
+$ uv run python transformar.py
+06:29:16 INFO transformar 1 de 3: a silver
+06:29:28 INFO 110 notícias; 3 repetidas; 1 pares para você ler (uv run python silver.py mostra)
+06:29:28 INFO transformar 2 de 3: as regras
+06:29:28 INFO lidas 110 = válidas 110 + rejeitadas 0
+06:29:28 INFO gravei 110 notícias em dados/silver/noticias.parquet e 0 rejeições em dados/silver/rejeitados.csv
+06:29:28 INFO transformar 3 de 3: a gold
+┌────────────┬──────────┬───────┬─────────┬────────────┬──────────────────┐
+│    dia     │ noticias │ do_g1 │ de_fora │ sem_pagina │ palavras_mediana │
+│    date    │  int64   │ int64 │  int64  │   int64    │      double      │
+├────────────┼──────────┼───────┼─────────┼────────────┼──────────────────┤
+│ 2026-10-31 │        1 │     0 │       0 │          1 │             NULL │
+│ 2026-11-01 │        1 │     0 │       0 │          1 │             NULL │
+│ 2026-11-02 │        4 │     0 │       0 │          4 │             NULL │
+│ 2026-11-03 │        3 │     1 │       2 │          0 │            384.0 │
+│ 2026-11-04 │        7 │     6 │       1 │          0 │            680.0 │
+│ 2026-11-05 │        7 │     5 │       2 │          0 │            448.0 │
+│ 2026-11-06 │        7 │     3 │       4 │          0 │            715.0 │
+│ 2026-11-07 │        3 │     2 │       1 │          0 │            677.0 │
+│ 2026-11-08 │        2 │     1 │       1 │          0 │           1271.5 │
+│ 2026-11-09 │       11 │     8 │       3 │          0 │            679.5 │
+│ 2026-11-10 │       10 │     2 │       8 │          0 │            580.5 │
+│ 2026-11-11 │        6 │     4 │       2 │          0 │            558.5 │
+│ 2026-11-12 │       18 │    12 │       6 │          0 │            595.0 │
+│ 2026-11-13 │       16 │     9 │       7 │          0 │            533.5 │
+│ 2026-11-14 │        6 │     3 │       3 │          0 │            748.5 │
+│ 2026-11-15 │        3 │     2 │       1 │          0 │           1365.0 │
+└────────────┴──────────┴───────┴─────────┴────────────┴──────────────────┘
+  16 rows                                                       6 columns
+
+06:29:28 INFO gravei 16 linhas em dados/gold/por_dia.parquet
+┌─────────────┬──────────┬──────────┬──────────────────┐
+│    fonte    │ noticias │ porcento │ palavras_mediana │
+│   varchar   │  int64   │  double  │      double      │
+├─────────────┼──────────┼──────────┼──────────────────┤
+│ agência     │       41 │     38.3 │            587.0 │
+│ redação     │       36 │     33.6 │            558.0 │
+│ repórter    │       22 │     20.6 │            692.0 │
+│ sem página  │        6 │      5.6 │             NULL │
+│ publicidade │        2 │      1.9 │            566.0 │
+└─────────────┴──────────┴──────────┴──────────────────┘
+
+06:29:28 INFO gravei 5 linhas em dados/gold/por_fonte.parquet
+$ uv run python carregar.py
+06:29:28 INFO notícias: 110 na silver; novas 0, mudaram 0, iguais 110; saíram do banco 0
+06:29:28 INFO nomes: 0 novos, 1 mudaram de tipo; assinaturas: 0 saíram, 0 entraram
+$ uv run pytest
+
+============================== 31 passed in 0.24s ==============================

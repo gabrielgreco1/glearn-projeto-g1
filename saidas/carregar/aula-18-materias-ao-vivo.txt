@@ -1,0 +1,2 @@
+$ uv run python materias.py
+06:03:03 INFO matérias: 6 baixadas nesta rodada, 0 ficam para a próxima
