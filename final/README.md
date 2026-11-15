@@ -1,7 +1,7 @@
 # Projeto G1
 
-Objetivo: acompanhar as notícias de tecnologia do G1 e montar um arquivo CSV com uma linha por notícia, sem repetir nenhuma.
-Plano: o G1 publica um feed RSS da editoria, feito para programas. O programa pede o feed, guarda só o que é novo e, para o que o feed já não mostra, usa o mapa do site.
+Objetivo: acompanhar as notícias de tecnologia do G1, montar um arquivo CSV com uma linha por notícia, sem repetir nenhuma, e transformar esse arquivo numa tabela limpa que responde quem escreve o que o feed traz.
+Plano: o G1 publica um feed RSS da editoria, feito para programas. O programa pede o feed, guarda só o que é novo e, para o que o feed já não mostra, usa o mapa do site. A etapa Transformar lê de novo o que foi guardado, sem pedir nada ao site.
 
 ## Como rodar
 
@@ -12,7 +12,7 @@ uv run python rodar.py
 uv run pytest
 ```
 
-Rode de novo quando quiser. Cada rodada faz um pedido ao feed e baixa, no máximo, 20 páginas de notícia.
+Rode de novo quando quiser. Cada rodada faz um pedido ao feed, baixa, no máximo, 20 páginas de notícia e refaz a etapa Transformar inteira.
 
 Para recuperar um dia que o feed já não mostra:
 
@@ -20,18 +20,32 @@ Para recuperar um dia que o feed já não mostra:
 uv run python sitemap.py 2026-11-01
 ```
 
+Para refazer só a etapa Transformar, sem pedido nenhum: `uv run python transformar.py`.
+
 No Windows, os comandos são os mesmos no PowerShell. Para apagar a pasta `dados/` e começar do zero: `Remove-Item -Recurse -Force dados` (no macOS e no Linux, `rm -rf dados`).
+
+## As etapas
+
+| Etapa | Programa | O que faz |
+|---|---|---|
+| 1 | `baixar.py` | pede o feed, só se ele mudou |
+| 2 | `acumular.py` | guarda as notícias novas em `noticias.jsonl` |
+| 3 | `materias.py` | baixa a página de até 20 notícias |
+| 4 | `tabela.py` e `conferir.py` | monta e confere o `noticias.csv` |
+| 5 | `transformar.py` | a silver (`silver.py`, com `texto.py`, `assinatura.py` e `repetidas.py`), as regras (`validar.py`) e a gold (`gold.py`) |
 
 ## O que sai
 
 Tudo fica em `dados/`, que não vai para o Git:
 
-- `bronze/feed/AAAA-MM-DD/HH-MM-SS.xml`: cada feed baixado, como veio, numa pasta com a data da coleta, em UTC (13h em Brasília aparece como 16h).
-- `bronze/sitemap/`: o mapa do site de cada dia recuperado.
-- `bronze/materias/`: a página de cada notícia, com o nome tirado do endereço.
+- `bronze/feed/`, `bronze/sitemap/` e `bronze/materias/`: o que veio do G1, como veio.
 - `estado.json`: o que o programa lembra de uma rodada para a outra.
-- `noticias.jsonl`: uma notícia por linha, na ordem em que entraram. Um dia recuperado pelo mapa do site entra no fim.
-- `noticias.csv`: a tabela final, uma linha por notícia, do dia mais antigo para o mais novo. As datas ficam como vieram da fonte; converter é trabalho da etapa Transformar. A tabela é para ler com programa (pandas, DuckDB). No Excel, um título que comece com `=` pode ser lido como fórmula.
+- `noticias.jsonl` e `noticias.csv`: as notícias guardadas e a tabela da extração, com as datas como a fonte escreveu.
+- `silver/noticias.parquet`: uma linha por notícia, com o dia e a hora em Brasília, as palavras do texto sem o boilerplate, quem assina, o tipo da fonte (redação, repórter, agência ou publicidade), o link da notícia repetida e os avisos.
+- `silver/rejeitados.csv`: as notícias que falharam numa regra de erro, com o motivo.
+- `gold/por_dia.parquet` e `gold/por_fonte.parquet`: as notícias de cada dia, quantas o g1 escreveu e quantas vieram de fora, e o tamanho do texto.
+
+Os dois arquivos que você mantém à mão: `boilerplate.txt`, com as frases que saem do texto, e `fontes.csv`, com o tipo de cada nome que não é de um repórter.
 
 ## Regras de coleta
 
@@ -43,7 +57,9 @@ Tudo fica em `dados/`, que não vai para o Git:
 
 ## O que o projeto não faz
 
-- Uma notícia guardada não é atualizada. Se a redação corrige o título depois, o arquivo fica com o título da primeira vez que o programa viu a notícia. A página da notícia, baixada pelo `materias.py`, traz o título da hora em que foi baixada.
-- As datas ficam como a fonte escreveu: o feed em `Sat, 14 Nov 2026 05:01:26 -0000`, o mapa do site e a página em outros formatos. Converter é trabalho da etapa Transformar.
-- O mapa do site não diz quando a notícia saiu. Nas linhas de origem `sitemap`, `publicado` é só o dia escrito no endereço (o dia em Brasília), e `lastmod` é a última mudança, que pode ser dias depois. A hora da publicação aparece em `publicado_pagina` quando a página é baixada.
+- Uma notícia guardada não é atualizada. Se a redação corrige o título depois, o arquivo fica com o título da primeira vez que o programa viu a notícia.
+- A notícia do mapa do site sem página só tem o dia, sem a hora (`precisao` = `dia`). A hora chega quando o `materias.py` baixa a página, numa das rodadas seguintes.
+- Um nome que não está no `fontes.csv` conta como repórter. Uma agência nova, ou um jornalista de um veículo parceiro, aparece como repórter até você acrescentar uma linha.
+- Uma frase repetida nova só sai do texto quando você a põe no `boilerplate.txt`. O `uv run python texto.py` mostra as candidatas.
+- A notícia repetida é achada pelo texto quase igual (nota 90 ou mais), em até 3 dias. Os pares entre 80 e 90 ficam para você ler: `uv run python silver.py` mostra.
 - Nada roda sozinho: o programa roda quando você manda.

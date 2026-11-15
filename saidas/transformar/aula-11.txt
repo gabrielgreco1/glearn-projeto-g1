@@ -1,0 +1,40 @@
+$ uv run python assinatura.py   # fontes-8
+03:26:31 INFO 104 páginas lidas
+03:26:31 INFO   agência      38
+03:26:31 INFO   redação      37
+03:26:31 INFO   repórter     27
+03:26:31 INFO   publicidade  2
+03:26:31 INFO contados como repórter (confira se algum é agência): Aline Freitas, Ana Carolina Ferreira, André Fogaça, Carina Benedetti, Daniel Silveira Cruz, Darlan Helder, Faisal Islam, Giulia Granchi, Henrique Martin, Isabela Ortiz, Ismael Jales, Márcio Falcão, Rafaela Zem, Rayane Moura, Thomas Germain, Victor Boyadjian, Victor Hugo Silva
+
+$ uv run python assinatura.py
+03:26:36 INFO 104 páginas lidas
+03:26:36 INFO   agência      41
+03:26:36 INFO   redação      37
+03:26:36 INFO   repórter     24
+03:26:36 INFO   publicidade  2
+03:26:36 INFO contados como repórter (confira se algum é agência): Aline Freitas, Ana Carolina Ferreira, André Fogaça, Carina Benedetti, Daniel Silveira Cruz, Darlan Helder, Henrique Martin, Isabela Ortiz, Ismael Jales, Márcio Falcão, Rafaela Zem, Rayane Moura, Victor Boyadjian, Victor Hugo Silva
+
+$ uv run python silver.py
+03:26:47 INFO 110 notícias, de 2026-10-31 a 2026-11-15
+03:26:47 INFO precisão: {'dia': 6, 'hora': 104}
+03:26:47 INFO a mais nova: 2026-11-15 02:00:00.844000-03:00
+03:26:47 INFO palavras: mediana 589.5 (a extração contava 692.5); sem página: 6
+03:26:47 INFO fontes: {'agência': 41, 'redação': 37, 'repórter': 24, None: 6, 'publicidade': 2}
+
+$ uv run pytest
+============================= test session starts ==============================
+platform darwin -- Python 3.13.5, pytest-9.2.0, pluggy-1.7.0
+rootdir: projeto
+configfile: pyproject.toml
+testpaths: testes
+plugins: anyio-4.16.0
+collected 21 items
+
+testes/test_assinatura.py ...                                            [ 14%]
+testes/test_ler.py ....                                                  [ 33%]
+testes/test_materias.py ..                                               [ 42%]
+testes/test_silver.py ...                                                [ 57%]
+testes/test_sitemap.py ...                                               [ 71%]
+testes/test_texto.py ......                                              [100%]
+
+============================== 21 passed in 0.17s ==============================

@@ -1,0 +1,74 @@
+$ uv run python texto.py   # sem-boilerplate
+03:26:09 INFO 104 páginas lidas; frases em 3 páginas ou mais:
+03:26:09 INFO    44  [fica] tem alguma sugestão de reportagem mande para o g1
+03:26:09 INFO    23  [fica] tem alguma sugestão de reportagem envie para o g1
+03:26:09 INFO     7  [fica] leia também
+03:26:09 INFO     5  [fica] favorite o g1 no google e acompanhe as principais notícias do dia
+03:26:09 INFO     5  [fica] fui infiel à minha esposa minhas ações fizeram mal a ela e aos nossos filhos não
+03:26:09 INFO     4  [fica] atualização a microsoft informou na manhã da sexta feira 13 que outlook teams e 
+03:26:09 INFO     4  [fica] china e estados unidos disputam a liderança no setor de ia os chips da nvidia lí
+03:26:09 INFO     4  [fica] desde 2022 os estados unidos mantêm controles de exportação destinados a restrin
+03:26:09 INFO     4  [fica] em mensagem enviada aos funcionários da nvidia obtida pela reuters huang confirm
+03:26:09 INFO     4  [fica] fui infiel à minha esposa minhas ações fizeram mal a ela e aos nossos filhos não
+03:26:09 INFO     4  [fica] o conselho de administração da nvidia anunciou nesta quinta feira 12 que jensen 
+03:26:09 INFO     4  [fica] o fundador da nvidia admitiu ter sido infiel à esposa após a revelação de um rel
+03:26:09 INFO     3  [fica] a megaspeed informou que sua atual liderança leva o assunto a sério e contratou 
+03:26:09 INFO     3  [fica] a nvidia fabrica chips usados para treinar modelos de inteligência artificial co
+03:26:09 INFO     3  [fica] antes de dominar os chips de inteligência artificial a empresa era completamente
+03:26:09 INFO     3  [fica] em meio às polêmicas jornais dos estados unidos já davam como certa desde ontem 
+03:26:09 INFO     3  [fica] em outubro o g1 identificou ao menos 40 perfis de influenciadores no ceará que a
+03:26:09 INFO     3  [fica] no domingo 8 a companhia abriu uma investigação independente para apurar se ele 
+03:26:09 INFO     3  [fica] o relacionamento foi revelado pelo jornal the new york times em outubro segundo 
+03:26:09 INFO     3  [fica] por que as traições representam um problema tão sério para o executivo
+03:26:09 INFO     3  [fica] proibição das bets
+03:26:09 INFO     3  [fica] quem é jensen huang
+03:26:09 INFO     3  [fica] siga o canal de notícias internacionais do g1 no whatsapp
+
+$ uv run python texto.py
+03:26:14 INFO 104 páginas lidas; frases em 3 páginas ou mais:
+03:26:14 INFO    44  [tira] tem alguma sugestão de reportagem mande para o g1
+03:26:14 INFO    23  [tira] tem alguma sugestão de reportagem envie para o g1
+03:26:14 INFO     7  [tira] leia também
+03:26:14 INFO     5  [tira] favorite o g1 no google e acompanhe as principais notícias do dia
+03:26:14 INFO     5  [fica] fui infiel à minha esposa minhas ações fizeram mal a ela e aos nossos filhos não
+03:26:14 INFO     4  [fica] atualização a microsoft informou na manhã da sexta feira 13 que outlook teams e 
+03:26:14 INFO     4  [fica] china e estados unidos disputam a liderança no setor de ia os chips da nvidia lí
+03:26:14 INFO     4  [fica] desde 2022 os estados unidos mantêm controles de exportação destinados a restrin
+03:26:14 INFO     4  [fica] em mensagem enviada aos funcionários da nvidia obtida pela reuters huang confirm
+03:26:14 INFO     4  [fica] fui infiel à minha esposa minhas ações fizeram mal a ela e aos nossos filhos não
+03:26:14 INFO     4  [fica] o conselho de administração da nvidia anunciou nesta quinta feira 12 que jensen 
+03:26:14 INFO     4  [fica] o fundador da nvidia admitiu ter sido infiel à esposa após a revelação de um rel
+03:26:14 INFO     3  [fica] a megaspeed informou que sua atual liderança leva o assunto a sério e contratou 
+03:26:14 INFO     3  [fica] a nvidia fabrica chips usados para treinar modelos de inteligência artificial co
+03:26:14 INFO     3  [fica] antes de dominar os chips de inteligência artificial a empresa era completamente
+03:26:14 INFO     3  [fica] em meio às polêmicas jornais dos estados unidos já davam como certa desde ontem 
+03:26:14 INFO     3  [fica] em outubro o g1 identificou ao menos 40 perfis de influenciadores no ceará que a
+03:26:14 INFO     3  [fica] no domingo 8 a companhia abriu uma investigação independente para apurar se ele 
+03:26:14 INFO     3  [fica] o relacionamento foi revelado pelo jornal the new york times em outubro segundo 
+03:26:14 INFO     3  [fica] por que as traições representam um problema tão sério para o executivo
+03:26:14 INFO     3  [fica] proibição das bets
+03:26:14 INFO     3  [fica] quem é jensen huang
+03:26:14 INFO     3  [tira] siga o canal de notícias internacionais do g1 no whatsapp
+
+$ uv run python silver.py
+03:26:22 INFO 110 notícias, de 2026-10-31 a 2026-11-15
+03:26:22 INFO precisão: {'dia': 6, 'hora': 104}
+03:26:22 INFO a mais nova: 2026-11-15 02:00:00.844000-03:00
+03:26:22 INFO palavras: mediana 589.5 (a extração contava 692.5); sem página: 6
+
+$ uv run pytest
+============================= test session starts ==============================
+platform darwin -- Python 3.13.5, pytest-9.2.0, pluggy-1.7.0
+rootdir: projeto
+configfile: pyproject.toml
+testpaths: testes
+plugins: anyio-4.16.0
+collected 18 items
+
+testes/test_ler.py ....                                                  [ 22%]
+testes/test_materias.py ..                                               [ 33%]
+testes/test_silver.py ...                                                [ 50%]
+testes/test_sitemap.py ...                                               [ 66%]
+testes/test_texto.py ......                                              [100%]
+
+============================== 18 passed in 0.16s ==============================
