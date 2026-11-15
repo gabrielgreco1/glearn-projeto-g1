@@ -21,6 +21,7 @@ O banco continua com a última carga que deu certo, inteira: a carga é uma tran
 3. **`Failed` em `guardar`, com `o feed veio quebrado`.** O G1 mandou um feed que o feedparser não leu. O arquivo está em `dados/bronze/feed/`: abra o mais novo e veja se é XML.
 4. **`Failed` em `carregar`, com `a carga não fecha` ou `não bate com`.** O banco não ficou igual à silver ou à gold, e a carga foi desfeita: nada foi publicado. Rode `uv run python transformar.py` e depois `uv run python carregar.py`, e leia a mensagem de novo.
 5. **`Crashed` com `interrupt signal`.** Alguém apertou Ctrl+C ou a máquina desligou no meio. Rode de novo.
+6. **`Failed` logo no começo, antes de qualquer task.** Com `must be created before acquiring slots`: o limite de uma execução por vez não existe neste servidor do Prefect. Crie uma vez: `uv run prefect gcl create projeto-g1 --limit 1`. Com `TimeoutError`: outra execução ficou com a vaga por 15 minutos. Veja no painel qual está em `Running`. Uma execução morta sem Ctrl+C, com o servidor do Prefect ligado, devolve a vaga sozinha em cerca de 5 minutos. Se o servidor caiu junto (a máquina desligada no meio de uma rodada), a vaga fica presa: confira que nenhuma execução está em `Running` e solte com `uv run prefect gcl update projeto-g1 --active-slots 0`.
 
 ## Linhas de ATENÇÃO
 

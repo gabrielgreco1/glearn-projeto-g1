@@ -1,6 +1,8 @@
 """O projeto G1 como um flow do Prefect: as seis etapas do rodar.py, uma task cada, na ordem. As tasks que pedem ao G1
 (o feed e as páginas) são tentadas de novo quando a rede falha; uma recusa do site para sem nova tentativa.
 Se a execução termina mal, fica um aviso em avisos.log. Se termina bem, mas a vigia vê algo estranho no banco, também.
+Uma execução por vez: a segunda espera a vaga do limite projeto-g1, criado uma vez no servidor do Prefect com
+uv run prefect gcl create projeto-g1 --limit 1
 
 Uso: uv run python fluxo.py            roda uma vez, agora
      uv run python fluxo.py agendar    fica ligado e roda de 3 em 3 horas (Ctrl+C para parar)
@@ -10,6 +12,7 @@ import sys
 from datetime import datetime
 
 from prefect import flow, task
+from prefect.concurrency.sync import concurrency
 from prefect.schedules import Cron
 
 import carregar as carga
@@ -70,13 +73,16 @@ def vigiar():
 
 @flow(log_prints=True, on_failure=[avisar], on_crashed=[avisar])
 def projeto_g1():
-    feed()
-    guardar()
-    paginas()
-    tabela_e_conferencia()
-    transformar()
-    carregar()
-    vigiar()
+    # Uma execução por vez, do feed à vigia: duas ao mesmo tempo pediriam as mesmas páginas duas vezes ao G1 e
+    # escreveriam os mesmos arquivos. strict=True: sem o limite criado no servidor, para aqui, em vez de seguir sem ele.
+    with concurrency("projeto-g1", occupy=1, timeout_seconds=900, strict=True):
+        feed()
+        guardar()
+        paginas()
+        tabela_e_conferencia()
+        transformar()
+        carregar()
+        vigiar()
 
 
 if __name__ == "__main__":
