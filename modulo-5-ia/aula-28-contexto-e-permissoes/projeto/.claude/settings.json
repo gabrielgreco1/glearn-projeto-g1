@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(uv run pytest *)",
+      "Bash(uv run pytest)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git switch *)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Bash(uv run python baixar.py *)",
+      "Bash(uv run python baixar.py)",
+      "Bash(uv run python sitemap.py *)",
+      "Bash(uv run python materias.py *)",
+      "Bash(uv run python materias.py)",
+      "Bash(uv run python rodar.py *)",
+      "Bash(uv run python rodar.py)",
+      "Bash(uv run python fluxo.py *)",
+      "Bash(uv run python fluxo.py)",
+      "Bash(git push *)",
+      "Bash(curl *)",
+      "WebFetch"
+    ]
+  }
+}
