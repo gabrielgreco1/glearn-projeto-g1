@@ -28,6 +28,7 @@ ESTADO = Path("dados/estado.json")
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s", datefmt="%H:%M:%S")
 logging.getLogger("httpx").setLevel(logging.WARNING)  # o httpx também registra cada pedido; aqui basta o nosso registro
 registro = logging.getLogger("g1")
+registro.setLevel(logging.INFO)  # o nível fica no nosso registro: o Prefect troca o do logging inteiro para WARNING
 
 
 def agora():
@@ -48,11 +49,16 @@ def gravar_estado(estado):
 
 
 def pedir(url, extras=None):
-    """Faz um pedido, espera a pausa e devolve a resposta. Para em qualquer status que não seja 200, 304 ou 404."""
+    """Faz um pedido, espera a pausa e devolve a resposta. Um 5xx sobe como erro comum, para ser tentado de novo;
+    qualquer outro status que não seja 200, 304 ou 404 para o programa."""
     resposta = httpx.get(url, headers={**CABECALHOS, **(extras or {})}, timeout=30)
     time.sleep(PAUSA)
+    if resposta.status_code >= 500:
+        # 500, 502, 503: um problema do site, que passa. Um erro comum, e o orquestrador tenta de novo.
+        raise RuntimeError(f"{url} respondeu {resposta.status_code}: erro do site, vale tentar de novo")
     if resposta.status_code not in (200, 304, 404):
-        raise RuntimeError(f"{url} respondeu {resposta.status_code}. Pare e leia a resposta antes de tentar de novo.")
+        # 403, 429: o site disse não. O programa para aqui, sem nova tentativa.
+        raise SystemExit(f"{url} respondeu {resposta.status_code}. Pare e leia a resposta antes de tentar de novo.")
     return resposta
 
 

@@ -9,6 +9,7 @@ dependencies = [
     "feedparser>=6.0.14",
     "httpx>=0.28.1",
     "polars>=2.1.0",
+    "prefect>=3.9.3",
     "psycopg[binary]>=3.3.9",
     "python-dotenv>=1.2.4",
     "rapidfuzz>=3.14.6",
