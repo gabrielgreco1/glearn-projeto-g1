@@ -1,0 +1,54 @@
+$ git clone --branch etapa-orquestrar https://github.com/gabrielgreco1/glearn-projeto-g1.git (pasta temporária nova)
+$ cp .env.example .env   (com o contato trocado)
+$ docker compose up -d --wait
+ Volume final_banco Created 
+ Container final-banco-1 Healthy 
+$ uv sync
+$ uv run pytest
+========================================================================================== 52 passed in 6.13s ==========================================================================================
+$ uv run python fluxo.py   (Ctrl+C 15 segundos depois da task guardar)
+14:56:20.631 | INFO    | g1 - baixei o feed: 604248 bytes em dados/bronze/feed/2026-11-15/17-56-20.xml
+14:56:20.693 | INFO    | g1 - feed: 100 notícias lidas, 100 novas, 0 já estavam guardadas. Total: 100
+^C
+14:56:35.702 | ERROR   | Task run 'paginas-58f' - Finished in state Crashed('Execution was aborted by an interrupt signal.')
+14:56:35.748 | INFO    | Flow run 'ordinary-stallion' - Finished in state Crashed('Execution was aborted by an interrupt signal.')
+AVISO: projeto-g1, execução ordinary-stallion, terminou em Crashed: Execution was aborted by an interrupt signal.
+$ ls dados/bronze/materias | wc -l
+       6
+$ uv run python fluxo.py
+14:56:38.839 | INFO    | g1 - o feed não mudou desde 2026-11-15T17:56:20+00:00, nada para baixar
+14:56:38.950 | INFO    | g1 - feed: 100 notícias lidas, 0 novas, 100 já estavam guardadas. Total: 100
+14:57:20.992 | INFO    | g1 - matérias: 20 baixadas nesta rodada, 0 delas de novo, porque a notícia mudou; 74 ficam para a próxima
+14:57:22.544 | INFO    | g1 - conferência: 100 notícias, 0 repetidas, 0 sem data, 0 sem título, 26 com a página lida
+14:57:25.535 | INFO    | g1 - notícias: 100 na silver; novas 100, mudaram 0, iguais 0; saíram do banco 0
+14:57:25.545 | INFO    | g1 - vigia: a notícia mais nova saiu há 2 h; 0 das 10 páginas mais novas sem texto ou sem assinatura; 74 notícias sem página; 1 avisos
+14:57:25.546 | INFO    | Task run 'vigiar-ea4' - ATENÇÃO: 74 notícias esperam a página, e o materias.py baixa 20 por rodada. Veja no log da task paginas se as páginas estão vindo; depois de um buraco, a fila desce sozinha em poucas rodadas.
+14:57:25.568 | INFO    | Flow run 'pumpkin-quetzal' - Finished in state Completed()
+$ uv run prefect deployment run projeto-g1/a-cada-3-horas   (com o fluxo.py agendar ligado noutro terminal)
+Created flow run 'neat-junglefowl'.
+dangerous-manatee COMPLETED Completed expected=2026-11-15T13:37:14.604839Z auto=False
+jade-aardvark COMPLETED Completed expected=2026-11-15T14:24:14.709572Z auto=False
+controversial-binturong COMPLETED Completed expected=2026-11-15T14:51:19.277475Z auto=False
+neat-junglefowl COMPLETED Completed expected=2026-11-15T17:57:39.913474Z auto=False
+invincible-oriole SCHEDULED Scheduled expected=2026-11-15T18:00:00Z auto=True
+foamy-kagu SCHEDULED Scheduled expected=2026-11-15T21:00:00Z auto=True
+rigorous-herring SCHEDULED Scheduled expected=2026-11-16T00:00:00Z auto=True
+14:57:49.879 | INFO    | g1 - o feed não mudou desde 2026-11-15T17:56:20+00:00, nada para baixar
+14:58:33.848 | INFO    | g1 - matérias: 20 baixadas nesta rodada, 0 delas de novo, porque a notícia mudou; 54 ficam para a próxima
+14:58:41.936 | INFO    | g1 - notícias: 100 na silver; novas 0, mudaram 20, iguais 80; saíram do banco 0
+14:58:41.946 | INFO    | g1 - vigia: a notícia mais nova saiu há 2 h; 0 das 10 páginas mais novas sem texto ou sem assinatura; 54 notícias sem página; 1 avisos
+14:58:42.126 | INFO    | Flow run 'neat-junglefowl' - Finished in state Completed()
+$ cat avisos.log
+2026-11-15 14:56:35 AVISO: projeto-g1, execução ordinary-stallion, terminou em Crashed: Execution was aborted by an interrupt signal. (o que fazer: runbook.md)
+2026-11-15 14:57:25 ATENÇÃO: 74 notícias esperam a página, e o materias.py baixa 20 por rodada. Veja no log da task paginas se as páginas estão vindo; depois de um buraco, a fila desce sozinha em poucas rodadas. (o que fazer: runbook.md)
+2026-11-15 14:58:41 ATENÇÃO: 54 notícias esperam a página, e o materias.py baixa 20 por rodada. Veja no log da task paginas se as páginas estão vindo; depois de um buraco, a fila desce sozinha em poucas rodadas. (o que fazer: runbook.md)
+$ docker compose exec banco psql -U postgres -c "SELECT id, noticias, novas, mudaram, iguais FROM cargas ORDER BY id"
+ id | noticias | novas | mudaram | iguais 
+----+----------+-------+---------+--------
+  1 |      100 |   100 |       0 |      0
+  2 |      100 |     0 |      20 |     80
+(2 rows)
+
+$ docker compose down -v
+ Volume final_banco Removed 
+fim

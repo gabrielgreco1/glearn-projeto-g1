@@ -1,0 +1,24 @@
+$ uv run prefect deployment ls
+                                                      Deployments                                                       
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Name                                          ┃ ID                                           ┃ Work Pool             ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━┩
+│ projeto-g1/a-cada-3-horas                     │ b39de94a-bb36-4b22-a8eb-f4dfebb94bf6         │                       │
+└───────────────────────────────────────────────┴──────────────────────────────────────────────┴───────────────────────┘
+$ uv run prefect deployment run projeto-g1/a-cada-3-horas
+Creating flow run for deployment 'projeto-g1/a-cada-3-horas'...
+Created flow run 'dangerous-manatee'.
+└── UUID: bf6e2725-d8ea-4600-9d71-6b1e7f3004e8
+└── Parameters: {}
+└── Job Variables: {}
+└── Scheduled start time: 2026-11-15 10:37:14 -03 (now)
+└── URL: http://127.0.0.1:4200/runs/flow-run/bf6e2725-d8ea-4600-9d71-6b1e7f3004e8
+
+# API: deployment
+{"name": "a-cada-3-horas", "path": ".", "schedules": [{"cron": "0 */3 * * *", "timezone": "America/Sao_Paulo", "day_or": true}]}
+# API: execuções do deployment
+wondrous-monkey CRASHED Crashed expected=2026-11-15T13:36:13.178769Z auto=False
+dangerous-manatee COMPLETED Completed expected=2026-11-15T13:37:14.604839Z auto=False
+elfish-anaconda SCHEDULED Scheduled expected=2026-11-15T15:00:00Z auto=True
+white-bonobo SCHEDULED Scheduled expected=2026-11-15T18:00:00Z auto=True
+mutant-goat SCHEDULED Scheduled expected=2026-11-15T21:00:00Z auto=True

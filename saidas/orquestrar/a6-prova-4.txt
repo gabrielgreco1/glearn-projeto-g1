@@ -1,0 +1,17 @@
+$ cat avisos.log
+2026-11-15 11:23:10 AVISO: projeto-g1, execução carmine-ape, terminou em Crashed: Execution was aborted by an interrupt signal. (o que fazer: runbook.md)
+2026-11-15 11:24:00 ATENÇÃO: 73 notícias esperam a página, e o materias.py baixa 20 por rodada. Veja no log da task paginas se as páginas estão vindo; depois de um buraco, a fila desce sozinha em poucas rodadas. (o que fazer: runbook.md)
+2026-11-15 11:25:16 ATENÇÃO: 53 notícias esperam a página, e o materias.py baixa 20 por rodada. Veja no log da task paginas se as páginas estão vindo; depois de um buraco, a fila desce sozinha em poucas rodadas. (o que fazer: runbook.md)
+$ docker compose exec banco psql -U postgres -c "SELECT id, noticias, novas, mudaram, iguais FROM cargas ORDER BY id"
+ id | noticias | novas | mudaram | iguais 
+----+----------+-------+---------+--------
+  1 |      100 |   100 |       0 |      0
+  2 |      100 |     0 |      20 |     80
+(2 rows)
+
+$ docker compose down -v
+ Volume prova-g1_banco Removing 
+ Volume prova-g1_banco Removed 
+$ cd -
+$ rm -rf /tmp/prova-g1
+$ docker compose up -d --wait

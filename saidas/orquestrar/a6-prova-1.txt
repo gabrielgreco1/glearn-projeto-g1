@@ -1,0 +1,13 @@
+$ docker compose down
+ Container projeto-g1-banco-1 Stopped 
+ Container projeto-g1-banco-1 Removed 
+$ git clone . /tmp/prova-g1
+$ cp .env /tmp/prova-g1/
+$ docker compose up -d --wait
+ Volume prova-g1_banco Creating 
+ Volume prova-g1_banco Created 
+ Container prova-g1-banco-1 Healthy 
+$ uv sync
+$ uv run pytest -q
+52 passed in 7.12s
+$ uv run python fluxo.py   (Ctrl+C no meio das páginas)

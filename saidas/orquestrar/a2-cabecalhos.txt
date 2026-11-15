@@ -1,0 +1,18 @@
+$ curl -sI -A "<o seu G1_USER_AGENT>" https://g1.globo.com/rss/g1/tecnologia/
+HTTP/2 200 
+date: Sun, 15 Nov 2026 13:29:08 GMT
+cache-control: max-age=600, public
+etag: "a24db6a40c491fdb8251ff5f11a6170d180555cb"
+x-request-id: aff343c1-c4cd-4f91-b870-e6d04fc61636
+x-served-from: Router G1 PROD
+content-security-policy: upgrade-insecure-requests
+x-location-rule: rss-pox
+content-type: application/xml; charset=UTF-8
+content-encoding: gzip
+age: 551
+vary: X-Forwarded-Proto, User-Agent
+x-bip: varnish-as-sp-ra11-ca02-rkhqm
+via: 2.1 KubeCache
+accept-ranges: bytes
+content-length: 182260
+

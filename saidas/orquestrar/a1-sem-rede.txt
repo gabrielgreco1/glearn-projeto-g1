@@ -1,0 +1,361 @@
+$ uv run python fluxo.py
+10:29:04.330 | INFO    | Flow run 'grinning-mongrel' - Beginning flow run 'grinning-mongrel' for flow 'projeto-g1'
+10:29:04.332 | INFO    | Flow run 'grinning-mongrel' - View at http://127.0.0.1:4200/runs/flow-run/4438b39a-4bcd-4fe6-8474-b2d0d61505f0
+10:29:04.371 | INFO    | Task run 'feed-a62' - Task run failed with exception: ConnectError('[Errno 61] Connection refused') - Retry 1/3 will start 10 second(s) from now
+10:29:14.429 | INFO    | Task run 'feed-a62' - Task run failed with exception: ConnectError('[Errno 61] Connection refused') - Retry 2/3 will start 10 second(s) from now
+10:29:24.483 | INFO    | Task run 'feed-a62' - Task run failed with exception: ConnectError('[Errno 61] Connection refused') - Retry 3/3 will start 10 second(s) from now
+10:29:34.522 | ERROR   | Task run 'feed-a62' - Task run failed with exception: ConnectError('[Errno 61] Connection refused') - Retries are exhausted
+Traceback (most recent call last):
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpx/_transports/default.py", line 101, in map_httpcore_exceptions
+    yield
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpx/_transports/default.py", line 250, in handle_request
+    resp = self._pool.handle_request(req)
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpcore/_sync/connection_pool.py", line 256, in handle_request
+    raise exc from None
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpcore/_sync/connection_pool.py", line 236, in handle_request
+    response = connection.handle_request(
+        pool_request.request
+    )
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpcore/_sync/http_proxy.py", line 288, in handle_request
+    connect_response = self._connection.handle_request(
+        connect_request
+    )
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpcore/_sync/connection.py", line 101, in handle_request
+    raise exc
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpcore/_sync/connection.py", line 78, in handle_request
+    stream = self._connect(request)
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpcore/_sync/connection.py", line 124, in _connect
+    stream = self._network_backend.connect_tcp(**kwargs)
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpcore/_backends/sync.py", line 207, in connect_tcp
+    with map_exceptions(exc_map):
+         ~~~~~~~~~~~~~~^^^^^^^^^
+  File "~/.local/share/uv/python/cpython-3.13-macos-aarch64-none/lib/python3.13/contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpcore/_exceptions.py", line 14, in map_exceptions
+    raise to_exc(exc) from exc
+httpcore.ConnectError: [Errno 61] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/task_engine.py", line 1072, in run_context
+    yield self
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/task_engine.py", line 1777, in run_task_sync
+    engine.call_task_fn(txn)
+    ~~~~~~~~~~~~~~~~~~~^^^^^
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/task_engine.py", line 1093, in call_task_fn
+    result = call_with_parameters(self.task.fn, parameters)
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/utilities/callables/__init__.py", line 404, in call_with_parameters
+    return fn(*args, **kwargs)
+  File "~/projeto-g1/fluxo.py", line 22, in feed
+    baixar_feed()
+    ~~~~~~~~~~~^^
+  File "~/projeto-g1/baixar.py", line 69, in baixar_feed
+    resposta = pedir(FEED, extras)
+  File "~/projeto-g1/baixar.py", line 54, in pedir
+    resposta = httpx.get(url, headers={**CABECALHOS, **(extras or {})}, timeout=30)
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpx/_api.py", line 195, in get
+    return request(
+        "GET",
+    ...<9 lines>...
+        trust_env=trust_env,
+    )
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpx/_api.py", line 109, in request
+    return client.request(
+           ~~~~~~~~~~~~~~^
+        method=method,
+        ^^^^^^^^^^^^^^
+    ...<8 lines>...
+        follow_redirects=follow_redirects,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpx/_client.py", line 825, in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpx/_client.py", line 914, in send
+    response = self._send_handling_auth(
+        request,
+    ...<2 lines>...
+        history=[],
+    )
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpx/_client.py", line 942, in _send_handling_auth
+    response = self._send_handling_redirects(
+        request,
+        follow_redirects=follow_redirects,
+        history=history,
+    )
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpx/_client.py", line 979, in _send_handling_redirects
+    response = self._send_single_request(request)
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpx/_client.py", line 1014, in _send_single_request
+    response = transport.handle_request(request)
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpx/_transports/default.py", line 249, in handle_request
+    with map_httpcore_exceptions():
+         ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "~/.local/share/uv/python/cpython-3.13-macos-aarch64-none/lib/python3.13/contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpx/_transports/default.py", line 118, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+httpx.ConnectError: [Errno 61] Connection refused
+10:29:34.533 | ERROR   | Task run 'feed-a62' - Finished in state Failed('Task run encountered an exception ConnectError: [Errno 61] Connection refused')
+10:29:34.533 | ERROR   | Flow run 'grinning-mongrel' - Encountered exception during execution: ConnectError('[Errno 61] Connection refused')
+Traceback (most recent call last):
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpx/_transports/default.py", line 101, in map_httpcore_exceptions
+    yield
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpx/_transports/default.py", line 250, in handle_request
+    resp = self._pool.handle_request(req)
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpcore/_sync/connection_pool.py", line 256, in handle_request
+    raise exc from None
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpcore/_sync/connection_pool.py", line 236, in handle_request
+    response = connection.handle_request(
+        pool_request.request
+    )
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpcore/_sync/http_proxy.py", line 288, in handle_request
+    connect_response = self._connection.handle_request(
+        connect_request
+    )
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpcore/_sync/connection.py", line 101, in handle_request
+    raise exc
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpcore/_sync/connection.py", line 78, in handle_request
+    stream = self._connect(request)
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpcore/_sync/connection.py", line 124, in _connect
+    stream = self._network_backend.connect_tcp(**kwargs)
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpcore/_backends/sync.py", line 207, in connect_tcp
+    with map_exceptions(exc_map):
+         ~~~~~~~~~~~~~~^^^^^^^^^
+  File "~/.local/share/uv/python/cpython-3.13-macos-aarch64-none/lib/python3.13/contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpcore/_exceptions.py", line 14, in map_exceptions
+    raise to_exc(exc) from exc
+httpcore.ConnectError: [Errno 61] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/flow_engine.py", line 1372, in run_context
+    yield self
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/flow_engine.py", line 2173, in run_flow_sync
+    engine.call_flow_fn()
+    ~~~~~~~~~~~~~~~~~~~^^
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/flow_engine.py", line 1394, in call_flow_fn
+    result = call_with_parameters(self.flow.fn, self.parameters)
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/utilities/callables/__init__.py", line 404, in call_with_parameters
+    return fn(*args, **kwargs)
+  File "~/projeto-g1/fluxo.py", line 54, in projeto_g1
+    feed()
+    ~~~~^^
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/tasks.py", line 1240, in __call__
+    return run_task(
+        task=self,
+    ...<2 lines>...
+        return_type=return_type,
+    )
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/task_engine.py", line 2054, in run_task
+    return run_task_sync(**kwargs)
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/task_engine.py", line 1780, in run_task_sync
+    return engine.state if return_type == "state" else engine.result()
+                                                       ~~~~~~~~~~~~~^^
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/task_engine.py", line 636, in result
+    raise self._raised
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/task_engine.py", line 1072, in run_context
+    yield self
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/task_engine.py", line 1777, in run_task_sync
+    engine.call_task_fn(txn)
+    ~~~~~~~~~~~~~~~~~~~^^^^^
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/task_engine.py", line 1093, in call_task_fn
+    result = call_with_parameters(self.task.fn, parameters)
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/utilities/callables/__init__.py", line 404, in call_with_parameters
+    return fn(*args, **kwargs)
+  File "~/projeto-g1/fluxo.py", line 22, in feed
+    baixar_feed()
+    ~~~~~~~~~~~^^
+  File "~/projeto-g1/baixar.py", line 69, in baixar_feed
+    resposta = pedir(FEED, extras)
+  File "~/projeto-g1/baixar.py", line 54, in pedir
+    resposta = httpx.get(url, headers={**CABECALHOS, **(extras or {})}, timeout=30)
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpx/_api.py", line 195, in get
+    return request(
+        "GET",
+    ...<9 lines>...
+        trust_env=trust_env,
+    )
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpx/_api.py", line 109, in request
+    return client.request(
+           ~~~~~~~~~~~~~~^
+        method=method,
+        ^^^^^^^^^^^^^^
+    ...<8 lines>...
+        follow_redirects=follow_redirects,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpx/_client.py", line 825, in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpx/_client.py", line 914, in send
+    response = self._send_handling_auth(
+        request,
+    ...<2 lines>...
+        history=[],
+    )
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpx/_client.py", line 942, in _send_handling_auth
+    response = self._send_handling_redirects(
+        request,
+        follow_redirects=follow_redirects,
+        history=history,
+    )
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpx/_client.py", line 979, in _send_handling_redirects
+    response = self._send_single_request(request)
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpx/_client.py", line 1014, in _send_single_request
+    response = transport.handle_request(request)
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpx/_transports/default.py", line 249, in handle_request
+    with map_httpcore_exceptions():
+         ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "~/.local/share/uv/python/cpython-3.13-macos-aarch64-none/lib/python3.13/contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpx/_transports/default.py", line 118, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+httpx.ConnectError: [Errno 61] Connection refused
+10:29:34.552 | INFO    | Flow run 'grinning-mongrel' - Running hook 'avisar' in response to entering state 'Failed'
+10:29:34.552 | INFO    | Flow run 'grinning-mongrel' - AVISO: projeto-g1, execução grinning-mongrel, terminou em Failed: Flow run encountered an exception: ConnectError: [Errno 61] Connection refused
+10:29:34.553 | INFO    | Flow run 'grinning-mongrel' - Hook 'avisar' finished running successfully
+10:29:34.553 | INFO    | Flow run 'grinning-mongrel' - Finished in state Failed('Flow run encountered an exception: ConnectError: [Errno 61] Connection refused')
+Traceback (most recent call last):
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpx/_transports/default.py", line 101, in map_httpcore_exceptions
+    yield
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpx/_transports/default.py", line 250, in handle_request
+    resp = self._pool.handle_request(req)
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpcore/_sync/connection_pool.py", line 256, in handle_request
+    raise exc from None
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpcore/_sync/connection_pool.py", line 236, in handle_request
+    response = connection.handle_request(
+        pool_request.request
+    )
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpcore/_sync/http_proxy.py", line 288, in handle_request
+    connect_response = self._connection.handle_request(
+        connect_request
+    )
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpcore/_sync/connection.py", line 101, in handle_request
+    raise exc
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpcore/_sync/connection.py", line 78, in handle_request
+    stream = self._connect(request)
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpcore/_sync/connection.py", line 124, in _connect
+    stream = self._network_backend.connect_tcp(**kwargs)
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpcore/_backends/sync.py", line 207, in connect_tcp
+    with map_exceptions(exc_map):
+         ~~~~~~~~~~~~~~^^^^^^^^^
+  File "~/.local/share/uv/python/cpython-3.13-macos-aarch64-none/lib/python3.13/contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpcore/_exceptions.py", line 14, in map_exceptions
+    raise to_exc(exc) from exc
+httpcore.ConnectError: [Errno 61] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "~/projeto-g1/fluxo.py", line 63, in <module>
+    projeto_g1()
+    ~~~~~~~~~~^^
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/flows.py", line 1912, in __call__
+    return run_flow(
+        flow=self,
+    ...<2 lines>...
+        return_type=return_type,
+    )
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/flow_engine.py", line 2332, in run_flow
+    ret_val = run_flow_sync(**kwargs)
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/flow_engine.py", line 2175, in run_flow_sync
+    return engine.state if return_type == "state" else engine.result()
+                                                       ~~~~~~~~~~~~~^^
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/flow_engine.py", line 817, in result
+    raise self._raised
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/flow_engine.py", line 1372, in run_context
+    yield self
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/flow_engine.py", line 2173, in run_flow_sync
+    engine.call_flow_fn()
+    ~~~~~~~~~~~~~~~~~~~^^
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/flow_engine.py", line 1394, in call_flow_fn
+    result = call_with_parameters(self.flow.fn, self.parameters)
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/utilities/callables/__init__.py", line 404, in call_with_parameters
+    return fn(*args, **kwargs)
+  File "~/projeto-g1/fluxo.py", line 54, in projeto_g1
+    feed()
+    ~~~~^^
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/tasks.py", line 1240, in __call__
+    return run_task(
+        task=self,
+    ...<2 lines>...
+        return_type=return_type,
+    )
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/task_engine.py", line 2054, in run_task
+    return run_task_sync(**kwargs)
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/task_engine.py", line 1780, in run_task_sync
+    return engine.state if return_type == "state" else engine.result()
+                                                       ~~~~~~~~~~~~~^^
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/task_engine.py", line 636, in result
+    raise self._raised
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/task_engine.py", line 1072, in run_context
+    yield self
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/task_engine.py", line 1777, in run_task_sync
+    engine.call_task_fn(txn)
+    ~~~~~~~~~~~~~~~~~~~^^^^^
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/task_engine.py", line 1093, in call_task_fn
+    result = call_with_parameters(self.task.fn, parameters)
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/utilities/callables/__init__.py", line 404, in call_with_parameters
+    return fn(*args, **kwargs)
+  File "~/projeto-g1/fluxo.py", line 22, in feed
+    baixar_feed()
+    ~~~~~~~~~~~^^
+  File "~/projeto-g1/baixar.py", line 69, in baixar_feed
+    resposta = pedir(FEED, extras)
+  File "~/projeto-g1/baixar.py", line 54, in pedir
+    resposta = httpx.get(url, headers={**CABECALHOS, **(extras or {})}, timeout=30)
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpx/_api.py", line 195, in get
+    return request(
+        "GET",
+    ...<9 lines>...
+        trust_env=trust_env,
+    )
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpx/_api.py", line 109, in request
+    return client.request(
+           ~~~~~~~~~~~~~~^
+        method=method,
+        ^^^^^^^^^^^^^^
+    ...<8 lines>...
+        follow_redirects=follow_redirects,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpx/_client.py", line 825, in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpx/_client.py", line 914, in send
+    response = self._send_handling_auth(
+        request,
+    ...<2 lines>...
+        history=[],
+    )
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpx/_client.py", line 942, in _send_handling_auth
+    response = self._send_handling_redirects(
+        request,
+        follow_redirects=follow_redirects,
+        history=history,
+    )
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpx/_client.py", line 979, in _send_handling_redirects
+    response = self._send_single_request(request)
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpx/_client.py", line 1014, in _send_single_request
+    response = transport.handle_request(request)
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpx/_transports/default.py", line 249, in handle_request
+    with map_httpcore_exceptions():
+         ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "~/.local/share/uv/python/cpython-3.13-macos-aarch64-none/lib/python3.13/contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/httpx/_transports/default.py", line 118, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+httpx.ConnectError: [Errno 61] Connection refused

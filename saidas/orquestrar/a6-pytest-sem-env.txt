@@ -1,0 +1,5 @@
+$ git clone . /tmp/sem-env
+$ ls -a
+. .. .env.example .git .github .gitignore .python-version acumular.py assinatura.py baixar.py banco.py boilerplate.txt carregar.py compose.yaml conferir.py fluxo.py fontes.csv gold.py janela.py ler.py materias.py prefect.toml pyproject.toml README.md repetidas.py rodar.py runbook.md schema.sql silver.py sitemap.py tabela.py testes texto.py transformar.py uv.lock validar.py vigiar.py 
+$ uv run pytest -q
+52 passed in 6.14s

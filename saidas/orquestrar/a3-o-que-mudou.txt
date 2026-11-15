@@ -1,0 +1,7 @@
+velha A família de Jensen Huang, que deixou Nvidia após casos extraconjugais | 2026-11-15T02:00:01.575-03:00 | 24 parágrafos, 761 palavras, 1242019 bytes
+nova A família de Jensen Huang, que deixou Nvidia após casos extraconjugais | 2026-11-15T13:08:31.321-03:00 | 24 parágrafos, 761 palavras, 1249351 bytes
+--- 
++++ 
+@@ -11 +11 @@
+-Após se formar como engenheiro elétrico na Universidade Estadual do Oregon, Jensen fez mestrado em Stanford e trabalhou em empresas de tecnologia como fabricante de chips AMD. Em 1993, ele fundou a Nvidia ao lado de Chris Malachowsky e Curtis Priem.
++Após se formar como engenheiro eletricista na Universidade Estadual do Oregon, Jensen fez mestrado em Stanford e trabalhou em empresas de tecnologia como fabricante de chips AMD. Em 1993, ele fundou a Nvidia ao lado de Chris Malachowsky e Curtis Priem.

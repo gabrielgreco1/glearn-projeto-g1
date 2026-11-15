@@ -1,0 +1,67 @@
+$ uv run python fluxo.py
+11:12:59.066 | INFO    | Flow run 'agate-robin' - Beginning flow run 'agate-robin' for flow 'projeto-g1'
+11:12:59.068 | INFO    | Flow run 'agate-robin' - View at http://127.0.0.1:4200/runs/flow-run/5ed32725-437e-491e-9b9e-84d980c240e7
+11:13:01.144 | INFO    | g1 - o feed não mudou desde 2026-11-15T13:28:33+00:00, nada para baixar
+11:13:01.147 | INFO    | Task run 'feed-fd1' - Finished in state Completed()
+11:13:01.227 | INFO    | g1 - feed: 100 notícias lidas, 0 novas, 100 já estavam guardadas. Total: 141
+11:13:01.228 | INFO    | Task run 'guardar-df4' - Finished in state Completed()
+11:13:01.232 | INFO    | g1 - já tenho dados/bronze/sitemap/2026-11-14_1.xml, não peço de novo
+11:13:01.235 | INFO    | g1 - já tenho dados/bronze/sitemap/2026-11-14_2.xml, não peço de novo
+11:13:03.292 | INFO    | g1 - baixei o mapa de 2026-11-15, parte 1: 103892 bytes em dados/bronze/sitemap/2026-11-15_1.xml
+11:13:05.344 | INFO    | g1 - baixei o mapa de 2026-11-15, parte 2: 215 bytes em dados/bronze/sitemap/2026-11-15_2.xml
+11:13:06.078 | INFO    | g1 - matérias: 0 baixadas nesta rodada, 0 delas de novo, porque a notícia mudou; 0 ficam para a próxima
+11:13:06.079 | INFO    | Task run 'paginas-25b' - Finished in state Completed()
+11:13:14.016 | INFO    | g1 - gravei 141 linhas em dados/noticias.csv
+11:13:14.017 | INFO    | g1 - conferência: 141 notícias, 0 repetidas, 0 sem data, 0 sem título, 140 com a página lida
+11:13:14.017 | INFO    | g1 - notícias do dia 2026-10-27 ao dia 2026-11-15
+11:13:14.017 | INFO    | Task run 'tabela_e_conferencia-07b' - Finished in state Completed()
+11:13:14.018 | INFO    | g1 - transformar 1 de 3: a silver
+11:13:30.409 | INFO    | g1 - 141 notícias; 3 repetidas; 1 pares para você ler (uv run python silver.py mostra)
+11:13:30.410 | INFO    | g1 - transformar 2 de 3: as regras
+11:13:30.419 | INFO    | g1 - lidas 141 = válidas 141 + rejeitadas 0
+11:13:30.429 | INFO    | g1 - gravei 141 notícias em dados/silver/noticias.parquet e 0 rejeições em dados/silver/rejeitados.csv
+11:13:30.430 | INFO    | g1 - transformar 3 de 3: a gold
+11:13:30.519 | INFO    | Task run 'transformar-96f' - ┌────────────┬──────────┬───────┬─────────┬────────────┬──────────────────┐
+│    dia     │ noticias │ do_g1 │ de_fora │ sem_pagina │ palavras_mediana │
+│    date    │  int64   │ int64 │  int64  │   int64    │      double      │
+├────────────┼──────────┼───────┼─────────┼────────────┼──────────────────┤
+│ 2026-10-27 │        2 │     1 │       1 │          0 │            751.5 │
+│ 2026-10-28 │        6 │     3 │       3 │          0 │            224.5 │
+│ 2026-10-29 │        4 │     3 │       1 │          0 │            409.0 │
+│ 2026-10-30 │       11 │     8 │       3 │          0 │            562.0 │
+│ 2026-10-31 │        5 │     4 │       1 │          0 │            598.0 │
+│ 2026-11-01 │        1 │     0 │       1 │          0 │            896.0 │
+│ 2026-11-02 │        4 │     2 │       2 │          0 │            637.0 │
+│ 2026-11-03 │        3 │     1 │       2 │          0 │            384.0 │
+│ 2026-11-04 │        7 │     6 │       1 │          0 │            680.0 │
+│ 2026-11-05 │        7 │     5 │       2 │          0 │            448.0 │
+│ 2026-11-06 │        7 │     3 │       4 │          0 │            715.0 │
+│ 2026-11-07 │        3 │     2 │       1 │          0 │            677.0 │
+│ 2026-11-08 │        2 │     1 │       1 │          0 │           1271.5 │
+│ 2026-11-09 │       11 │     8 │       3 │          0 │            679.5 │
+│ 2026-11-10 │       10 │     2 │       8 │          0 │            580.5 │
+│ 2026-11-11 │        6 │     4 │       2 │          0 │            558.5 │
+│ 2026-11-12 │       18 │    12 │       6 │          0 │            595.0 │
+│ 2026-11-13 │       16 │     9 │       7 │          0 │            533.5 │
+│ 2026-11-14 │        6 │     3 │       3 │          0 │            748.5 │
+│ 2026-11-15 │        6 │     4 │       2 │          0 │            819.0 │
+└────────────┴──────────┴───────┴─────────┴────────────┴──────────────────┘
+  20 rows                                                       6 columns
+11:13:30.523 | INFO    | g1 - gravei 20 linhas em dados/gold/por_dia.parquet
+11:13:30.527 | INFO    | Task run 'transformar-96f' - ┌─────────────┬──────────┬──────────┬──────────────────┐
+│    fonte    │ noticias │ porcento │ palavras_mediana │
+│   varchar   │  int64   │  double  │      double      │
+├─────────────┼──────────┼──────────┼──────────────────┤
+│ agência     │       54 │     39.1 │            582.5 │
+│ redação     │       51 │     37.0 │            476.5 │
+│ repórter    │       30 │     21.7 │            740.5 │
+│ publicidade │        3 │      2.2 │            195.0 │
+└─────────────┴──────────┴──────────┴──────────────────┘
+11:13:30.529 | INFO    | g1 - gravei 4 linhas em dados/gold/por_fonte.parquet
+11:13:30.529 | INFO    | Task run 'transformar-96f' - Finished in state Completed()
+11:13:30.575 | INFO    | g1 - notícias: 141 na silver; novas 0, mudaram 0, iguais 141; saíram do banco 0
+11:13:30.575 | INFO    | g1 - nomes: 0 novos, 0 mudaram de tipo; assinaturas: 0 saíram, 0 entraram
+11:13:30.575 | INFO    | g1 - conferido: 141 notícias, 91563 palavras e 145 assinaturas, na silver e no banco
+11:13:30.576 | INFO    | g1 - conferido: as views por_dia e por_fonte dão as mesmas linhas que a gold
+11:13:30.576 | INFO    | Task run 'carregar-c4d' - Finished in state Completed()
+11:13:30.584 | INFO    | Flow run 'agate-robin' - Finished in state Completed()

@@ -1,0 +1,68 @@
+$ docker compose stop
+ Container projeto-g1-banco-1 Stopping 
+ Container projeto-g1-banco-1 Stopped 
+$ uv run python fluxo.py
+10:29:43.585 | INFO    | Flow run 'nano-quokka' - Beginning flow run 'nano-quokka' for flow 'projeto-g1'
+10:29:43.587 | INFO    | Flow run 'nano-quokka' - View at http://127.0.0.1:4200/runs/flow-run/f3d8e847-ead4-4b8d-bbe7-f35fb4bcc179
+10:29:45.642 | INFO    | g1 - o feed não mudou desde 2026-11-15T13:28:33+00:00, nada para baixar
+10:29:45.646 | INFO    | Task run 'feed-11e' - Finished in state Completed()
+10:29:45.721 | INFO    | g1 - feed: 100 notícias lidas, 0 novas, 100 já estavam guardadas. Total: 113
+10:29:45.722 | INFO    | Task run 'guardar-72e' - Finished in state Completed()
+10:29:45.725 | INFO    | g1 - matérias: 0 baixadas nesta rodada, 0 ficam para a próxima
+10:29:45.726 | INFO    | Task run 'paginas-524' - Finished in state Completed()
+10:29:52.054 | INFO    | g1 - gravei 113 linhas em dados/noticias.csv
+10:29:52.055 | INFO    | g1 - conferência: 113 notícias, 0 repetidas, 0 sem data, 0 sem título, 112 com a página lida
+10:29:52.055 | INFO    | g1 - notícias do dia 2026-10-31 ao dia 2026-11-15
+10:29:52.056 | INFO    | Task run 'tabela_e_conferencia-13d' - Finished in state Completed()
+10:29:52.057 | INFO    | g1 - transformar 1 de 3: a silver
+10:30:04.946 | INFO    | g1 - 113 notícias; 3 repetidas; 1 pares para você ler (uv run python silver.py mostra)
+10:30:04.946 | INFO    | g1 - transformar 2 de 3: as regras
+10:30:04.948 | INFO    | g1 - lidas 113 = válidas 113 + rejeitadas 0
+10:30:04.950 | INFO    | g1 - gravei 113 notícias em dados/silver/noticias.parquet e 0 rejeições em dados/silver/rejeitados.csv
+10:30:04.950 | INFO    | g1 - transformar 3 de 3: a gold
+10:30:04.963 | INFO    | Task run 'transformar-343' - ┌────────────┬──────────┬───────┬─────────┬────────────┬──────────────────┐
+│    dia     │ noticias │ do_g1 │ de_fora │ sem_pagina │ palavras_mediana │
+│    date    │  int64   │ int64 │  int64  │   int64    │      double      │
+├────────────┼──────────┼───────┼─────────┼────────────┼──────────────────┤
+│ 2026-10-31 │        1 │     1 │       0 │          0 │             62.0 │
+│ 2026-11-01 │        1 │     0 │       1 │          0 │            896.0 │
+│ 2026-11-02 │        4 │     2 │       2 │          0 │            637.0 │
+│ 2026-11-03 │        3 │     1 │       2 │          0 │            384.0 │
+│ 2026-11-04 │        7 │     6 │       1 │          0 │            680.0 │
+│ 2026-11-05 │        7 │     5 │       2 │          0 │            448.0 │
+│ 2026-11-06 │        7 │     3 │       4 │          0 │            715.0 │
+│ 2026-11-07 │        3 │     2 │       1 │          0 │            677.0 │
+│ 2026-11-08 │        2 │     1 │       1 │          0 │           1271.5 │
+│ 2026-11-09 │       11 │     8 │       3 │          0 │            679.5 │
+│ 2026-11-10 │       10 │     2 │       8 │          0 │            580.5 │
+│ 2026-11-11 │        6 │     4 │       2 │          0 │            558.5 │
+│ 2026-11-12 │       18 │    12 │       6 │          0 │            595.0 │
+│ 2026-11-13 │       16 │     9 │       7 │          0 │            533.5 │
+│ 2026-11-14 │        6 │     3 │       3 │          0 │            748.5 │
+│ 2026-11-15 │        6 │     4 │       2 │          0 │            819.0 │
+└────────────┴──────────┴───────┴─────────┴────────────┴──────────────────┘
+  16 rows                                                       6 columns
+10:30:04.966 | INFO    | g1 - gravei 16 linhas em dados/gold/por_dia.parquet
+10:30:04.967 | INFO    | Task run 'transformar-343' - ┌─────────────┬──────────┬──────────┬──────────────────┐
+│    fonte    │ noticias │ porcento │ palavras_mediana │
+│   varchar   │  int64   │  double  │      double      │
+├─────────────┼──────────┼──────────┼──────────────────┤
+│ agência     │       45 │     40.9 │            592.0 │
+│ redação     │       38 │     34.5 │            534.0 │
+│ repórter    │       25 │     22.7 │            735.0 │
+│ publicidade │        2 │      1.8 │            566.0 │
+└─────────────┴──────────┴──────────┴──────────────────┘
+10:30:04.969 | INFO    | g1 - gravei 4 linhas em dados/gold/por_fonte.parquet
+10:30:04.970 | INFO    | Task run 'transformar-343' - Finished in state Completed()
+10:30:04.973 | ERROR   | Task run 'carregar-36e' - Crash detected! Execution was aborted by Python system exit call.
+10:30:04.973 | ERROR   | Task run 'carregar-36e' - Finished in state Crashed('Execution was aborted by Python system exit call.')
+10:30:04.974 | ERROR   | Flow run 'nano-quokka' - Crash detected! Execution was aborted by Python system exit call.
+10:30:04.983 | INFO    | Flow run 'nano-quokka' - Running hook 'avisar' in response to entering state 'Crashed'
+10:30:04.983 | INFO    | Flow run 'nano-quokka' - Hook 'avisar' finished running successfully
+10:30:04.983 | INFO    | Flow run 'nano-quokka' - Finished in state Crashed('Execution was aborted by Python system exit call.')
+AVISO: projeto-g1, execução nano-quokka, terminou em Crashed: Execution was aborted by Python system exit call.
+O banco não respondeu. Ele está de pé? Rode: docker compose up -d --wait
+connection failed: connection to server at "127.0.0.1", port 5435 failed: could not receive data from server: Connection refused
+Multiple connection attempts failed. All failures were:
+- host: 'localhost', port: '5435', hostaddr: '::1': connection failed: connection to server at "::1", port 5435 failed: could not receive data from server: Connection refused
+- host: 'localhost', port: '5435', hostaddr: '127.0.0.1': connection failed: connection to server at "127.0.0.1", port 5435 failed: could not receive data from server: Connection refused

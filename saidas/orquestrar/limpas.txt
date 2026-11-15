@@ -1,0 +1,115 @@
+== aula-21-o-projeto-no-prefect
+banco de pé: 1
+$ uv run pytest
+========================================================================================== 35 passed in 5.68s ==========================================================================================
+$ uv run python fluxo.py   (rodada 1)
+11:58:06.069 | INFO    | g1 - baixei o feed: 605342 bytes em dados/bronze/feed/2026-11-15/14-58-06.xml
+11:58:06.138 | INFO    | g1 - feed: 100 notícias lidas, 100 novas, 0 já estavam guardadas. Total: 100
+11:58:48.767 | INFO    | g1 - matérias: 20 baixadas nesta rodada, 80 ficam para a próxima
+11:58:52.456 | INFO    | g1 - notícias: 100 na silver; novas 100, mudaram 0, iguais 0; saíram do banco 0
+11:58:52.467 | INFO    | Flow run 'undetectable-panda' - Finished in state Completed()
+$ uv run python fluxo.py   (rodada 2)
+11:58:55.678 | INFO    | g1 - o feed não mudou desde 2026-11-15T14:58:06+00:00, nada para baixar
+11:58:55.742 | INFO    | g1 - feed: 100 notícias lidas, 0 novas, 100 já estavam guardadas. Total: 100
+11:59:37.565 | INFO    | g1 - matérias: 20 baixadas nesta rodada, 60 ficam para a próxima
+11:59:44.372 | INFO    | g1 - notícias: 100 na silver; novas 0, mudaram 20, iguais 80; saíram do banco 0
+11:59:44.382 | INFO    | Flow run 'independent-orca' - Finished in state Completed()
+removidos: 3
+== aula-22-a-janela-do-feed
+banco de pé: 1
+$ uv run pytest
+========================================================================================== 40 passed in 6.61s ==========================================================================================
+$ uv run python fluxo.py   (rodada 1)
+12:00:00.294 | INFO    | g1 - baixei o feed: 605342 bytes em dados/bronze/feed/2026-11-15/15-00-00.xml
+12:00:00.376 | INFO    | g1 - feed: 100 notícias lidas, 100 novas, 0 já estavam guardadas. Total: 100
+12:00:42.142 | INFO    | g1 - matérias: 20 baixadas nesta rodada, 80 ficam para a próxima
+12:00:45.565 | INFO    | g1 - notícias: 100 na silver; novas 100, mudaram 0, iguais 0; saíram do banco 0
+12:00:45.575 | INFO    | Flow run 'practical-collie' - Finished in state Completed()
+$ uv run python fluxo.py   (rodada 2)
+12:00:48.513 | INFO    | g1 - o feed não mudou desde 2026-11-15T15:00:00+00:00, nada para baixar
+12:00:48.585 | INFO    | g1 - feed: 100 notícias lidas, 0 novas, 100 já estavam guardadas. Total: 100
+12:01:30.370 | INFO    | g1 - matérias: 20 baixadas nesta rodada, 60 ficam para a próxima
+12:01:37.184 | INFO    | g1 - notícias: 100 na silver; novas 0, mudaram 20, iguais 80; saíram do banco 0
+12:01:37.193 | INFO    | Flow run 'thoughtful-elk' - Finished in state Completed()
+removidos: 3
+== aula-23-a-pagina-que-a-redacao-mudou
+banco de pé: 1
+$ uv run pytest
+========================================================================================== 43 passed in 5.53s ==========================================================================================
+$ uv run python fluxo.py   (rodada 1)
+12:01:51.683 | INFO    | g1 - baixei o feed: 605342 bytes em dados/bronze/feed/2026-11-15/15-01-51.xml
+12:01:51.751 | INFO    | g1 - feed: 100 notícias lidas, 100 novas, 0 já estavam guardadas. Total: 100
+12:02:33.554 | INFO    | g1 - matérias: 20 baixadas nesta rodada, 0 delas de novo, porque a notícia mudou; 80 ficam para a próxima
+12:02:37.016 | INFO    | g1 - notícias: 100 na silver; novas 100, mudaram 0, iguais 0; saíram do banco 0
+12:02:37.025 | INFO    | Flow run 'spiritual-bird' - Finished in state Completed()
+$ uv run python fluxo.py   (rodada 2)
+12:02:39.926 | INFO    | g1 - o feed não mudou desde 2026-11-15T15:01:51+00:00, nada para baixar
+12:02:39.981 | INFO    | g1 - feed: 100 notícias lidas, 0 novas, 100 já estavam guardadas. Total: 100
+12:03:22.073 | INFO    | g1 - matérias: 20 baixadas nesta rodada, 0 delas de novo, porque a notícia mudou; 60 ficam para a próxima
+12:03:28.824 | INFO    | g1 - notícias: 100 na silver; novas 0, mudaram 20, iguais 80; saíram do banco 0
+12:03:28.834 | INFO    | Flow run 'peach-scorpion' - Finished in state Completed()
+removidos: 3
+== aula-24-a-vigia
+banco de pé: 1
+$ uv run pytest
+========================================================================================== 49 passed in 6.49s ==========================================================================================
+$ uv run python fluxo.py   (rodada 1)
+12:03:44.731 | INFO    | g1 - baixei o feed: 605342 bytes em dados/bronze/feed/2026-11-15/15-03-44.xml
+12:03:44.797 | INFO    | g1 - feed: 100 notícias lidas, 100 novas, 0 já estavam guardadas. Total: 100
+12:04:26.775 | INFO    | g1 - matérias: 20 baixadas nesta rodada, 0 delas de novo, porque a notícia mudou; 80 ficam para a próxima
+12:04:30.157 | INFO    | g1 - notícias: 100 na silver; novas 100, mudaram 0, iguais 0; saíram do banco 0
+12:04:30.167 | INFO    | g1 - vigia: a notícia mais nova saiu há 2 h; 0 das 10 páginas mais novas sem texto ou sem assinatura; 80 notícias sem página; 1 avisos
+12:04:30.167 | INFO    | Task run 'vigiar-8d9' - ATENÇÃO: 80 notícias esperam a página, e o materias.py baixa 20 por rodada. Veja no log da task paginas se as páginas estão vindo; depois de um buraco, a fila desce sozinh
+12:04:30.176 | INFO    | Flow run 'reliable-iguana' - Finished in state Completed()
+$ uv run python fluxo.py   (rodada 2)
+12:04:33.169 | INFO    | g1 - o feed não mudou desde 2026-11-15T15:03:44+00:00, nada para baixar
+12:04:33.252 | INFO    | g1 - feed: 100 notícias lidas, 0 novas, 100 já estavam guardadas. Total: 100
+12:05:15.045 | INFO    | g1 - matérias: 20 baixadas nesta rodada, 0 delas de novo, porque a notícia mudou; 60 ficam para a próxima
+12:05:21.839 | INFO    | g1 - notícias: 100 na silver; novas 0, mudaram 20, iguais 80; saíram do banco 0
+12:05:21.849 | INFO    | g1 - vigia: a notícia mais nova saiu há 2 h; 0 das 10 páginas mais novas sem texto ou sem assinatura; 60 notícias sem página; 1 avisos
+12:05:21.849 | INFO    | Task run 'vigiar-ffd' - ATENÇÃO: 60 notícias esperam a página, e o materias.py baixa 20 por rodada. Veja no log da task paginas se as páginas estão vindo; depois de um buraco, a fila desce sozinh
+12:05:21.858 | INFO    | Flow run 'brawny-dragonfly' - Finished in state Completed()
+removidos: 3
+== aula-25-uma-execucao-por-vez
+banco de pé: 1
+$ uv run pytest
+========================================================================================== 49 passed in 6.61s ==========================================================================================
+$ uv run python fluxo.py   (rodada 1)
+12:05:37.543 | INFO    | g1 - baixei o feed: 605342 bytes em dados/bronze/feed/2026-11-15/15-05-37.xml
+12:05:37.592 | INFO    | g1 - feed: 100 notícias lidas, 100 novas, 0 já estavam guardadas. Total: 100
+12:06:19.450 | INFO    | g1 - matérias: 20 baixadas nesta rodada, 0 delas de novo, porque a notícia mudou; 80 ficam para a próxima
+12:06:22.897 | INFO    | g1 - notícias: 100 na silver; novas 100, mudaram 0, iguais 0; saíram do banco 0
+12:06:22.907 | INFO    | g1 - vigia: a notícia mais nova saiu há 2 h; 0 das 10 páginas mais novas sem texto ou sem assinatura; 80 notícias sem página; 1 avisos
+12:06:22.907 | INFO    | Task run 'vigiar-6a0' - ATENÇÃO: 80 notícias esperam a página, e o materias.py baixa 20 por rodada. Veja no log da task paginas se as páginas estão vindo; depois de um buraco, a fila desce sozinh
+12:06:22.928 | INFO    | Flow run 'steady-shellfish' - Finished in state Completed()
+$ uv run python fluxo.py   (rodada 2)
+12:06:25.868 | INFO    | g1 - o feed não mudou desde 2026-11-15T15:05:37+00:00, nada para baixar
+12:06:25.947 | INFO    | g1 - feed: 100 notícias lidas, 0 novas, 100 já estavam guardadas. Total: 100
+12:07:07.822 | INFO    | g1 - matérias: 20 baixadas nesta rodada, 0 delas de novo, porque a notícia mudou; 60 ficam para a próxima
+12:07:14.632 | INFO    | g1 - notícias: 100 na silver; novas 0, mudaram 20, iguais 80; saíram do banco 0
+12:07:14.641 | INFO    | g1 - vigia: a notícia mais nova saiu há 3 h; 0 das 10 páginas mais novas sem texto ou sem assinatura; 60 notícias sem página; 1 avisos
+12:07:14.641 | INFO    | Task run 'vigiar-63f' - ATENÇÃO: 60 notícias esperam a página, e o materias.py baixa 20 por rodada. Veja no log da task paginas se as páginas estão vindo; depois de um buraco, a fila desce sozinh
+12:07:14.662 | INFO    | Flow run 'cunning-buffalo' - Finished in state Completed()
+removidos: 3
+== aula-26-os-testes-no-github-e-a-prova-final
+banco de pé: 1
+$ uv run pytest
+========================================================================================== 52 passed in 5.80s ==========================================================================================
+$ uv run python fluxo.py   (rodada 1)
+12:07:29.725 | INFO    | g1 - baixei o feed: 605342 bytes em dados/bronze/feed/2026-11-15/15-07-29.xml
+12:07:29.805 | INFO    | g1 - feed: 100 notícias lidas, 100 novas, 0 já estavam guardadas. Total: 100
+12:08:11.754 | INFO    | g1 - matérias: 20 baixadas nesta rodada, 0 delas de novo, porque a notícia mudou; 80 ficam para a próxima
+12:08:15.152 | INFO    | g1 - notícias: 100 na silver; novas 100, mudaram 0, iguais 0; saíram do banco 0
+12:08:15.161 | INFO    | g1 - vigia: a notícia mais nova saiu há 3 h; 0 das 10 páginas mais novas sem texto ou sem assinatura; 80 notícias sem página; 1 avisos
+12:08:15.162 | INFO    | Task run 'vigiar-ad2' - ATENÇÃO: 80 notícias esperam a página, e o materias.py baixa 20 por rodada. Veja no log da task paginas se as páginas estão vindo; depois de um buraco, a fila desce sozinh
+12:08:15.183 | INFO    | Flow run 'thundering-pegasus' - Finished in state Completed()
+$ uv run python fluxo.py   (rodada 2)
+12:08:18.224 | INFO    | g1 - o feed não mudou desde 2026-11-15T15:07:29+00:00, nada para baixar
+12:08:18.285 | INFO    | g1 - feed: 100 notícias lidas, 0 novas, 100 já estavam guardadas. Total: 100
+12:09:00.096 | INFO    | g1 - matérias: 20 baixadas nesta rodada, 0 delas de novo, porque a notícia mudou; 60 ficam para a próxima
+12:09:06.855 | INFO    | g1 - notícias: 100 na silver; novas 0, mudaram 20, iguais 80; saíram do banco 0
+12:09:06.865 | INFO    | g1 - vigia: a notícia mais nova saiu há 3 h; 0 das 10 páginas mais novas sem texto ou sem assinatura; 60 notícias sem página; 1 avisos
+12:09:06.865 | INFO    | Task run 'vigiar-412' - ATENÇÃO: 60 notícias esperam a página, e o materias.py baixa 20 por rodada. Veja no log da task paginas se as páginas estão vindo; depois de um buraco, a fila desce sozinh
+12:09:06.886 | INFO    | Flow run 'beryl-nuthatch' - Finished in state Completed()
+removidos: 3
+fim

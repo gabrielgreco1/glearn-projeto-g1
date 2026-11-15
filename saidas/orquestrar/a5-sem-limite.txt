@@ -1,0 +1,146 @@
+$ uv run python fluxo.py
+11:17:34.059 | INFO    | Flow run 'knowing-ringtail' - Beginning flow run 'knowing-ringtail' for flow 'projeto-g1'
+11:17:34.061 | INFO    | Flow run 'knowing-ringtail' - View at http://127.0.0.1:4200/runs/flow-run/b5df3369-9979-415c-a0c5-b8f7dbb27046
+11:17:34.104 | ERROR   | Flow run 'knowing-ringtail' - Encountered exception during execution: ConcurrencySlotAcquisitionError("Concurrency limits ['projeto-g1'] must be created before acquiring slots")
+Traceback (most recent call last):
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/flow_engine.py", line 1372, in run_context
+    yield self
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/flow_engine.py", line 2173, in run_flow_sync
+    engine.call_flow_fn()
+    ~~~~~~~~~~~~~~~~~~~^^
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/flow_engine.py", line 1394, in call_flow_fn
+    result = call_with_parameters(self.flow.fn, self.parameters)
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/utilities/callables/__init__.py", line 404, in call_with_parameters
+    return fn(*args, **kwargs)
+  File "~/projeto-g1/fluxo.py", line 78, in projeto_g1
+    with concurrency("projeto-g1", occupy=1, timeout_seconds=900, strict=True):
+         ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/.local/share/uv/python/cpython-3.13-macos-aarch64-none/lib/python3.13/contextlib.py", line 141, in __enter__
+    return next(self.gen)
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/concurrency/sync.py", line 69, in concurrency
+    with _concurrency_internal(
+         ~~~~~~~~~~~~~~~~~~~~~^
+        names=names,
+        ^^^^^^^^^^^^
+    ...<7 lines>...
+        raise_on_lease_renewal_failure=raise_on_lease_renewal_failure,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "~/.local/share/uv/python/cpython-3.13-macos-aarch64-none/lib/python3.13/contextlib.py", line 141, in __enter__
+    return next(self.gen)
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/concurrency/_sync.py", line 129, in concurrency
+    acquisition_response = acquire_concurrency_slots_with_lease(
+        names,
+    ...<6 lines>...
+        suppress_warnings=suppress_warnings,
+    )
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/concurrency/_sync.py", line 58, in acquire_concurrency_slots_with_lease
+    result = run_coro_as_sync(
+        aacquire_concurrency_slots_with_lease(
+    ...<9 lines>...
+        )
+    )
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/utilities/asyncutils/__init__.py", line 207, in run_coro_as_sync
+    return call.result()
+           ~~~~~~~~~~~^^
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/_internal/concurrency/calls.py", line 365, in result
+    return self.future.result(timeout=timeout)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/_internal/concurrency/calls.py", line 192, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "~/.local/share/uv/python/cpython-3.13-macos-aarch64-none/lib/python3.13/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/_internal/concurrency/calls.py", line 441, in _run_async
+    result = await coro
+             ^^^^^^^^^^
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/utilities/asyncutils/__init__.py", line 188, in coroutine_wrapper
+    return await task
+           ^^^^^^^^^^
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/concurrency/_asyncio.py", line 175, in aacquire_concurrency_slots_with_lease
+    raise ConcurrencySlotAcquisitionError(
+        f"Concurrency limits {names!r} must be created before acquiring slots"
+    )
+prefect.concurrency._asyncio.ConcurrencySlotAcquisitionError: Concurrency limits ['projeto-g1'] must be created before acquiring slots
+11:17:34.118 | INFO    | Flow run 'knowing-ringtail' - Running hook 'avisar' in response to entering state 'Failed'
+11:17:34.119 | INFO    | Flow run 'knowing-ringtail' - AVISO: projeto-g1, execução knowing-ringtail, terminou em Failed: Flow run encountered an exception: ConcurrencySlotAcquisitionError: Concurrency limits ['projeto-g1'] must be created before acquiring slots
+11:17:34.119 | INFO    | Flow run 'knowing-ringtail' - Hook 'avisar' finished running successfully
+11:17:34.119 | INFO    | Flow run 'knowing-ringtail' - Finished in state Failed("Flow run encountered an exception: ConcurrencySlotAcquisitionError: Concurrency limits ['projeto-g1'] must be created before acquiring slots")
+Traceback (most recent call last):
+  File "~/projeto-g1/fluxo.py", line 94, in <module>
+    projeto_g1()
+    ~~~~~~~~~~^^
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/flows.py", line 1912, in __call__
+    return run_flow(
+        flow=self,
+    ...<2 lines>...
+        return_type=return_type,
+    )
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/flow_engine.py", line 2332, in run_flow
+    ret_val = run_flow_sync(**kwargs)
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/flow_engine.py", line 2175, in run_flow_sync
+    return engine.state if return_type == "state" else engine.result()
+                                                       ~~~~~~~~~~~~~^^
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/flow_engine.py", line 817, in result
+    raise self._raised
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/flow_engine.py", line 1372, in run_context
+    yield self
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/flow_engine.py", line 2173, in run_flow_sync
+    engine.call_flow_fn()
+    ~~~~~~~~~~~~~~~~~~~^^
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/flow_engine.py", line 1394, in call_flow_fn
+    result = call_with_parameters(self.flow.fn, self.parameters)
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/utilities/callables/__init__.py", line 404, in call_with_parameters
+    return fn(*args, **kwargs)
+  File "~/projeto-g1/fluxo.py", line 78, in projeto_g1
+    with concurrency("projeto-g1", occupy=1, timeout_seconds=900, strict=True):
+         ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "~/.local/share/uv/python/cpython-3.13-macos-aarch64-none/lib/python3.13/contextlib.py", line 141, in __enter__
+    return next(self.gen)
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/concurrency/sync.py", line 69, in concurrency
+    with _concurrency_internal(
+         ~~~~~~~~~~~~~~~~~~~~~^
+        names=names,
+        ^^^^^^^^^^^^
+    ...<7 lines>...
+        raise_on_lease_renewal_failure=raise_on_lease_renewal_failure,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "~/.local/share/uv/python/cpython-3.13-macos-aarch64-none/lib/python3.13/contextlib.py", line 141, in __enter__
+    return next(self.gen)
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/concurrency/_sync.py", line 129, in concurrency
+    acquisition_response = acquire_concurrency_slots_with_lease(
+        names,
+    ...<6 lines>...
+        suppress_warnings=suppress_warnings,
+    )
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/concurrency/_sync.py", line 58, in acquire_concurrency_slots_with_lease
+    result = run_coro_as_sync(
+        aacquire_concurrency_slots_with_lease(
+    ...<9 lines>...
+        )
+    )
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/utilities/asyncutils/__init__.py", line 207, in run_coro_as_sync
+    return call.result()
+           ~~~~~~~~~~~^^
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/_internal/concurrency/calls.py", line 365, in result
+    return self.future.result(timeout=timeout)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/_internal/concurrency/calls.py", line 192, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "~/.local/share/uv/python/cpython-3.13-macos-aarch64-none/lib/python3.13/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/_internal/concurrency/calls.py", line 441, in _run_async
+    result = await coro
+             ^^^^^^^^^^
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/utilities/asyncutils/__init__.py", line 188, in coroutine_wrapper
+    return await task
+           ^^^^^^^^^^
+  File "~/projeto-g1/.venv/lib/python3.13/site-packages/prefect/concurrency/_asyncio.py", line 175, in aacquire_concurrency_slots_with_lease
+    raise ConcurrencySlotAcquisitionError(
+        f"Concurrency limits {names!r} must be created before acquiring slots"
+    )
+prefect.concurrency._asyncio.ConcurrencySlotAcquisitionError: Concurrency limits ['projeto-g1'] must be created before acquiring slots

@@ -1,0 +1,23 @@
+$ uv run pytest
+========================================================================================= test session starts ==========================================================================================
+platform darwin -- Python 3.13.5, pytest-9.2.0, pluggy-1.7.0
+rootdir: ~/projeto-g1
+configfile: pyproject.toml
+testpaths: testes
+plugins: anyio-4.16.0
+collected 49 items
+
+testes/test_assinatura.py ...                                                                                                                                                                    [  6%]
+testes/test_carregar.py ........                                                                                                                                                                 [ 22%]
+testes/test_gold.py .                                                                                                                                                                            [ 24%]
+testes/test_janela.py .....                                                                                                                                                                      [ 34%]
+testes/test_ler.py ....                                                                                                                                                                          [ 42%]
+testes/test_materias.py .....                                                                                                                                                                    [ 53%]
+testes/test_repetidas.py ..                                                                                                                                                                      [ 57%]
+testes/test_silver.py ...                                                                                                                                                                        [ 63%]
+testes/test_sitemap.py ...                                                                                                                                                                       [ 69%]
+testes/test_texto.py ......                                                                                                                                                                      [ 81%]
+testes/test_validar.py ...                                                                                                                                                                       [ 87%]
+testes/test_vigiar.py ......                                                                                                                                                                     [100%]
+
+========================================================================================== 49 passed in 0.28s ==========================================================================================
