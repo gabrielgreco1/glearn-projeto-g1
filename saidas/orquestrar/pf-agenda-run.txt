@@ -7,12 +7,12 @@ $ uv run prefect deployment ls
 └───────────────────────────────────────────────┴──────────────────────────────────────────────┴───────────────────────┘
 $ uv run prefect deployment run projeto-g1/a-cada-3-horas
 Creating flow run for deployment 'projeto-g1/a-cada-3-horas'...
-Created flow run 'controversial-binturong'.
-└── UUID: 7761aedd-7388-4eb0-bbf4-8f0e0915ad2a
+Created flow run 'neat-junglefowl'.
+└── UUID: ecfa25d4-f3a8-4790-8ca6-4e3066b52664
 └── Parameters: {}
 └── Job Variables: {}
-└── Scheduled start time: 2026-11-15 11:51:19 -03 (now)
-└── URL: http://127.0.0.1:4200/runs/flow-run/7761aedd-7388-4eb0-bbf4-8f0e0915ad2a
+└── Scheduled start time: 2026-11-15 14:57:39 -03 (now)
+└── URL: http://127.0.0.1:4200/runs/flow-run/ecfa25d4-f3a8-4790-8ca6-4e3066b52664
 
 # API: deployment
 {"name": "a-cada-3-horas", "path": ".", "schedules": [{"cron": "0 */3 * * *", "timezone": "America/Sao_Paulo", "day_or": true}]}
@@ -20,6 +20,7 @@ Created flow run 'controversial-binturong'.
 dangerous-manatee COMPLETED Completed expected=2026-11-15T13:37:14.604839Z auto=False
 jade-aardvark COMPLETED Completed expected=2026-11-15T14:24:14.709572Z auto=False
 controversial-binturong COMPLETED Completed expected=2026-11-15T14:51:19.277475Z auto=False
-onyx-marmot SCHEDULED Scheduled expected=2026-11-15T15:00:00Z auto=True
-outgoing-platypus SCHEDULED Scheduled expected=2026-11-15T18:00:00Z auto=True
-furry-tench SCHEDULED Scheduled expected=2026-11-15T21:00:00Z auto=True
+neat-junglefowl COMPLETED Completed expected=2026-11-15T17:57:39.913474Z auto=False
+invincible-oriole SCHEDULED Scheduled expected=2026-11-15T18:00:00Z auto=True
+foamy-kagu SCHEDULED Scheduled expected=2026-11-15T21:00:00Z auto=True
+rigorous-herring SCHEDULED Scheduled expected=2026-11-16T00:00:00Z auto=True

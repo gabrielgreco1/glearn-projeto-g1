@@ -7,29 +7,29 @@ To trigger a run for this flow, use the following command:
 
 You can also run your flow via the Prefect UI: http://127.0.0.1:4200/deployments/deployment/b39de94a-bb36-4b22-a8eb-f4dfebb94bf6
 
-11:51:27.602 | INFO    | Flow run 'controversial-binturong' - Beginning flow run 'controversial-binturong' for flow 'projeto-g1'
-11:51:27.604 | INFO    | Flow run 'controversial-binturong' - View at http://127.0.0.1:4200/runs/flow-run/7761aedd-7388-4eb0-bbf4-8f0e0915ad2a
-11:51:29.721 | INFO    | g1 - o feed não mudou desde 2026-11-15T14:50:00+00:00, nada para baixar
-11:51:29.723 | INFO    | Task run 'feed-fc9' - Finished in state Completed()
-11:51:29.785 | INFO    | g1 - feed: 100 notícias lidas, 0 novas, 100 já estavam guardadas. Total: 100
-11:51:29.786 | INFO    | Task run 'guardar-023' - Finished in state Completed()
-11:52:11.947 | INFO    | g1 - matérias: 20 baixadas nesta rodada, 0 delas de novo, porque a notícia mudou; 53 ficam para a próxima
-11:52:11.949 | INFO    | Task run 'paginas-0e7' - Finished in state Completed()
-11:52:14.606 | INFO    | g1 - gravei 100 linhas em dados/noticias.csv
-11:52:14.607 | INFO    | g1 - conferência: 100 notícias, 0 repetidas, 0 sem data, 0 sem título, 47 com a página lida
-11:52:14.607 | INFO    | g1 - notícias do dia 2026-11-04 ao dia 2026-11-15
-11:52:14.608 | INFO    | Task run 'tabela_e_conferencia-ab1' - Finished in state Completed()
-11:52:14.609 | INFO    | g1 - transformar 1 de 3: a silver
-11:52:19.937 | INFO    | g1 - 100 notícias; 1 repetidas; 1 pares para você ler (uv run python silver.py mostra)
-11:52:19.938 | INFO    | g1 - transformar 2 de 3: as regras
-11:52:19.940 | INFO    | g1 - lidas 100 = válidas 100 + rejeitadas 0
-11:52:19.941 | INFO    | g1 - gravei 100 notícias em dados/silver/noticias.parquet e 0 rejeições em dados/silver/rejeitados.csv
-11:52:19.942 | INFO    | g1 - transformar 3 de 3: a gold
-11:52:19.955 | INFO    | Task run 'transformar-e44' - ┌────────────┬──────────┬───────┬─────────┬────────────┬──────────────────┐
+14:57:47.745 | INFO    | Flow run 'neat-junglefowl' - Beginning flow run 'neat-junglefowl' for flow 'projeto-g1'
+14:57:47.748 | INFO    | Flow run 'neat-junglefowl' - View at http://127.0.0.1:4200/runs/flow-run/ecfa25d4-f3a8-4790-8ca6-4e3066b52664
+14:57:49.879 | INFO    | g1 - o feed não mudou desde 2026-11-15T17:56:20+00:00, nada para baixar
+14:57:49.883 | INFO    | Task run 'feed-11d' - Finished in state Completed()
+14:57:49.951 | INFO    | g1 - feed: 100 notícias lidas, 0 novas, 100 já estavam guardadas. Total: 100
+14:57:49.952 | INFO    | Task run 'guardar-1bc' - Finished in state Completed()
+14:58:33.848 | INFO    | g1 - matérias: 20 baixadas nesta rodada, 0 delas de novo, porque a notícia mudou; 54 ficam para a próxima
+14:58:33.851 | INFO    | Task run 'paginas-41e' - Finished in state Completed()
+14:58:36.539 | INFO    | g1 - gravei 100 linhas em dados/noticias.csv
+14:58:36.539 | INFO    | g1 - conferência: 100 notícias, 0 repetidas, 0 sem data, 0 sem título, 46 com a página lida
+14:58:36.540 | INFO    | g1 - notícias do dia 2026-11-04 ao dia 2026-11-15
+14:58:36.540 | INFO    | Task run 'tabela_e_conferencia-213' - Finished in state Completed()
+14:58:36.541 | INFO    | g1 - transformar 1 de 3: a silver
+14:58:41.887 | INFO    | g1 - 100 notícias; 1 repetidas; 0 pares para você ler (uv run python silver.py mostra)
+14:58:41.888 | INFO    | g1 - transformar 2 de 3: as regras
+14:58:41.889 | INFO    | g1 - lidas 100 = válidas 100 + rejeitadas 0
+14:58:41.892 | INFO    | g1 - gravei 100 notícias em dados/silver/noticias.parquet e 0 rejeições em dados/silver/rejeitados.csv
+14:58:41.892 | INFO    | g1 - transformar 3 de 3: a gold
+14:58:41.905 | INFO    | Task run 'transformar-1fe' - ┌────────────┬──────────┬───────┬─────────┬────────────┬──────────────────┐
 │    dia     │ noticias │ do_g1 │ de_fora │ sem_pagina │ palavras_mediana │
 │    date    │  int64   │ int64 │  int64  │   int64    │      double      │
 ├────────────┼──────────┼───────┼─────────┼────────────┼──────────────────┤
-│ 2026-11-04 │        4 │     0 │       0 │          4 │             NULL │
+│ 2026-11-04 │        3 │     0 │       0 │          3 │             NULL │
 │ 2026-11-05 │        7 │     0 │       0 │          7 │             NULL │
 │ 2026-11-06 │        7 │     0 │       0 │          7 │             NULL │
 │ 2026-11-07 │        3 │     0 │       0 │          3 │             NULL │
@@ -37,35 +37,35 @@ You can also run your flow via the Prefect UI: http://127.0.0.1:4200/deployments
 │ 2026-11-09 │       11 │     0 │       0 │         11 │             NULL │
 │ 2026-11-10 │       10 │     0 │       0 │         10 │             NULL │
 │ 2026-11-11 │        6 │     0 │       0 │          6 │             NULL │
-│ 2026-11-12 │       20 │    13 │       4 │          3 │            574.0 │
+│ 2026-11-12 │       20 │    12 │       3 │          5 │            574.0 │
 │ 2026-11-13 │       16 │     9 │       7 │          0 │            533.5 │
 │ 2026-11-14 │        6 │     3 │       3 │          0 │            748.5 │
-│ 2026-11-15 │        6 │     4 │       2 │          0 │            819.0 │
+│ 2026-11-15 │        7 │     5 │       2 │          0 │            752.0 │
 └────────────┴──────────┴───────┴─────────┴────────────┴──────────────────┘
   12 rows                                                       6 columns
-11:52:19.957 | INFO    | g1 - gravei 12 linhas em dados/gold/por_dia.parquet
-11:52:19.959 | INFO    | Task run 'transformar-e44' - ┌─────────────┬──────────┬──────────┬──────────────────┐
+14:58:41.908 | INFO    | g1 - gravei 12 linhas em dados/gold/por_dia.parquet
+14:58:41.910 | INFO    | Task run 'transformar-1fe' - ┌─────────────┬──────────┬──────────┬──────────────────┐
 │    fonte    │ noticias │ porcento │ palavras_mediana │
 │   varchar   │  int64   │  double  │      double      │
 ├─────────────┼──────────┼──────────┼──────────────────┤
-│ sem página  │       53 │     53.5 │             NULL │
-│ redação     │       18 │     18.2 │            714.0 │
-│ agência     │       16 │     16.2 │            576.0 │
+│ sem página  │       54 │     54.5 │             NULL │
+│ redação     │       18 │     18.2 │            649.0 │
+│ agência     │       15 │     15.2 │            578.0 │
 │ repórter    │       11 │     11.1 │            558.0 │
 │ publicidade │        1 │      1.0 │            105.0 │
 └─────────────┴──────────┴──────────┴──────────────────┘
-11:52:19.961 | INFO    | g1 - gravei 5 linhas em dados/gold/por_fonte.parquet
-11:52:19.962 | INFO    | Task run 'transformar-e44' - Finished in state Completed()
-11:52:19.983 | INFO    | g1 - notícias: 100 na silver; novas 0, mudaram 20, iguais 80; saíram do banco 0
-11:52:19.983 | INFO    | g1 - nomes: 4 novos, 0 mudaram de tipo; assinaturas: 0 saíram, 20 entraram
-11:52:19.984 | INFO    | g1 - conferido: 100 notícias, 29799 palavras e 48 assinaturas, na silver e no banco
-11:52:19.984 | INFO    | g1 - conferido: as views por_dia e por_fonte dão as mesmas linhas que a gold
-11:52:19.985 | INFO    | Task run 'carregar-a16' - Finished in state Completed()
-11:52:19.992 | INFO    | g1 - vigia: a notícia mais nova saiu há 2 h; 0 das 10 páginas mais novas sem texto ou sem assinatura; 53 notícias sem página; 1 avisos
-11:52:19.992 | INFO    | Task run 'vigiar-427' - ATENÇÃO: 53 notícias esperam a página, e o materias.py baixa 20 por rodada. Veja no log da task paginas se as páginas estão vindo; depois de um buraco, a fila desce sozinha em poucas rodadas.
-11:52:19.993 | INFO    | Task run 'vigiar-427' - Finished in state Completed()
-11:52:20.134 | INFO    | Flow run 'controversial-binturong' - Finished in state Completed()
-11:52:26.719 | INFO    | prefect.runner - Pausing all deployments...
-11:52:26.737 | INFO    | prefect.runner - All deployments have been paused!
-11:52:26.740 | INFO    | prefect.flows - Received KeyboardInterrupt, shutting down...
+14:58:41.912 | INFO    | g1 - gravei 5 linhas em dados/gold/por_fonte.parquet
+14:58:41.912 | INFO    | Task run 'transformar-1fe' - Finished in state Completed()
+14:58:41.936 | INFO    | g1 - notícias: 100 na silver; novas 0, mudaram 20, iguais 80; saíram do banco 0
+14:58:41.936 | INFO    | g1 - nomes: 4 novos, 0 mudaram de tipo; assinaturas: 0 saíram, 20 entraram
+14:58:41.936 | INFO    | g1 - conferido: 100 notícias, 29154 palavras e 47 assinaturas, na silver e no banco
+14:58:41.937 | INFO    | g1 - conferido: as views por_dia e por_fonte dão as mesmas linhas que a gold
+14:58:41.937 | INFO    | Task run 'carregar-c5e' - Finished in state Completed()
+14:58:41.946 | INFO    | g1 - vigia: a notícia mais nova saiu há 2 h; 0 das 10 páginas mais novas sem texto ou sem assinatura; 54 notícias sem página; 1 avisos
+14:58:41.946 | INFO    | Task run 'vigiar-656' - ATENÇÃO: 54 notícias esperam a página, e o materias.py baixa 20 por rodada. Veja no log da task paginas se as páginas estão vindo; depois de um buraco, a fila desce sozinha em poucas rodadas.
+14:58:41.947 | INFO    | Task run 'vigiar-656' - Finished in state Completed()
+14:58:42.126 | INFO    | Flow run 'neat-junglefowl' - Finished in state Completed()
+14:58:47.315 | INFO    | prefect.runner - Pausing all deployments...
+14:58:47.332 | INFO    | prefect.runner - All deployments have been paused!
+14:58:47.335 | INFO    | prefect.flows - Received KeyboardInterrupt, shutting down...
 ^C
