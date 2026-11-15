@@ -1,0 +1,172 @@
+$ uv run python carregar.py
+06:29:48 INFO notícias: 110 na silver; novas 0, mudaram 0, iguais 110; saíram do banco 0
+06:29:48 INFO nomes: 0 novos, 0 mudaram de tipo; assinaturas: 0 saíram, 0 entraram
+06:29:48 INFO conferido: 110 notícias, 73515 palavras e 113 assinaturas, na silver e no banco
+06:29:48 INFO conferido: as views por_dia e por_fonte dão as mesmas linhas que a gold
+$ docker compose exec banco psql -U postgres -c 'SELECT * FROM por_fonte'
+    fonte    | noticias | porcento | palavras_mediana 
+-------------+----------+----------+------------------
+ agência     |       44 |     41.1 |              594
+ redação     |       38 |     35.5 |              534
+ repórter    |       23 |     21.5 |              715
+ publicidade |        2 |      1.9 |              566
+(4 rows)
+
+$ docker compose exec banco psql -U postgres -c 'SELECT * FROM por_dia'
+    dia     | noticias | do_g1 | de_fora | sem_pagina | palavras_mediana 
+------------+----------+-------+---------+------------+------------------
+ 2026-10-31 |        1 |     1 |       0 |          0 |               62
+ 2026-11-01 |        1 |     0 |       1 |          0 |              896
+ 2026-11-02 |        4 |     2 |       2 |          0 |              637
+ 2026-11-03 |        3 |     1 |       2 |          0 |              384
+ 2026-11-04 |        7 |     6 |       1 |          0 |              680
+ 2026-11-05 |        7 |     5 |       2 |          0 |              448
+ 2026-11-06 |        7 |     3 |       4 |          0 |              715
+ 2026-11-07 |        3 |     2 |       1 |          0 |              677
+ 2026-11-08 |        2 |     1 |       1 |          0 |           1271.5
+ 2026-11-09 |       11 |     8 |       3 |          0 |            679.5
+ 2026-11-10 |       10 |     2 |       8 |          0 |            580.5
+ 2026-11-11 |        6 |     4 |       2 |          0 |            558.5
+ 2026-11-12 |       18 |    12 |       6 |          0 |              595
+ 2026-11-13 |       16 |     9 |       7 |          0 |            533.5
+ 2026-11-14 |        6 |     3 |       3 |          0 |            748.5
+ 2026-11-15 |        3 |     2 |       1 |          0 |             1365
+(16 rows)
+
+$ uv run python validar.py
+06:30:00 INFO lidas 110 = válidas 110 + rejeitadas 0
+06:30:00 INFO   aviso tem_pagina         0
+06:30:00 INFO   aviso tem_texto          1
+06:30:00 INFO   aviso nao_e_publicidade  2
+06:30:00 INFO   aviso primeira_vez       3
+06:30:00 INFO gravei 110 notícias em dados/silver/noticias.parquet e 0 rejeições em dados/silver/rejeitados.csv
+$ uv run python carregar.py
+Traceback (most recent call last):
+  File "~/projeto-g1/carregar.py", line 179, in <module>
+    main()
+    ~~~~^^
+  File "~/projeto-g1/carregar.py", line 167, in main
+    conferir_gold(conexao)
+    ~~~~~~~~~~~~~^^^^^^^^^
+  File "~/projeto-g1/carregar.py", line 153, in conferir_gold
+    raise ValueError(f"a view {nome} não bate com {GOLD / nome}.parquet. A gold é da última silver? "
+                     "Rode uv run python transformar.py antes de carregar.")
+ValueError: a view por_dia não bate com dados/gold/por_dia.parquet. A gold é da última silver? Rode uv run python transformar.py antes de carregar.
+$ docker compose exec banco psql -U postgres -c "SELECT nome, tipo FROM autores WHERE nome = 'Reuters'"
+  nome   |  tipo   
+---------+---------
+ Reuters | agência
+(1 row)
+
+$ uv run python transformar.py
+06:30:01 INFO transformar 1 de 3: a silver
+06:30:13 INFO 110 notícias; 3 repetidas; 1 pares para você ler (uv run python silver.py mostra)
+06:30:13 INFO transformar 2 de 3: as regras
+06:30:13 INFO lidas 110 = válidas 110 + rejeitadas 0
+06:30:13 INFO gravei 110 notícias em dados/silver/noticias.parquet e 0 rejeições em dados/silver/rejeitados.csv
+06:30:13 INFO transformar 3 de 3: a gold
+┌────────────┬──────────┬───────┬─────────┬────────────┬──────────────────┐
+│    dia     │ noticias │ do_g1 │ de_fora │ sem_pagina │ palavras_mediana │
+│    date    │  int64   │ int64 │  int64  │   int64    │      double      │
+├────────────┼──────────┼───────┼─────────┼────────────┼──────────────────┤
+│ 2026-10-31 │        1 │     1 │       0 │          0 │             62.0 │
+│ 2026-11-01 │        1 │     0 │       1 │          0 │            896.0 │
+│ 2026-11-02 │        4 │     2 │       2 │          0 │            637.0 │
+│ 2026-11-03 │        3 │     1 │       2 │          0 │            384.0 │
+│ 2026-11-04 │        7 │     6 │       1 │          0 │            680.0 │
+│ 2026-11-05 │        7 │     5 │       2 │          0 │            448.0 │
+│ 2026-11-06 │        7 │     3 │       4 │          0 │            715.0 │
+│ 2026-11-07 │        3 │     2 │       1 │          0 │            677.0 │
+│ 2026-11-08 │        2 │     1 │       1 │          0 │           1271.5 │
+│ 2026-11-09 │       11 │     8 │       3 │          0 │            679.5 │
+│ 2026-11-10 │       10 │     2 │       8 │          0 │            580.5 │
+│ 2026-11-11 │        6 │     4 │       2 │          0 │            558.5 │
+│ 2026-11-12 │       18 │    12 │       6 │          0 │            595.0 │
+│ 2026-11-13 │       16 │     9 │       7 │          0 │            533.5 │
+│ 2026-11-14 │        6 │     3 │       3 │          0 │            748.5 │
+│ 2026-11-15 │        3 │     2 │       1 │          0 │           1365.0 │
+└────────────┴──────────┴───────┴─────────┴────────────┴──────────────────┘
+  16 rows                                                       6 columns
+
+06:30:13 INFO gravei 16 linhas em dados/gold/por_dia.parquet
+┌─────────────┬──────────┬──────────┬──────────────────┐
+│    fonte    │ noticias │ porcento │ palavras_mediana │
+│   varchar   │  int64   │  double  │      double      │
+├─────────────┼──────────┼──────────┼──────────────────┤
+│ agência     │       44 │     41.1 │            594.0 │
+│ redação     │       38 │     35.5 │            534.0 │
+│ repórter    │       23 │     21.5 │            715.0 │
+│ publicidade │        2 │      1.9 │            566.0 │
+└─────────────┴──────────┴──────────┴──────────────────┘
+
+06:30:13 INFO gravei 4 linhas em dados/gold/por_fonte.parquet
+$ uv run python carregar.py
+06:30:13 INFO notícias: 110 na silver; novas 0, mudaram 0, iguais 110; saíram do banco 0
+06:30:13 INFO nomes: 0 novos, 0 mudaram de tipo; assinaturas: 0 saíram, 0 entraram
+06:30:13 INFO conferido: 110 notícias, 73515 palavras e 113 assinaturas, na silver e no banco
+06:30:13 INFO conferido: as views por_dia e por_fonte dão as mesmas linhas que a gold
+$ docker compose exec banco psql -U postgres -c "SELECT count(*) FROM noticias WHERE titulo ILIKE '%nvidia%'"
+ count 
+-------
+    36
+(1 row)
+
+$ docker compose exec banco psql -U postgres -c "EXPLAIN (ANALYZE, BUFFERS) SELECT id, titulo FROM noticias WHERE titulo ILIKE '%nvidia%'"
+                                               QUERY PLAN                                               
+--------------------------------------------------------------------------------------------------------
+ Seq Scan on noticias  (cost=0.00..9.38 rows=34 width=97) (actual time=0.009..0.088 rows=36.00 loops=1)
+   Filter: (titulo ~~* '%nvidia%'::text)
+   Rows Removed by Filter: 74
+   Buffers: shared hit=8
+ Planning:
+   Buffers: shared hit=103
+ Planning Time: 0.217 ms
+ Execution Time: 0.103 ms
+(8 rows)
+
+$ docker compose exec banco psql -U postgres -c 'CREATE EXTENSION IF NOT EXISTS pg_trgm'
+CREATE EXTENSION
+$ docker compose exec banco psql -U postgres -c 'CREATE INDEX noticias_titulo_trgm ON noticias USING gin (titulo gin_trgm_ops)'
+CREATE INDEX
+$ docker compose exec banco psql -U postgres -c "EXPLAIN (ANALYZE, BUFFERS) SELECT id, titulo FROM noticias WHERE titulo ILIKE '%nvidia%'"
+                                               QUERY PLAN                                               
+--------------------------------------------------------------------------------------------------------
+ Seq Scan on noticias  (cost=0.00..9.38 rows=34 width=97) (actual time=0.010..0.090 rows=36.00 loops=1)
+   Filter: (titulo ~~* '%nvidia%'::text)
+   Rows Removed by Filter: 74
+   Buffers: shared hit=8
+ Planning:
+   Buffers: shared hit=134
+ Planning Time: 0.391 ms
+ Execution Time: 0.108 ms
+(8 rows)
+
+$ docker compose exec banco psql -U postgres -c "SELECT pg_size_pretty(pg_relation_size('noticias')) AS tabela, pg_size_pretty(pg_relation_size('noticias_titulo_trgm')) AS indice"
+ tabela | indice 
+--------+--------
+ 64 kB  | 128 kB
+(1 row)
+
+$ docker compose exec banco psql -U postgres -c 'SET enable_seqscan = off' -c "EXPLAIN (ANALYZE, BUFFERS) SELECT id, titulo FROM noticias WHERE titulo ILIKE '%nvidia%'"
+SET
+                                                            QUERY PLAN                                                             
+-----------------------------------------------------------------------------------------------------------------------------------
+ Bitmap Heap Scan on noticias  (cost=39.04..47.46 rows=34 width=97) (actual time=0.022..0.053 rows=36.00 loops=1)
+   Recheck Cond: (titulo ~~* '%nvidia%'::text)
+   Heap Blocks: exact=7
+   Buffers: shared hit=16
+   ->  Bitmap Index Scan on noticias_titulo_trgm  (cost=0.00..39.03 rows=34 width=0) (actual time=0.016..0.016 rows=36.00 loops=1)
+         Index Cond: (titulo ~~* '%nvidia%'::text)
+         Index Searches: 1
+         Buffers: shared hit=9
+ Planning:
+   Buffers: shared hit=134
+ Planning Time: 0.405 ms
+ Execution Time: 0.087 ms
+(12 rows)
+
+$ docker compose exec banco psql -U postgres -c 'DROP INDEX noticias_titulo_trgm'
+DROP INDEX
+$ uv run pytest
+
+============================== 34 passed in 0.24s ==============================

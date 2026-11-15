@@ -1,0 +1,57 @@
+$ uv run python carregar.py
+06:29:02 INFO notícias: 110 na silver; novas 110, mudaram 0, iguais 0; saíram do banco 0
+$ docker compose exec banco psql -U postgres -c 'SELECT count(*), count(titulo), count(palavras), count(mesma_que) FROM noticias'
+ count | count | count | count 
+-------+-------+-------+-------
+   110 |   104 |   104 |     3
+(1 row)
+
+$ docker compose exec banco psql -U postgres -c "SELECT origem, precisao, count(*), count(titulo) AS com_titulo FROM noticias GROUP BY origem, precisao ORDER BY origem, precisao"
+ origem  | precisao | count | com_titulo 
+---------+----------+-------+------------
+ feed    | hora     |   100 |        100
+ sitemap | dia      |     6 |          0
+ sitemap | hora     |     4 |          4
+(3 rows)
+
+$ uv run python carregar.py
+06:29:03 INFO notícias: 110 na silver; novas 0, mudaram 0, iguais 110; saíram do banco 0
+$ docker compose exec banco psql -U postgres -c "SELECT max(id) AS maior_id, (SELECT last_value FROM pg_sequences WHERE sequencename = 'noticias_id_seq') AS sequencia FROM noticias"
+ maior_id | sequencia 
+----------+-----------
+      110 |       220
+(1 row)
+
+$ docker compose exec banco psql -U postgres -c "SELECT id, left(link, 60) AS link, mesma_que IS NOT NULL AS repetida FROM noticias WHERE mesma_que IS NOT NULL ORDER BY id"
+ id |                             link                             | repetida 
+----+--------------------------------------------------------------+----------
+ 80 | https://g1.globo.com/tecnologia/noticia/2026/11/12/influenci | t
+ 82 | https://g1.globo.com/tecnologia/noticia/2026/11/12/jensen-hu | t
+ 98 | https://g1.globo.com/tecnologia/noticia/2026/11/13/outlook-e | t
+(3 rows)
+
+$ docker compose exec banco psql -U postgres -c "INSERT INTO noticias (link, dia, precisao, editoria, origem, visto_em) SELECT link, dia, precisao, editoria, 'sitemap', visto_em FROM noticias WHERE id = 1"
+ERROR:  duplicate key value violates unique constraint "noticias_link_key"
+DETAIL:  Key (link)=(https://g1.globo.com/carros/noticia/2026/11/06/tesla-cybertruck-musk.ghtml) already exists.
+$ docker compose exec banco psql -U postgres -c "UPDATE noticias SET mesma_que = 'https://g1.globo.com/tecnologia/noticia/nao-existe.ghtml' WHERE id = 1"
+ERROR:  insert or update on table "noticias" violates foreign key constraint "noticias_mesma_que_fkey"
+DETAIL:  Key (mesma_que)=(https://g1.globo.com/tecnologia/noticia/nao-existe.ghtml) is not present in table "noticias".
+$ docker compose exec banco psql -U postgres -c "INSERT INTO noticias (link, dia, precisao, editoria, origem, visto_em) VALUES ('https://g1.globo.com/tecnologia/noticia/2026/11/14/nao-esta-na-silver.ghtml', '2026-11-14', 'dia', 'tecnologia', 'sitemap', now())"
+INSERT 0 1
+$ docker compose exec banco psql -U postgres -c 'SELECT count(*) FROM noticias'
+ count 
+-------
+   111
+(1 row)
+
+$ uv run python carregar.py
+06:29:03 INFO notícias: 110 na silver; novas 0, mudaram 0, iguais 110; saíram do banco 1
+$ docker compose exec banco psql -U postgres -c 'SELECT count(*) FROM noticias'
+ count 
+-------
+   110
+(1 row)
+
+$ uv run pytest
+
+============================== 28 passed in 0.24s ==============================

@@ -1,0 +1,5 @@
+$ uv add "psycopg[binary]"
+Resolved 26 packages in 126ms
+Installed 2 packages in 5ms
+ + psycopg==3.3.9
+ + psycopg-binary==3.3.9

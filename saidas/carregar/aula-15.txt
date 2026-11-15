@@ -1,0 +1,73 @@
+$ uv run python banco.py
+O banco não respondeu. Ele está de pé? Rode: docker compose up -d --wait
+connection failed: connection to server at "127.0.0.1", port 5435 failed: could not receive data from server: Connection refused
+Multiple connection attempts failed. All failures were:
+- host: 'localhost', port: '5435', hostaddr: '::1': connection failed: connection to server at "::1", port 5435 failed: could not receive data from server: Connection refused
+- host: 'localhost', port: '5435', hostaddr: '127.0.0.1': connection failed: connection to server at "127.0.0.1", port 5435 failed: could not receive data from server: Connection refused
+$ docker compose up -d --wait
+ Network projeto-g1_default Creating 
+ Volume projeto-g1_banco Creating 
+ Volume projeto-g1_banco Created 
+ Network projeto-g1_default Created 
+ Container projeto-g1-banco-1 Creating 
+ Container projeto-g1-banco-1 Created 
+ Container projeto-g1-banco-1 Starting 
+ Container projeto-g1-banco-1 Started 
+ Container projeto-g1-banco-1 Waiting 
+ Container projeto-g1-banco-1 Healthy 
+$ docker compose ps
+NAME                 IMAGE         COMMAND                  SERVICE   CREATED         STATUS                   PORTS
+projeto-g1-banco-1   postgres:18   "docker-entrypoint.s…"   banco     3 seconds ago   Up 2 seconds (healthy)   0.0.0.0:5435->5432/tcp, [::]:5435->5432/tcp
+$ uv run python banco.py
+06:37:37 INFO a tabela noticias tem 15 colunas
+06:37:37 INFO   id            bigint
+06:37:37 INFO   link          text
+06:37:37 INFO   dia           date
+06:37:37 INFO   publicado_em  timestamp with time zone
+06:37:37 INFO   precisao      text
+06:37:37 INFO   editoria      text
+06:37:37 INFO   titulo        text
+06:37:37 INFO   subtitulo     text
+06:37:37 INFO   palavras      integer
+06:37:37 INFO   mesma_que     text
+06:37:37 INFO   origem        text
+06:37:37 INFO   visto_em      timestamp with time zone
+06:37:37 INFO   avisos        text
+06:37:37 INFO   carregada_em  timestamp with time zone
+06:37:37 INFO   mudou_em      timestamp with time zone
+$ docker compose exec banco psql -U postgres -c '\d noticias'
+                                    Table "public.noticias"
+    Column    |           Type           | Collation | Nullable |           Default            
+--------------+--------------------------+-----------+----------+------------------------------
+ id           | bigint                   |           | not null | generated always as identity
+ link         | text                     |           | not null | 
+ dia          | date                     |           | not null | 
+ publicado_em | timestamp with time zone |           |          | 
+ precisao     | text                     |           | not null | 
+ editoria     | text                     |           | not null | 
+ titulo       | text                     |           |          | 
+ subtitulo    | text                     |           |          | 
+ palavras     | integer                  |           |          | 
+ mesma_que    | text                     |           |          | 
+ origem       | text                     |           | not null | 
+ visto_em     | timestamp with time zone |           | not null | 
+ avisos       | text                     |           |          | 
+ carregada_em | timestamp with time zone |           | not null | now()
+ mudou_em     | timestamp with time zone |           | not null | now()
+Indexes:
+    "noticias_pkey" PRIMARY KEY, btree (id)
+    "noticias_link_key" UNIQUE CONSTRAINT, btree (link)
+Check constraints:
+    "noticias_check" CHECK (publicado_em <= visto_em)
+    "noticias_link_check" CHECK (link ~~ 'https://g1.globo.com/%'::text)
+    "noticias_origem_check" CHECK (origem = ANY (ARRAY['feed'::text, 'sitemap'::text]))
+    "noticias_palavras_check" CHECK (palavras >= 0)
+    "noticias_precisao_check" CHECK (precisao = ANY (ARRAY['hora'::text, 'dia'::text]))
+Foreign-key constraints:
+    "noticias_mesma_que_fkey" FOREIGN KEY (mesma_que) REFERENCES noticias(link)
+Referenced by:
+    TABLE "noticias" CONSTRAINT "noticias_mesma_que_fkey" FOREIGN KEY (mesma_que) REFERENCES noticias(link)
+
+$ uv run pytest
+
+============================== 26 passed in 0.22s ==============================

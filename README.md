@@ -1,6 +1,6 @@
 # Projeto G1 (G learn)
 
-Repositório de referência do Projeto 2 do curso G learn: um programa em Python que acompanha as notícias de tecnologia do G1 pelo feed RSS e monta um CSV com uma linha por notícia, sem repetir nenhuma. Na segunda etapa, o mesmo programa transforma esse CSV e as páginas guardadas numa tabela limpa: a data em Brasília, o texto sem o que se repete em toda página, quem assina de verdade, a mesma notícia achada com outro link, regras escritas e a resposta em SQL.
+Repositório de referência do Projeto 2 do curso G learn: um programa em Python que acompanha as notícias de tecnologia do G1 pelo feed RSS e monta um CSV com uma linha por notícia, sem repetir nenhuma. Na segunda etapa, o mesmo programa transforma esse CSV e as páginas guardadas numa tabela limpa: a data em Brasília, o texto sem o que se repete em toda página, quem assina de verdade, a mesma notícia achada com outro link, regras escritas e a resposta em SQL. Na terceira, ele guarda essa tabela num Postgres que roda no Docker: cada notícia uma vez, pelo link, quem assina numa tabela só dos nomes e a gold refeita no banco.
 
 ## Como usar
 
@@ -30,7 +30,18 @@ Você faz o projeto na SUA pasta, `projeto-g1/`, no SEU repositório, seguindo a
 | 13 | [O que barra e o que só avisa](modulo-2-transformar/aula-13-o-que-barra-e-o-que-avisa) | `uv run python validar.py` |
 | 14 | [Extrair e transformar num comando só](modulo-2-transformar/aula-14-extrair-e-transformar-num-comando) | `uv run python rodar.py` e `uv run pytest` |
 
-O README de cada pasta diz a ordem dos comandos. As pastas são cumulativas: a de cada aula tem tudo o que veio antes. O projeto pronto está em [final/](final), igual à aula 14.
+### Etapa Carregar
+
+| Aula | Pasta | O que roda |
+|---|---|---|
+| 15 | [Um banco para as notícias](modulo-3-carregar/aula-15-um-banco-para-as-noticias) | `docker compose up -d --wait` e `uv run python banco.py` |
+| 16 | [Cada notícia uma vez, pelo link](modulo-3-carregar/aula-16-cada-noticia-uma-vez) | `uv run python carregar.py` |
+| 17 | [Quem assina, numa tabela só](modulo-3-carregar/aula-17-quem-assina-numa-tabela-so) | `uv run python carregar.py` e as consultas no `psql` |
+| 18 | [A notícia que mudou depois](modulo-3-carregar/aula-18-a-noticia-que-mudou-depois) | `uv run python materias.py`, `tabela.py`, `transformar.py` e `carregar.py` |
+| 19 | [As perguntas no banco](modulo-3-carregar/aula-19-as-perguntas-no-banco) | `uv run python carregar.py` e as views no `psql` |
+| 20 | [Extrair, transformar e carregar num comando](modulo-3-carregar/aula-20-extrair-transformar-e-carregar) | `uv run python rodar.py` e `uv run pytest` |
+
+O README de cada pasta diz a ordem dos comandos. As pastas são cumulativas: a de cada aula tem tudo o que veio antes. O projeto pronto está em [final/](final), igual à aula 20. A partir da aula 15, o projeto precisa do Docker: o Postgres roda num container, na porta 5435.
 
 ## O que foi rodado
 
@@ -52,6 +63,17 @@ Em 15 de novembro de 2026, com polars 2.1.0, rapidfuzz 3.14.6 e duckdb 2.0.0. Um
 - A mesma notícia com outro link: 3 pares com o texto 90% igual ou mais, e 1 par para ler.
 - As regras: 110 lidas, 110 válidas, 0 rejeitadas. A gold: das 107 notícias sem as repetidas, 41 vieram de fora e 58 o g1 escreveu.
 - Do zero, numa pasta limpa, contra o G1 ao vivo (3h27): 100 notícias, 20 páginas, 80% sem página na gold; a segunda rodada recebe 304, baixa mais 20 páginas e acha a primeira repetida. 26 testes.
+
+### Etapa Carregar
+
+Em 15 de novembro de 2026, com psycopg 3.3.9 e Postgres 18.7 (`postgres:18`) no Docker 29.5.2 (Colima, Apple M). O mesmo `dados/` congelado da etapa Transformar foi a pasta do aluno, e as aulas 15 a 19 rodaram em ordem, com o banco zerado no começo. As saídas estão em [saidas/carregar/](saidas/carregar).
+
+- A carga: 110 notícias novas; a segunda rodada, 110 iguais. O id vai de 1 a 110, e a sequência já está em 220: cada linha que tentou entrar de novo gastou um número.
+- Quem assina: 26 nomes e 107 assinaturas. Sem a linha da Reuters no `fontes.csv`, a coluna fonte da silver muda em 18 notícias; no banco, muda uma linha da tabela `autores`.
+- As 6 notícias do mapa do site sem página: o `materias.py` baixou as 6 páginas às 6h03, e a carga seguinte atualizou as 6 (`carregada_em` ficou, `mudou_em` andou), com 6 assinaturas e 1 nome novo.
+- As views `por_dia` e `por_fonte`, montadas sobre as três tabelas, dão as mesmas linhas que a gold. Com a gold velha, a carga para e é desfeita.
+- O título: 36 de 110 falam da Nvidia. O índice de trigramas ocupa 128 kB, o dobro da tabela, e o Postgres prefere ler a tabela.
+- Do zero, numa cópia limpa (`git clone .`), contra o G1 ao vivo (6h16): 100 notícias novas, 20 páginas; a segunda rodada recebeu 304, baixou mais 20 páginas, e a carga atualizou 20 notícias; a terceira carga, nada. 33 testes.
 
 Os números mudam com o tempo: o feed é outro a cada hora.
 
