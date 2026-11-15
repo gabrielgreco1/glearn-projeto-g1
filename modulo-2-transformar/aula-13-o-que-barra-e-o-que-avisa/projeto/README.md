@@ -1,0 +1,49 @@
+# Projeto G1
+
+Objetivo: acompanhar as notícias de tecnologia do G1 e montar um arquivo CSV com uma linha por notícia, sem repetir nenhuma.
+Plano: o G1 publica um feed RSS da editoria, feito para programas. O programa pede o feed, guarda só o que é novo e, para o que o feed já não mostra, usa o mapa do site.
+
+## Como rodar
+
+```bash
+cp .env.example .env        # e troque o contato dentro do G1_USER_AGENT
+uv sync
+uv run python rodar.py
+uv run pytest
+```
+
+Rode de novo quando quiser. Cada rodada faz um pedido ao feed e baixa, no máximo, 20 páginas de notícia.
+
+Para recuperar um dia que o feed já não mostra:
+
+```bash
+uv run python sitemap.py 2026-11-01
+```
+
+No Windows, os comandos são os mesmos no PowerShell. Para apagar a pasta `dados/` e começar do zero: `Remove-Item -Recurse -Force dados` (no macOS e no Linux, `rm -rf dados`).
+
+## O que sai
+
+Tudo fica em `dados/`, que não vai para o Git:
+
+- `bronze/feed/AAAA-MM-DD/HH-MM-SS.xml`: cada feed baixado, como veio, numa pasta com a data da coleta, em UTC (13h em Brasília aparece como 16h).
+- `bronze/sitemap/`: o mapa do site de cada dia recuperado.
+- `bronze/materias/`: a página de cada notícia, com o nome tirado do endereço.
+- `estado.json`: o que o programa lembra de uma rodada para a outra.
+- `noticias.jsonl`: uma notícia por linha, na ordem em que entraram. Um dia recuperado pelo mapa do site entra no fim.
+- `noticias.csv`: a tabela final, uma linha por notícia, do dia mais antigo para o mais novo. As datas ficam como vieram da fonte; converter é trabalho da etapa Transformar. A tabela é para ler com programa (pandas, DuckDB). No Excel, um título que comece com `=` pode ser lido como fórmula.
+
+## Regras de coleta
+
+- Todo pedido leva um `User-Agent` com o nome do projeto e um contato de verdade.
+- Um pedido de cada vez, com 2 segundos de espera depois de cada um.
+- O feed é pedido com o `etag` da última vez. Se não mudou, o servidor responde 304 e nada é baixado.
+- Se o site recusar um pedido, o programa para. Não tente contornar.
+- O texto das notícias é do G1. Ele fica só no seu computador.
+
+## O que o projeto não faz
+
+- Uma notícia guardada não é atualizada. Se a redação corrige o título depois, o arquivo fica com o título da primeira vez que o programa viu a notícia. A página da notícia, baixada pelo `materias.py`, traz o título da hora em que foi baixada.
+- As datas ficam como a fonte escreveu: o feed em `Sat, 14 Nov 2026 05:01:26 -0000`, o mapa do site e a página em outros formatos. Converter é trabalho da etapa Transformar.
+- O mapa do site não diz quando a notícia saiu. Nas linhas de origem `sitemap`, `publicado` é só o dia escrito no endereço (o dia em Brasília), e `lastmod` é a última mudança, que pode ser dias depois. A hora da publicação aparece em `publicado_pagina` quando a página é baixada.
+- Nada roda sozinho: o programa roda quando você manda.

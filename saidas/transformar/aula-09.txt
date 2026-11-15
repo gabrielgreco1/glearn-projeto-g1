@@ -1,0 +1,22 @@
+$ uv run python silver.py
+03:26:02 INFO 110 notícias, de 2026-10-31 a 2026-11-15
+03:26:02 INFO precisão: {'dia': 6, 'hora': 104}
+03:26:02 INFO a mais nova: 2026-11-15 02:00:00.844000-03:00
+03:26:02 INFO palavras: mediana 598.5 (a extração contava 692.5); sem página: 6
+
+$ uv run pytest
+============================= test session starts ==============================
+platform darwin -- Python 3.13.5, pytest-9.2.0, pluggy-1.7.0
+rootdir: projeto
+configfile: pyproject.toml
+testpaths: testes
+plugins: anyio-4.16.0
+collected 15 items
+
+testes/test_ler.py ....                                                  [ 26%]
+testes/test_materias.py ..                                               [ 40%]
+testes/test_silver.py ...                                                [ 60%]
+testes/test_sitemap.py ...                                               [ 80%]
+testes/test_texto.py ...                                                 [100%]
+
+============================== 15 passed in 0.16s ==============================

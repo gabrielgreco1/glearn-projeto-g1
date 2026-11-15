@@ -1,0 +1,29 @@
+$ uv run python silver.py
+03:27:02 INFO 110 notícias, de 2026-10-31 a 2026-11-15
+03:27:02 INFO precisão: {'dia': 6, 'hora': 104}
+03:27:02 INFO a mais nova: 2026-11-15 02:00:00.844000-03:00
+03:27:02 INFO palavras: mediana 589.5 (a extração contava 692.5); sem página: 6
+03:27:02 INFO fontes: {'agência': 41, 'redação': 37, 'repórter': 24, None: 6, 'publicidade': 2}
+03:27:02 INFO    97.2 a mesma  de-lavador-de-pratos-a-bilionario-quem-e-o-ce | jensen-huang-nvidia.ghtml
+03:27:02 INFO    92.8 a mesma  malevola-leo-neiff-e-ex-bbb-veja-influencers- | influenciadora-chora-apos-ter-perfil-bloquead
+03:27:02 INFO    90.5 a mesma  outlook-fora-do-ar.ghtml | outlook-e-ia-da-microsoft-seguem-instaveis-ne
+03:27:02 INFO    81.5 para ler jensen-huang-presidencia-da-nvidia.ghtml | escandalo-na-nvidia-quem-e-colette-kress-que-
+
+$ uv run pytest
+============================= test session starts ==============================
+platform darwin -- Python 3.13.5, pytest-9.2.0, pluggy-1.7.0
+rootdir: projeto
+configfile: pyproject.toml
+testpaths: testes
+plugins: anyio-4.16.0
+collected 23 items
+
+testes/test_assinatura.py ...                                            [ 13%]
+testes/test_ler.py ....                                                  [ 30%]
+testes/test_materias.py ..                                               [ 39%]
+testes/test_repetidas.py ..                                              [ 47%]
+testes/test_silver.py ...                                                [ 60%]
+testes/test_sitemap.py ...                                               [ 73%]
+testes/test_texto.py ......                                              [100%]
+
+============================== 23 passed in 0.21s ==============================
