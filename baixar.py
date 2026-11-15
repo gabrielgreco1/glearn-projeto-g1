@@ -14,14 +14,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-USER_AGENT = os.getenv("G1_USER_AGENT")
-if not USER_AGENT:
-    raise SystemExit("Falta G1_USER_AGENT no arquivo .env. Copie o .env.example para .env e preencha.")
-if "seu-usuario" in USER_AGENT:
-    raise SystemExit("O G1_USER_AGENT do .env ainda tem o contato do exemplo (seu-usuario). Troque pelo seu e-mail ou pelo endereço do seu repositório.")
-
 FEED = "https://g1.globo.com/rss/g1/tecnologia/"
-CABECALHOS = {"User-Agent": USER_AGENT}
 PAUSA = 2.0  # segundos de espera depois de cada pedido
 ESTADO = Path("dados/estado.json")
 
@@ -34,6 +27,17 @@ registro.setLevel(logging.INFO)  # o nível fica no nosso registro: o Prefect tr
 def agora():
     """O instante atual em UTC, sem os milissegundos. Em UTC, duas coletas se comparam em qualquer computador."""
     return datetime.now(timezone.utc).replace(microsecond=0)
+
+
+def cabecalhos():
+    """O User-Agent, lido do .env na hora do pedido, e não no import: quem só importa este arquivo, como os testes no
+    GitHub, não precisa do .env."""
+    contato = os.getenv("G1_USER_AGENT")
+    if not contato:
+        raise SystemExit("Falta G1_USER_AGENT no arquivo .env. Copie o .env.example para .env e preencha.")
+    if "seu-usuario" in contato:
+        raise SystemExit("O G1_USER_AGENT do .env ainda tem o contato do exemplo (seu-usuario). Troque pelo seu e-mail ou pelo endereço do seu repositório.")
+    return {"User-Agent": contato}
 
 
 def ler_estado():
@@ -51,7 +55,7 @@ def gravar_estado(estado):
 def pedir(url, extras=None):
     """Faz um pedido, espera a pausa e devolve a resposta. Um 5xx sobe como erro comum, para ser tentado de novo;
     qualquer outro status que não seja 200, 304 ou 404 para o programa."""
-    resposta = httpx.get(url, headers={**CABECALHOS, **(extras or {})}, timeout=30)
+    resposta = httpx.get(url, headers={**cabecalhos(), **(extras or {})}, timeout=30)
     time.sleep(PAUSA)
     if resposta.status_code >= 500:
         # 500, 502, 503: um problema do site, que passa. Um erro comum, e o orquestrador tenta de novo.
