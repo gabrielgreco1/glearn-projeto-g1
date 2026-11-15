@@ -77,7 +77,6 @@ Os dois arquivos que você mantém à mão: `boilerplate.txt`, com as frases que
 - A notícia do mapa do site sem página só tem o dia, sem a hora (`precisao` = `dia`), e fica sem título e sem assinatura. Tudo isso chega quando o `materias.py` baixa a página, numa das rodadas seguintes, e a carga atualiza a notícia.
 - O banco segue a silver: uma notícia que sai da silver (porque passou a falhar numa regra de erro) sai também do banco, com as assinaturas, e a tabela `cargas` conta quantas saíram. Por isso, apagar a pasta `dados/` e rodar de novo deixa no banco só as notícias que a silver nova tem.
 - Um nome que deixou de assinar fica na tabela `autores`, sem assinatura nenhuma.
-- Se a notícia antiga de um par repetido (`mesma_que`) falhar numa regra de erro, a mais nova aponta para um link que não está na silver, e a chave estrangeira para a carga, sem mudar nada no banco. O conserto é na etapa Transformar.
 - Um nome que não está no `fontes.csv` conta como repórter. Uma agência nova, ou um jornalista de um veículo parceiro, aparece como repórter até você acrescentar uma linha.
 - Uma frase repetida nova só sai do texto quando você a põe no `boilerplate.txt`. O `uv run python texto.py` mostra as candidatas.
 - A notícia repetida é achada pelo texto quase igual (nota 90 ou mais), em até 3 dias. Os pares entre 80 e 90 ficam para você ler: `uv run python silver.py` mostra.

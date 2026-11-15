@@ -89,4 +89,4 @@ $ uv run python carregar.py
 06:29:47 INFO conferido: 110 notícias, 73515 palavras e 113 assinaturas, na silver e no banco
 $ uv run pytest
 
-============================== 33 passed in 0.24s ==============================
+============================== 34 passed in 0.24s ==============================

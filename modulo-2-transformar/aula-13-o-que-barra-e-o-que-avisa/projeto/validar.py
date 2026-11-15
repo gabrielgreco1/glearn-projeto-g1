@@ -36,9 +36,18 @@ REGRAS = [
 ]
 
 
+def soltar_pares(tabela, regras=REGRAS):
+    """Se a antiga de um par repetido falha numa regra de erro, ela sai da silver, e a nova apontaria para um link que
+    não está lá. A nova perde o mesma_que: ela passa a ser a primeira vez que a notícia aparece."""
+    passou = pl.all_horizontal([r["expr"].fill_null(True) for r in regras if r["severidade"] == "erro"])
+    ficam = tabela.filter(passou)["link"].to_list()
+    return tabela.with_columns(pl.when(pl.col("mesma_que").is_in(ficam)).then(pl.col("mesma_que")).alias("mesma_que"))
+
+
 def separar(tabela, regras=REGRAS):
     """Devolve a silver válida, com a coluna avisos, e os rejeitados, uma linha por falha de erro. Nulo conta como
     passou: uma notícia do mapa do site ainda sem página não tem como falhar na regra antes_de_ver."""
+    tabela = soltar_pares(tabela, regras)
     marcado = tabela.with_columns([r["expr"].fill_null(True).alias(r["id"]) for r in regras])
     erros = [r["id"] for r in regras if r["severidade"] == "erro"]
     avisos = pl.concat_str([pl.when(~pl.col(r["id"])).then(pl.lit(r["id"])) for r in regras if r["severidade"] == "aviso"],

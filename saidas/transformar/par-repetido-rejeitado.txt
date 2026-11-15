@@ -1,0 +1,148 @@
+# 2026-11-15 · a antiga de um par repetido rejeitada (validar.py, soltar_pares)
+## antes do conserto: o teste novo contra o validar.py antigo (aula 13)
+$ uv run pytest testes/test_validar.py -q
+E       At index 0 diff: ('https://g1.globo.com/nova', 'https://g1.globo.com/antiga', 'primeira_vez') != ('https://g1.globo.com/nova', None, None)
+FAILED testes/test_validar.py::test_a_antiga_de_um_par_sai_e_a_nova_deixa_de_ser_repetida
+1 failed, 2 passed in 0.74s
+## no banco: final/ num clone (branch fix/par-repetido-rejeitado), um par forçado nas notícias ao vivo, numa transação desfeita
+## (links sem o começo https://g1.globo.com/tecnologia/noticia/2026/11/12/)
+antiga: escandalo-na-nvidia-quem-e-colette-kress-que-assume-presidencia-no-lugar-de-jensen-huang.ghtml
+nova:   quem-e-kimberly-powell-executiva-da-nvidia-acusada-de-ter-um-caso-extraconjugal-com-ex-ceo-da-empresa.ghtml
+validar.py antigo: rejeitadas ['escandalo-na-nvidia-quem-e-colette-kress-que-assume-presidencia-no-lugar-de-jensen-huang.ghtml']; mesma_que da nova = escandalo-na-nvidia-quem-e-colette-kress-que-assume-presidencia-no-lugar-de-jensen-huang.ghtml
+validar.py antigo: carga parou: ForeignKeyViolation: update or delete on table "noticias" violates foreign key constraint "noticias_mesma_que_fkey" on table "noticias"
+validar.py novo: rejeitadas ['escandalo-na-nvidia-quem-e-colette-kress-que-assume-presidencia-no-lugar-de-jensen-huang.ghtml']; mesma_que da nova = None
+validar.py novo: carga passou, saíram do banco 1
+## final/ num git clone do repositório, banco novo, G1 ao vivo
+$ git clone -q -b fix/par-repetido-rejeitado https://github.com/gabrielgreco1/glearn-projeto-g1.git
+$ cp .env.example .env
+$ docker compose up -d --wait
+$ uv run python rodar.py   # rodada 1
+07:14:20 INFO etapa 1 de 6: o feed
+07:14:22 INFO baixei o feed: 601896 bytes em dados/bronze/feed/2026-11-15/10-14-22.xml
+07:14:22 INFO etapa 2 de 6: guardar só o que é novo
+07:14:22 INFO feed: 100 notícias lidas, 100 novas, 0 já estavam guardadas. Total: 100
+07:14:22 INFO etapa 3 de 6: a página das notícias que faltam
+07:15:05 INFO matérias: 20 baixadas nesta rodada, 80 ficam para a próxima
+07:15:05 INFO etapa 4 de 6: a tabela e a conferência
+07:15:06 INFO gravei 100 linhas em dados/noticias.csv
+07:15:06 INFO conferência: 100 notícias, 0 repetidas, 0 sem data, 0 sem título, 20 com a página lida
+07:15:06 INFO notícias do dia 2026-11-04 ao dia 2026-11-15
+07:15:06 INFO etapa 5 de 6: transformar
+07:15:06 INFO transformar 1 de 3: a silver
+07:15:08 INFO 100 notícias; 0 repetidas; 0 pares para você ler (uv run python silver.py mostra)
+07:15:08 INFO transformar 2 de 3: as regras
+07:15:08 INFO lidas 100 = válidas 100 + rejeitadas 0
+07:15:08 INFO gravei 100 notícias em dados/silver/noticias.parquet e 0 rejeições em dados/silver/rejeitados.csv
+07:15:08 INFO transformar 3 de 3: a gold
+07:15:08 INFO gravei 12 linhas em dados/gold/por_dia.parquet
+07:15:08 INFO gravei 5 linhas em dados/gold/por_fonte.parquet
+07:15:08 INFO etapa 6 de 6: carregar no banco
+07:15:08 INFO notícias: 100 na silver; novas 100, mudaram 0, iguais 0; saíram do banco 0
+07:15:08 INFO nomes: 12 novos, 0 mudaram de tipo; assinaturas: 0 saíram, 21 entraram
+07:15:08 INFO conferido: 100 notícias, 13464 palavras e 21 assinaturas, na silver e no banco
+07:15:08 INFO conferido: as views por_dia e por_fonte dão as mesmas linhas que a gold
+┌────────────┬──────────┬───────┬─────────┬────────────┬──────────────────┐
+│    dia     │ noticias │ do_g1 │ de_fora │ sem_pagina │ palavras_mediana │
+│    date    │  int64   │ int64 │  int64  │   int64    │      double      │
+├────────────┼──────────┼───────┼─────────┼────────────┼──────────────────┤
+│ 2026-11-04 │        6 │     0 │       0 │          6 │             NULL │
+│ 2026-11-05 │        7 │     0 │       0 │          7 │             NULL │
+│ 2026-11-06 │        7 │     0 │       0 │          7 │             NULL │
+│ 2026-11-07 │        3 │     0 │       0 │          3 │             NULL │
+│ 2026-11-08 │        2 │     0 │       0 │          2 │             NULL │
+│ 2026-11-09 │       11 │     0 │       0 │         11 │             NULL │
+│ 2026-11-10 │       10 │     0 │       0 │         10 │             NULL │
+│ 2026-11-11 │        6 │     0 │       0 │          6 │             NULL │
+│ 2026-11-12 │       20 │     0 │       0 │         20 │             NULL │
+│ 2026-11-13 │       17 │     5 │       4 │          8 │            501.0 │
+│ 2026-11-14 │        6 │     3 │       3 │          0 │            748.5 │
+│ 2026-11-15 │        4 │     3 │       1 │          0 │           1058.5 │
+└────────────┴──────────┴───────┴─────────┴────────────┴──────────────────┘
+  12 rows                                                       6 columns
+
+┌─────────────┬──────────┬──────────┬──────────────────┐
+│    fonte    │ noticias │ porcento │ palavras_mediana │
+│   varchar   │  int64   │  double  │      double      │
+├─────────────┼──────────┼──────────┼──────────────────┤
+│ sem página  │       80 │     80.0 │             NULL │
+│ agência     │        8 │      8.0 │            582.5 │
+│ redação     │        7 │      7.0 │            621.0 │
+│ repórter    │        4 │      4.0 │            656.0 │
+│ publicidade │        1 │      1.0 │            105.0 │
+└─────────────┴──────────┴──────────┴──────────────────┘
+
+$ uv run python rodar.py   # rodada 2
+07:15:09 INFO etapa 1 de 6: o feed
+07:15:11 INFO o feed não mudou desde 2026-11-15T10:14:22+00:00, nada para baixar
+07:15:11 INFO etapa 2 de 6: guardar só o que é novo
+07:15:11 INFO feed: 100 notícias lidas, 0 novas, 100 já estavam guardadas. Total: 100
+07:15:11 INFO etapa 3 de 6: a página das notícias que faltam
+07:15:53 INFO matérias: 20 baixadas nesta rodada, 60 ficam para a próxima
+07:15:53 INFO etapa 4 de 6: a tabela e a conferência
+07:15:55 INFO gravei 100 linhas em dados/noticias.csv
+07:15:55 INFO conferência: 100 notícias, 0 repetidas, 0 sem data, 0 sem título, 40 com a página lida
+07:15:55 INFO notícias do dia 2026-11-04 ao dia 2026-11-15
+07:15:55 INFO etapa 5 de 6: transformar
+07:15:55 INFO transformar 1 de 3: a silver
+07:16:00 INFO 100 notícias; 1 repetidas; 0 pares para você ler (uv run python silver.py mostra)
+07:16:00 INFO transformar 2 de 3: as regras
+07:16:00 INFO lidas 100 = válidas 100 + rejeitadas 0
+07:16:00 INFO gravei 100 notícias em dados/silver/noticias.parquet e 0 rejeições em dados/silver/rejeitados.csv
+07:16:00 INFO transformar 3 de 3: a gold
+07:16:00 INFO gravei 12 linhas em dados/gold/por_dia.parquet
+07:16:00 INFO gravei 5 linhas em dados/gold/por_fonte.parquet
+07:16:00 INFO etapa 6 de 6: carregar no banco
+07:16:00 INFO notícias: 100 na silver; novas 0, mudaram 20, iguais 80; saíram do banco 0
+07:16:00 INFO nomes: 4 novos, 0 mudaram de tipo; assinaturas: 0 saíram, 20 entraram
+07:16:00 INFO conferido: 100 notícias, 25330 palavras e 41 assinaturas, na silver e no banco
+07:16:00 INFO conferido: as views por_dia e por_fonte dão as mesmas linhas que a gold
+┌────────────┬──────────┬───────┬─────────┬────────────┬──────────────────┐
+│    dia     │ noticias │ do_g1 │ de_fora │ sem_pagina │ palavras_mediana │
+│    date    │  int64   │ int64 │  int64  │   int64    │      double      │
+├────────────┼──────────┼───────┼─────────┼────────────┼──────────────────┤
+│ 2026-11-04 │        6 │     0 │       0 │          6 │             NULL │
+│ 2026-11-05 │        7 │     0 │       0 │          7 │             NULL │
+│ 2026-11-06 │        7 │     0 │       0 │          7 │             NULL │
+│ 2026-11-07 │        3 │     0 │       0 │          3 │             NULL │
+│ 2026-11-08 │        2 │     0 │       0 │          2 │             NULL │
+│ 2026-11-09 │       11 │     0 │       0 │         11 │             NULL │
+│ 2026-11-10 │       10 │     0 │       0 │         10 │             NULL │
+│ 2026-11-11 │        6 │     0 │       0 │          6 │             NULL │
+│ 2026-11-12 │       20 │    10 │       2 │          8 │            566.0 │
+│ 2026-11-13 │       16 │     9 │       7 │          0 │            533.5 │
+│ 2026-11-14 │        6 │     3 │       3 │          0 │            748.5 │
+│ 2026-11-15 │        4 │     3 │       1 │          0 │           1058.5 │
+└────────────┴──────────┴───────┴─────────┴────────────┴──────────────────┘
+  12 rows                                                       6 columns
+
+┌─────────────┬──────────┬──────────┬──────────────────┐
+│    fonte    │ noticias │ porcento │ palavras_mediana │
+│   varchar   │  int64   │  double  │      double      │
+├─────────────┼──────────┼──────────┼──────────────────┤
+│ sem página  │       60 │     60.6 │             NULL │
+│ redação     │       15 │     15.2 │            677.0 │
+│ agência     │       13 │     13.1 │            587.0 │
+│ repórter    │       10 │     10.1 │            529.5 │
+│ publicidade │        1 │      1.0 │            105.0 │
+└─────────────┴──────────┴──────────┴──────────────────┘
+
+$ uv run pytest
+platform darwin -- Python 3.13.5, pytest-9.2.0, pluggy-1.7.0
+rootdir: final
+configfile: pyproject.toml
+testpaths: testes
+plugins: anyio-4.16.0
+collected 35 items
+
+testes/test_assinatura.py ...                                            [  8%]
+testes/test_carregar.py ........                                         [ 31%]
+testes/test_gold.py .                                                    [ 34%]
+testes/test_ler.py ....                                                  [ 45%]
+testes/test_materias.py ..                                               [ 51%]
+testes/test_repetidas.py ..                                              [ 57%]
+testes/test_silver.py ...                                                [ 65%]
+testes/test_sitemap.py ...                                               [ 74%]
+testes/test_texto.py ......                                              [ 91%]
+testes/test_validar.py ...                                               [100%]
+
+============================== 35 passed in 0.25s ==============================

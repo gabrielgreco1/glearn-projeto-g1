@@ -169,4 +169,4 @@ $ docker compose exec banco psql -U postgres -c 'DROP INDEX noticias_titulo_trgm
 DROP INDEX
 $ uv run pytest
 
-============================== 34 passed in 0.24s ==============================
+============================== 35 passed in 0.24s ==============================
