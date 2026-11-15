@@ -6,8 +6,10 @@ Uso: uv run python vigiar.py"""
 
 from datetime import timedelta
 
+from acumular import ler_noticias
 from baixar import registro
 from banco import conectar
+from materias import faltam
 
 SILENCIO = timedelta(hours=24)  # o maior intervalo entre duas notícias, medido no feed na PGO-02, foi de 18 h 39 min
 RECENTES = 10  # quantas páginas, das notícias mais novas, a vigia olha
@@ -20,9 +22,8 @@ SILENCIO_SQL = "SELECT now() - max(publicado_em) FROM noticias"
 PAGINAS = f"""
 SELECT count(*),
        count(*) FILTER (WHERE n.palavras = 0 OR NOT EXISTS (SELECT 1 FROM assinaturas s WHERE s.noticia_id = n.id))
-FROM (SELECT id, palavras FROM noticias WHERE palavras IS NOT NULL ORDER BY publicado_em DESC LIMIT {RECENTES}) n
+FROM (SELECT id, palavras FROM noticias WHERE palavras IS NOT NULL ORDER BY publicado_em DESC NULLS LAST LIMIT {RECENTES}) n
 """
-SEM_PAGINA = "SELECT count(*) FROM noticias WHERE palavras IS NULL"
 
 
 def horas(tempo):
@@ -51,7 +52,7 @@ def avisos():
     with conectar() as conexao:
         silencio = conexao.execute(SILENCIO_SQL).fetchone()[0]
         recentes, estranhas = conexao.execute(PAGINAS).fetchone()
-        fila = conexao.execute(SEM_PAGINA).fetchone()[0]
+    fila = len(faltam(ler_noticias()))  # a fila está no disco: as notícias que ainda não têm arquivo de página
     lista = avisos_dos_numeros(silencio, recentes, estranhas, fila)
     registro.info("vigia: a notícia mais nova saiu há %s; %s das %s páginas mais novas sem texto ou sem assinatura; "
                   "%s notícias sem página; %s avisos", horas(silencio) if silencio else "?", estranhas, recentes, fila,

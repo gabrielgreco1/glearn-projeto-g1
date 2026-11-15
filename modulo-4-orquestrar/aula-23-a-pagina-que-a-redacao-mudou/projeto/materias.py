@@ -63,17 +63,23 @@ def gravar(destino, conteudo):
     parcial.replace(destino)
 
 
+def faltam(noticias):
+    """As notícias do site que ainda não têm arquivo de página. A que saiu do ar tem o arquivo vazio: não falta."""
+    return [noticia for noticia in noticias
+            if urlparse(noticia["link"]).hostname == SITE and not arquivo_da(noticia).exists()]
+
+
 def baixar_materias():
     """Baixa as páginas que faltam, até o limite da rodada. Se sobra lugar no limite, baixa de novo as que a redação
     mudou depois de baixadas. Devolve quantas baixou."""
     noticias = [noticia for noticia in ler_noticias() if urlparse(noticia["link"]).hostname == SITE]
-    faltam = [noticia for noticia in noticias if not arquivo_da(noticia).exists()]
-    vez = faltam[-LIMITE:]  # as que entraram por último no arquivo vão primeiro
+    sem_pagina = faltam(noticias)
+    vez = sem_pagina[-LIMITE:]  # as que entraram por último no arquivo vão primeiro
     if len(vez) < LIMITE:  # com páginas atrasadas, o limite vai todo para elas, e o mapa nem é pedido
         lastmod = mudancas_recentes()
         vez += [noticia for noticia in noticias if mudou(noticia, lastmod)][:LIMITE - len(vez)]
     PASTA.mkdir(parents=True, exist_ok=True)
-    baixadas = 0
+    baixadas = de_novo = 0
     for noticia in vez:
         resposta = pedir(noticia["link"])
         if resposta.status_code == 404:
@@ -82,8 +88,9 @@ def baixar_materias():
             continue
         gravar(arquivo_da(noticia), resposta.content)
         baixadas += 1
+        de_novo += noticia not in sem_pagina
     registro.info("matérias: %s baixadas nesta rodada, %s delas de novo, porque a notícia mudou; %s ficam para a próxima",
-                  baixadas, max(0, len(vez) - len(faltam)), max(0, len(faltam) - LIMITE))
+                  baixadas, de_novo, max(0, len(sem_pagina) - LIMITE))
     return baixadas
 
 

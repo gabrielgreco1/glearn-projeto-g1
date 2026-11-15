@@ -55,7 +55,7 @@ def gravar_estado(estado):
 def pedir(url, extras=None):
     """Faz um pedido, espera a pausa e devolve a resposta. Um 5xx sobe como erro comum, para ser tentado de novo;
     qualquer outro status que não seja 200, 304 ou 404 para o programa."""
-    resposta = httpx.get(url, headers={**cabecalhos(), **(extras or {})}, timeout=30)
+    resposta = httpx.get(url, headers={**cabecalhos(), **(extras or {})}, timeout=30, follow_redirects=True)
     time.sleep(PAUSA)
     if resposta.status_code >= 500:
         # 500, 502, 503: um problema do site, que passa. Um erro comum, e o orquestrador tenta de novo.

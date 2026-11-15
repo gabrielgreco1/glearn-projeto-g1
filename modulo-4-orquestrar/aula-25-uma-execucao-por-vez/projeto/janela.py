@@ -58,7 +58,10 @@ def guardar_feed(noticias):
                          "feed é de %s. Vou ao mapa do site de %s dia(s), de %s a %s", em_brasilia(min(map(quando, noticias))),
                          em_brasilia(ultima), len(dias), dias[0], dias[-1])
         for dia in dias:
-            for arquivo in partes_do_dia(dia):
+            arquivos = partes_do_dia(dia)
+            if not arquivos:  # todo dia do G1 tem notícia no mapa: sem nenhuma parte, o buraco não foi tapado
+                raise RuntimeError(f"o mapa do site de {dia} veio sem endereço nenhum: o buraco não foi tapado")
+            for arquivo in arquivos:
                 acumular(ler_mapa(arquivo.read_bytes()), "sitemap")
     acumular(noticias, "feed")
     if noticias:

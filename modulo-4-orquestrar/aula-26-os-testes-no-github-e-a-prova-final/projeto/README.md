@@ -22,7 +22,7 @@ O projeto roda de três jeitos. Os dois primeiros precisam do servidor do Prefec
 |---|---|
 | `uv run python fluxo.py agendar` | fica ligado e roda o projeto de 3 em 3 horas (0h, 3h, 6h … 21h, no horário de Brasília). Para rodar agora, noutro terminal: `uv run prefect deployment run projeto-g1/a-cada-3-horas` |
 | `uv run python fluxo.py` | roda uma vez, agora, como um flow do Prefect |
-| `uv run python rodar.py` | roda as seis etapas sem o Prefect, sem tentativas, sem aviso, sem vigia e sem o limite |
+| `uv run python rodar.py` | roda as seis etapas sem o Prefect, sem tentativas, sem aviso, sem vigia e sem o limite: não use com o agendamento ligado, porque duas rodadas juntas podem guardar a mesma notícia duas vezes |
 
 Cada rodada faz um pedido ao feed (quase sempre respondido com 304), baixa no máximo 20 páginas de notícia, refaz a etapa Transformar inteira e leva ao banco só o que mudou: a notícia nova entra, a que mudou é atualizada e guarda quando entrou, e a igual fica como está. Quando sobra lugar nas 20 páginas, ela também pede o mapa do site de hoje e de ontem, para achar as páginas que a redação mudou depois de baixadas.
 
@@ -113,5 +113,7 @@ Os dois arquivos que você mantém à mão: `boilerplate.txt`, com as frases que
 - Um nome que não está no `fontes.csv` conta como repórter. Uma agência nova, ou um jornalista de um veículo parceiro, aparece como repórter até você acrescentar uma linha.
 - Uma frase repetida nova só sai do texto quando você a põe no `boilerplate.txt`. O `uv run python texto.py` mostra as candidatas.
 - A notícia repetida é achada pelo texto quase igual (nota 90 ou mais), em até 3 dias. Os pares entre 80 e 90 ficam para você ler: `uv run python silver.py` mostra.
+- O buraco é tapado só com as notícias da editoria de tecnologia: as de outras editorias que o feed de tecnologia mostraria (inovação, mundo, trabalho e carreira) não voltam pelo mapa do site.
+- Se o G1 entregar uma cópia velha de uma página que mudou, ela é pedida de novo a cada rodada, até o mapa de ontem sair da conta: no máximo dois dias.
 - O agendamento roda enquanto o `fluxo.py agendar` e o servidor do Prefect estão ligados, na sua máquina. Com o computador desligado, nada roda; na volta, a primeira rodada tapa o buraco pelo mapa do site.
 - O banco é de treino: a senha do `.env` é simples, e o Docker abre a porta 5435 também para a sua rede local. Não guarde nele nada que precise de proteção.

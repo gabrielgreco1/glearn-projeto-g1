@@ -1,0 +1,57 @@
+11:49:58.612 | INFO    | Flow run 'portable-chital' - Beginning flow run 'portable-chital' for flow 'projeto-g1'
+11:49:58.621 | INFO    | Flow run 'portable-chital' - View at http://127.0.0.1:4200/runs/flow-run/83e58e20-61d4-4942-b7e0-826de577a132
+11:50:00.752 | INFO    | g1 - baixei o feed: 605342 bytes em dados/bronze/feed/2026-11-15/14-50-00.xml
+11:50:00.755 | INFO    | Task run 'feed-f4c' - Finished in state Completed()
+11:50:00.817 | INFO    | g1 - feed: 100 notícias lidas, 100 novas, 0 já estavam guardadas. Total: 100
+11:50:00.818 | INFO    | Task run 'guardar-dba' - Finished in state Completed()
+^C
+11:50:15.830 | ERROR   | Task run 'paginas-f5b' - Crash detected! Execution was aborted by an interrupt signal.
+11:50:15.833 | ERROR   | Task run 'paginas-f5b' - Finished in state Crashed('Execution was aborted by an interrupt signal.')
+11:50:15.870 | ERROR   | Flow run 'portable-chital' - Crash detected! Execution was aborted by an interrupt signal.
+11:50:15.880 | INFO    | Flow run 'portable-chital' - Running hook 'avisar' in response to entering state 'Crashed'
+11:50:15.880 | INFO    | Flow run 'portable-chital' - Hook 'avisar' finished running successfully
+11:50:15.881 | INFO    | Flow run 'portable-chital' - Finished in state Crashed('Execution was aborted by an interrupt signal.')
+AVISO: projeto-g1, execução portable-chital, terminou em Crashed: Execution was aborted by an interrupt signal.
+Traceback (most recent call last):
+  File "/tmp/tmp-clone-L8A5/glearn-projeto-g1/final/fluxo.py", line 94, in <module>
+    projeto_g1()
+    ~~~~~~~~~~^^
+  File "/tmp/tmp-clone-L8A5/glearn-projeto-g1/final/.venv/lib/python3.13/site-packages/prefect/flows.py", line 1912, in __call__
+    return run_flow(
+        flow=self,
+    ...<2 lines>...
+        return_type=return_type,
+    )
+  File "/tmp/tmp-clone-L8A5/glearn-projeto-g1/final/.venv/lib/python3.13/site-packages/prefect/flow_engine.py", line 2332, in run_flow
+    ret_val = run_flow_sync(**kwargs)
+  File "/tmp/tmp-clone-L8A5/glearn-projeto-g1/final/.venv/lib/python3.13/site-packages/prefect/flow_engine.py", line 2173, in run_flow_sync
+    engine.call_flow_fn()
+    ~~~~~~~~~~~~~~~~~~~^^
+  File "/tmp/tmp-clone-L8A5/glearn-projeto-g1/final/.venv/lib/python3.13/site-packages/prefect/flow_engine.py", line 1394, in call_flow_fn
+    result = call_with_parameters(self.flow.fn, self.parameters)
+  File "/tmp/tmp-clone-L8A5/glearn-projeto-g1/final/.venv/lib/python3.13/site-packages/prefect/utilities/callables/__init__.py", line 404, in call_with_parameters
+    return fn(*args, **kwargs)
+  File "/tmp/tmp-clone-L8A5/glearn-projeto-g1/final/fluxo.py", line 81, in projeto_g1
+    paginas()
+    ~~~~~~~^^
+  File "/tmp/tmp-clone-L8A5/glearn-projeto-g1/final/.venv/lib/python3.13/site-packages/prefect/tasks.py", line 1240, in __call__
+    return run_task(
+        task=self,
+    ...<2 lines>...
+        return_type=return_type,
+    )
+  File "/tmp/tmp-clone-L8A5/glearn-projeto-g1/final/.venv/lib/python3.13/site-packages/prefect/task_engine.py", line 2054, in run_task
+    return run_task_sync(**kwargs)
+  File "/tmp/tmp-clone-L8A5/glearn-projeto-g1/final/.venv/lib/python3.13/site-packages/prefect/task_engine.py", line 1777, in run_task_sync
+    engine.call_task_fn(txn)
+    ~~~~~~~~~~~~~~~~~~~^^^^^
+  File "/tmp/tmp-clone-L8A5/glearn-projeto-g1/final/.venv/lib/python3.13/site-packages/prefect/task_engine.py", line 1093, in call_task_fn
+    result = call_with_parameters(self.task.fn, parameters)
+  File "/tmp/tmp-clone-L8A5/glearn-projeto-g1/final/.venv/lib/python3.13/site-packages/prefect/utilities/callables/__init__.py", line 404, in call_with_parameters
+    return fn(*args, **kwargs)
+  File "/tmp/tmp-clone-L8A5/glearn-projeto-g1/final/materias.py", line 78, in baixar_materias
+    resposta = pedir(noticia["link"])
+  File "/tmp/tmp-clone-L8A5/glearn-projeto-g1/final/baixar.py", line 59, in pedir
+    time.sleep(PAUSA)
+    ~~~~~~~~~~^^^^^^^
+KeyboardInterrupt

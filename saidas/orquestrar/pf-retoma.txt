@@ -1,0 +1,58 @@
+11:50:16.780 | INFO    | Flow run 'nice-tapir' - Beginning flow run 'nice-tapir' for flow 'projeto-g1'
+11:50:16.782 | INFO    | Flow run 'nice-tapir' - View at http://127.0.0.1:4200/runs/flow-run/038cce09-f457-45e0-98b1-d6de69459788
+11:50:18.864 | INFO    | g1 - o feed não mudou desde 2026-11-15T14:50:00+00:00, nada para baixar
+11:50:18.868 | INFO    | Task run 'feed-9d9' - Finished in state Completed()
+11:50:18.946 | INFO    | g1 - feed: 100 notícias lidas, 0 novas, 100 já estavam guardadas. Total: 100
+11:50:18.948 | INFO    | Task run 'guardar-480' - Finished in state Completed()
+11:51:00.822 | INFO    | g1 - matérias: 20 baixadas nesta rodada, 0 delas de novo, porque a notícia mudou; 73 ficam para a próxima
+11:51:00.824 | INFO    | Task run 'paginas-e58' - Finished in state Completed()
+11:51:02.344 | INFO    | g1 - gravei 100 linhas em dados/noticias.csv
+11:51:02.345 | INFO    | g1 - conferência: 100 notícias, 0 repetidas, 0 sem data, 0 sem título, 27 com a página lida
+11:51:02.345 | INFO    | g1 - notícias do dia 2026-11-04 ao dia 2026-11-15
+11:51:02.346 | INFO    | Task run 'tabela_e_conferencia-a7d' - Finished in state Completed()
+11:51:02.347 | INFO    | g1 - transformar 1 de 3: a silver
+11:51:05.348 | INFO    | g1 - 100 notícias; 0 repetidas; 0 pares para você ler (uv run python silver.py mostra)
+11:51:05.349 | INFO    | g1 - transformar 2 de 3: as regras
+11:51:05.351 | INFO    | g1 - lidas 100 = válidas 100 + rejeitadas 0
+11:51:05.353 | INFO    | g1 - gravei 100 notícias em dados/silver/noticias.parquet e 0 rejeições em dados/silver/rejeitados.csv
+11:51:05.353 | INFO    | g1 - transformar 3 de 3: a gold
+11:51:05.367 | INFO    | Task run 'transformar-1d0' - ┌────────────┬──────────┬───────┬─────────┬────────────┬──────────────────┐
+│    dia     │ noticias │ do_g1 │ de_fora │ sem_pagina │ palavras_mediana │
+│    date    │  int64   │ int64 │  int64  │   int64    │      double      │
+├────────────┼──────────┼───────┼─────────┼────────────┼──────────────────┤
+│ 2026-11-04 │        4 │     0 │       0 │          4 │             NULL │
+│ 2026-11-05 │        7 │     0 │       0 │          7 │             NULL │
+│ 2026-11-06 │        7 │     0 │       0 │          7 │             NULL │
+│ 2026-11-07 │        3 │     0 │       0 │          3 │             NULL │
+│ 2026-11-08 │        2 │     0 │       0 │          2 │             NULL │
+│ 2026-11-09 │       11 │     0 │       0 │         11 │             NULL │
+│ 2026-11-10 │       10 │     0 │       0 │         10 │             NULL │
+│ 2026-11-11 │        6 │     0 │       0 │          6 │             NULL │
+│ 2026-11-12 │       20 │     0 │       0 │         20 │             NULL │
+│ 2026-11-13 │       17 │     7 │       7 │          3 │            533.5 │
+│ 2026-11-14 │        6 │     3 │       3 │          0 │            748.5 │
+│ 2026-11-15 │        6 │     4 │       2 │          0 │            819.0 │
+└────────────┴──────────┴───────┴─────────┴────────────┴──────────────────┘
+  12 rows                                                       6 columns
+11:51:05.369 | INFO    | g1 - gravei 12 linhas em dados/gold/por_dia.parquet
+11:51:05.371 | INFO    | Task run 'transformar-1d0' - ┌─────────────┬──────────┬──────────┬──────────────────┐
+│    fonte    │ noticias │ porcento │ palavras_mediana │
+│   varchar   │  int64   │  double  │      double      │
+├─────────────┼──────────┼──────────┼──────────────────┤
+│ sem página  │       73 │     73.0 │             NULL │
+│ agência     │       12 │     12.0 │            582.5 │
+│ redação     │        9 │      9.0 │            621.0 │
+│ repórter    │        5 │      5.0 │            746.0 │
+│ publicidade │        1 │      1.0 │            105.0 │
+└─────────────┴──────────┴──────────┴──────────────────┘
+11:51:05.372 | INFO    | g1 - gravei 5 linhas em dados/gold/por_fonte.parquet
+11:51:05.373 | INFO    | Task run 'transformar-1d0' - Finished in state Completed()
+11:51:05.401 | INFO    | g1 - notícias: 100 na silver; novas 100, mudaram 0, iguais 0; saíram do banco 0
+11:51:05.401 | INFO    | g1 - nomes: 12 novos, 0 mudaram de tipo; assinaturas: 0 saíram, 28 entraram
+11:51:05.402 | INFO    | g1 - conferido: 100 notícias, 17657 palavras e 28 assinaturas, na silver e no banco
+11:51:05.402 | INFO    | g1 - conferido: as views por_dia e por_fonte dão as mesmas linhas que a gold
+11:51:05.403 | INFO    | Task run 'carregar-e99' - Finished in state Completed()
+11:51:05.410 | INFO    | g1 - vigia: a notícia mais nova saiu há 2 h; 0 das 10 páginas mais novas sem texto ou sem assinatura; 73 notícias sem página; 1 avisos
+11:51:05.411 | INFO    | Task run 'vigiar-988' - ATENÇÃO: 73 notícias esperam a página, e o materias.py baixa 20 por rodada. Veja no log da task paginas se as páginas estão vindo; depois de um buraco, a fila desce sozinha em poucas rodadas.
+11:51:05.411 | INFO    | Task run 'vigiar-988' - Finished in state Completed()
+11:51:05.431 | INFO    | Flow run 'nice-tapir' - Finished in state Completed()

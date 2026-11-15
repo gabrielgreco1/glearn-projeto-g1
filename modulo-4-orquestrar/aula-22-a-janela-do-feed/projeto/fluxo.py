@@ -1,5 +1,5 @@
 """O projeto G1 como um flow do Prefect: as seis etapas do rodar.py, uma task cada, na ordem. As tasks que pedem ao G1
-(o feed e as páginas) são tentadas de novo quando a rede falha; uma recusa do site para sem nova tentativa.
+(o feed, o buraco e as páginas) são tentadas de novo quando a rede falha; uma recusa do site para sem nova tentativa.
 Se a execução termina mal, fica um aviso em avisos.log.
 
 Uso: uv run python fluxo.py            roda uma vez, agora
@@ -69,7 +69,7 @@ def projeto_g1():
 if __name__ == "__main__":
     if sys.argv[1:] == ["agendar"]:
         # De 3 em 3 horas, no horário de Brasília: 0h, 3h, 6h ... 21h. O feed cobre uns 11 dias e o G1 guarda a cópia
-        # dele por 10 minutos; 8 rodadas por dia dão até 160 páginas, contra umas 10 notícias novas por dia.
+        # dele por 10 minutos; 8 rodadas por dia dão até 160 páginas, contra umas 9 notícias novas por dia.
         projeto_g1.serve(name="a-cada-3-horas", schedule=Cron("0 */3 * * *", timezone="America/Sao_Paulo"))
     else:
         projeto_g1()
