@@ -1,0 +1,152 @@
+# 2026-11-15 06:51:00 -0300
+$ git clone -q -b etapa-carregar https://github.com/gabrielgreco1/glearn-projeto-g1.git
+$ cp .env.example .env
+$ docker compose up -d --wait
+ Network final_default Creating 
+ Volume final_banco Creating 
+ Volume final_banco Created 
+ Network final_default Created 
+ Container final-banco-1 Creating 
+ Container final-banco-1 Created 
+ Container final-banco-1 Starting 
+ Container final-banco-1 Started 
+ Container final-banco-1 Waiting 
+ Container final-banco-1 Healthy 
+$ uv run python rodar.py
+Using CPython 3.13.5
+Creating virtual environment at: .venv
+Installed 23 packages in 23ms
+06:51:09 INFO etapa 1 de 6: o feed
+06:51:12 INFO baixei o feed: 601896 bytes em dados/bronze/feed/2026-11-15/09-51-12.xml
+06:51:12 INFO etapa 2 de 6: guardar só o que é novo
+06:51:12 INFO feed: 100 notícias lidas, 100 novas, 0 já estavam guardadas. Total: 100
+06:51:12 INFO etapa 3 de 6: a página das notícias que faltam
+06:51:54 INFO matérias: 20 baixadas nesta rodada, 80 ficam para a próxima
+06:51:54 INFO etapa 4 de 6: a tabela e a conferência
+06:51:55 INFO gravei 100 linhas em dados/noticias.csv
+06:51:55 INFO conferência: 100 notícias, 0 repetidas, 0 sem data, 0 sem título, 20 com a página lida
+06:51:55 INFO notícias do dia 2026-11-04 ao dia 2026-11-15
+06:51:55 INFO etapa 5 de 6: transformar
+06:51:55 INFO transformar 1 de 3: a silver
+06:51:57 INFO 100 notícias; 0 repetidas; 0 pares para você ler (uv run python silver.py mostra)
+06:51:57 INFO transformar 2 de 3: as regras
+06:51:57 INFO lidas 100 = válidas 100 + rejeitadas 0
+06:51:57 INFO gravei 100 notícias em dados/silver/noticias.parquet e 0 rejeições em dados/silver/rejeitados.csv
+06:51:57 INFO transformar 3 de 3: a gold
+┌────────────┬──────────┬───────┬─────────┬────────────┬──────────────────┐
+│    dia     │ noticias │ do_g1 │ de_fora │ sem_pagina │ palavras_mediana │
+│    date    │  int64   │ int64 │  int64  │   int64    │      double      │
+├────────────┼──────────┼───────┼─────────┼────────────┼──────────────────┤
+│ 2026-11-04 │        6 │     0 │       0 │          6 │             NULL │
+│ 2026-11-05 │        7 │     0 │       0 │          7 │             NULL │
+│ 2026-11-06 │        7 │     0 │       0 │          7 │             NULL │
+│ 2026-11-07 │        3 │     0 │       0 │          3 │             NULL │
+│ 2026-11-08 │        2 │     0 │       0 │          2 │             NULL │
+│ 2026-11-09 │       11 │     0 │       0 │         11 │             NULL │
+│ 2026-11-10 │       10 │     0 │       0 │         10 │             NULL │
+│ 2026-11-11 │        6 │     0 │       0 │          6 │             NULL │
+│ 2026-11-12 │       20 │     0 │       0 │         20 │             NULL │
+│ 2026-11-13 │       17 │     5 │       4 │          8 │            501.0 │
+│ 2026-11-14 │        6 │     3 │       3 │          0 │            748.5 │
+│ 2026-11-15 │        4 │     3 │       1 │          0 │           1058.5 │
+└────────────┴──────────┴───────┴─────────┴────────────┴──────────────────┘
+  12 rows                                                       6 columns
+
+06:51:57 INFO gravei 12 linhas em dados/gold/por_dia.parquet
+┌─────────────┬──────────┬──────────┬──────────────────┐
+│    fonte    │ noticias │ porcento │ palavras_mediana │
+│   varchar   │  int64   │  double  │      double      │
+├─────────────┼──────────┼──────────┼──────────────────┤
+│ sem página  │       80 │     80.0 │             NULL │
+│ agência     │        8 │      8.0 │            582.5 │
+│ redação     │        7 │      7.0 │            621.0 │
+│ repórter    │        4 │      4.0 │            656.0 │
+│ publicidade │        1 │      1.0 │            105.0 │
+└─────────────┴──────────┴──────────┴──────────────────┘
+
+06:51:57 INFO gravei 5 linhas em dados/gold/por_fonte.parquet
+06:51:57 INFO etapa 6 de 6: carregar no banco
+06:51:57 INFO notícias: 100 na silver; novas 100, mudaram 0, iguais 0; saíram do banco 0
+06:51:57 INFO nomes: 12 novos, 0 mudaram de tipo; assinaturas: 0 saíram, 21 entraram
+06:51:57 INFO conferido: 100 notícias, 13464 palavras e 21 assinaturas, na silver e no banco
+06:51:57 INFO conferido: as views por_dia e por_fonte dão as mesmas linhas que a gold
+$ uv run python rodar.py
+06:51:57 INFO etapa 1 de 6: o feed
+06:51:59 INFO o feed não mudou desde 2026-11-15T09:51:12+00:00, nada para baixar
+06:51:59 INFO etapa 2 de 6: guardar só o que é novo
+06:51:59 INFO feed: 100 notícias lidas, 0 novas, 100 já estavam guardadas. Total: 100
+06:51:59 INFO etapa 3 de 6: a página das notícias que faltam
+06:52:41 INFO matérias: 20 baixadas nesta rodada, 60 ficam para a próxima
+06:52:41 INFO etapa 4 de 6: a tabela e a conferência
+06:52:43 INFO gravei 100 linhas em dados/noticias.csv
+06:52:43 INFO conferência: 100 notícias, 0 repetidas, 0 sem data, 0 sem título, 40 com a página lida
+06:52:43 INFO notícias do dia 2026-11-04 ao dia 2026-11-15
+06:52:43 INFO etapa 5 de 6: transformar
+06:52:43 INFO transformar 1 de 3: a silver
+06:52:48 INFO 100 notícias; 1 repetidas; 0 pares para você ler (uv run python silver.py mostra)
+06:52:48 INFO transformar 2 de 3: as regras
+06:52:48 INFO lidas 100 = válidas 100 + rejeitadas 0
+06:52:48 INFO gravei 100 notícias em dados/silver/noticias.parquet e 0 rejeições em dados/silver/rejeitados.csv
+06:52:48 INFO transformar 3 de 3: a gold
+┌────────────┬──────────┬───────┬─────────┬────────────┬──────────────────┐
+│    dia     │ noticias │ do_g1 │ de_fora │ sem_pagina │ palavras_mediana │
+│    date    │  int64   │ int64 │  int64  │   int64    │      double      │
+├────────────┼──────────┼───────┼─────────┼────────────┼──────────────────┤
+│ 2026-11-04 │        6 │     0 │       0 │          6 │             NULL │
+│ 2026-11-05 │        7 │     0 │       0 │          7 │             NULL │
+│ 2026-11-06 │        7 │     0 │       0 │          7 │             NULL │
+│ 2026-11-07 │        3 │     0 │       0 │          3 │             NULL │
+│ 2026-11-08 │        2 │     0 │       0 │          2 │             NULL │
+│ 2026-11-09 │       11 │     0 │       0 │         11 │             NULL │
+│ 2026-11-10 │       10 │     0 │       0 │         10 │             NULL │
+│ 2026-11-11 │        6 │     0 │       0 │          6 │             NULL │
+│ 2026-11-12 │       20 │    10 │       2 │          8 │            566.0 │
+│ 2026-11-13 │       16 │     9 │       7 │          0 │            533.5 │
+│ 2026-11-14 │        6 │     3 │       3 │          0 │            748.5 │
+│ 2026-11-15 │        4 │     3 │       1 │          0 │           1058.5 │
+└────────────┴──────────┴───────┴─────────┴────────────┴──────────────────┘
+  12 rows                                                       6 columns
+
+06:52:48 INFO gravei 12 linhas em dados/gold/por_dia.parquet
+┌─────────────┬──────────┬──────────┬──────────────────┐
+│    fonte    │ noticias │ porcento │ palavras_mediana │
+│   varchar   │  int64   │  double  │      double      │
+├─────────────┼──────────┼──────────┼──────────────────┤
+│ sem página  │       60 │     60.6 │             NULL │
+│ redação     │       15 │     15.2 │            677.0 │
+│ agência     │       13 │     13.1 │            587.0 │
+│ repórter    │       10 │     10.1 │            529.5 │
+│ publicidade │        1 │      1.0 │            105.0 │
+└─────────────┴──────────┴──────────┴──────────────────┘
+
+06:52:48 INFO gravei 5 linhas em dados/gold/por_fonte.parquet
+06:52:48 INFO etapa 6 de 6: carregar no banco
+06:52:48 INFO notícias: 100 na silver; novas 0, mudaram 20, iguais 80; saíram do banco 0
+06:52:48 INFO nomes: 4 novos, 0 mudaram de tipo; assinaturas: 0 saíram, 20 entraram
+06:52:48 INFO conferido: 100 notícias, 25330 palavras e 41 assinaturas, na silver e no banco
+06:52:48 INFO conferido: as views por_dia e por_fonte dão as mesmas linhas que a gold
+$ uv run python carregar.py
+06:52:48 INFO notícias: 100 na silver; novas 0, mudaram 0, iguais 100; saíram do banco 0
+06:52:48 INFO nomes: 0 novos, 0 mudaram de tipo; assinaturas: 0 saíram, 0 entraram
+06:52:48 INFO conferido: 100 notícias, 25330 palavras e 41 assinaturas, na silver e no banco
+06:52:48 INFO conferido: as views por_dia e por_fonte dão as mesmas linhas que a gold
+$ docker compose exec banco psql -U postgres -c 'SELECT id, noticias, novas, mudaram, iguais, sairam, nomes_novos, assinaturas_entraram FROM cargas ORDER BY id'
+ id | noticias | novas | mudaram | iguais | sairam | nomes_novos | assinaturas_entraram 
+----+----------+-------+---------+--------+--------+-------------+----------------------
+  1 |      100 |   100 |       0 |      0 |      0 |          12 |                   21
+  2 |      100 |     0 |      20 |     80 |      0 |           4 |                   20
+  3 |      100 |     0 |       0 |    100 |      0 |           0 |                    0
+(3 rows)
+
+$ uv run pytest
+
+============================== 34 passed in 0.25s ==============================
+$ docker compose down -v
+ Container final-banco-1 Stopping 
+ Container final-banco-1 Stopped 
+ Container final-banco-1 Removing 
+ Container final-banco-1 Removed 
+ Volume final_banco Removing 
+ Network final_default Removing 
+ Volume final_banco Removed 
+ Network final_default Removed 
