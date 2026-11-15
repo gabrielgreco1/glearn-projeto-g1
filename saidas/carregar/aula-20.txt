@@ -129,7 +129,7 @@ $ docker compose exec banco psql -U postgres -c 'SELECT id, noticias, novas, mud
 
 $ uv run pytest
 
-============================== 34 passed in 0.24s ==============================
+============================== 35 passed in 0.24s ==============================
 $ docker compose stop
  Container projeto-g1-banco-1 Stopping 
  Container projeto-g1-banco-1 Stopped 

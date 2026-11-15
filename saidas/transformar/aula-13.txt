@@ -13,15 +13,15 @@ rootdir: projeto
 configfile: pyproject.toml
 testpaths: testes
 plugins: anyio-4.16.0
-collected 25 items
+collected 26 items
 
-testes/test_assinatura.py ...                                            [ 12%]
-testes/test_ler.py ....                                                  [ 28%]
-testes/test_materias.py ..                                               [ 36%]
-testes/test_repetidas.py ..                                              [ 44%]
-testes/test_silver.py ...                                                [ 56%]
-testes/test_sitemap.py ...                                               [ 68%]
-testes/test_texto.py ......                                              [ 92%]
-testes/test_validar.py ..                                                [100%]
+testes/test_assinatura.py ...                                            [ 11%]
+testes/test_ler.py ....                                                  [ 26%]
+testes/test_materias.py ..                                               [ 34%]
+testes/test_repetidas.py ..                                              [ 42%]
+testes/test_silver.py ...                                                [ 53%]
+testes/test_sitemap.py ...                                               [ 65%]
+testes/test_texto.py ......                                              [ 88%]
+testes/test_validar.py ...                                               [100%]
 
-============================== 25 passed in 0.18s ==============================
+============================== 26 passed in 0.17s ==============================

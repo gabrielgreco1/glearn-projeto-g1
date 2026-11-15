@@ -170,4 +170,4 @@ $ uv run python carregar.py
 06:29:28 INFO nomes: 0 novos, 1 mudaram de tipo; assinaturas: 0 saíram, 0 entraram
 $ uv run pytest
 
-============================== 31 passed in 0.24s ==============================
+============================== 32 passed in 0.28s ==============================
