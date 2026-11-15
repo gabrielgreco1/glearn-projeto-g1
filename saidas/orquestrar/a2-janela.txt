@@ -1,0 +1,3 @@
+$ uv run python janela.py
+10:32:06 INFO o feed tem 100 notícias, de 04/11 10:33 a 15/11 09:06, em Brasília
+10:32:06 INFO janela de 10 dias e 22 h; 9.1 notícias por dia; o maior intervalo sem notícia nova: 18 h 39 min

@@ -1,0 +1,124 @@
+$ ls dados/bronze/materias/*_2026_11_1[45]_*.html | wc -l
+      12
+$ for f in dados/bronze/materias/*_2026_11_1[45]_*.html; do cp testes/amostra_feed.xml "$f"; done
+$ uv run python fluxo.py
+11:14:45.010 | INFO    | Flow run 'marigold-mandrill' - Beginning flow run 'marigold-mandrill' for flow 'projeto-g1'
+11:14:45.012 | INFO    | Flow run 'marigold-mandrill' - View at http://127.0.0.1:4200/runs/flow-run/4b6c7d67-b150-4c17-94ce-b6daf3a3d67e
+11:14:47.091 | INFO    | g1 - o feed não mudou desde 2026-11-15T13:28:33+00:00, nada para baixar
+11:14:47.094 | INFO    | Task run 'feed-7b4' - Finished in state Completed()
+11:14:47.173 | INFO    | g1 - feed: 100 notícias lidas, 0 novas, 100 já estavam guardadas. Total: 141
+11:14:47.175 | INFO    | Task run 'guardar-f98' - Finished in state Completed()
+11:14:47.178 | INFO    | g1 - já tenho dados/bronze/sitemap/2026-11-14_1.xml, não peço de novo
+11:14:47.181 | INFO    | g1 - já tenho dados/bronze/sitemap/2026-11-14_2.xml, não peço de novo
+11:14:49.268 | INFO    | g1 - baixei o mapa de 2026-11-15, parte 1: 103892 bytes em dados/bronze/sitemap/2026-11-15_1.xml
+11:14:51.333 | INFO    | g1 - baixei o mapa de 2026-11-15, parte 2: 215 bytes em dados/bronze/sitemap/2026-11-15_2.xml
+~/projeto-g1/materias.py:98: XMLParsedAsHTMLWarning: It looks like you're using an HTML parser to parse an XML document.
+
+Assuming this really is an XML document, what you're doing might work, but you should know that using an XML parser will be more reliable. To parse this document as XML, make sure you have the Python package 'lxml' installed, and pass the keyword argument `features="xml"` into the BeautifulSoup constructor.
+
+If you want or need to use an HTML parser on this document, you can make this warning go away by filtering it. To do that, run this code before calling the BeautifulSoup constructor:
+
+    from bs4 import XMLParsedAsHTMLWarning
+    import warnings
+
+    warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
+
+  pagina = BeautifulSoup(html, "html.parser")
+11:14:51.432 | INFO    | g1 - matérias: 0 baixadas nesta rodada, 0 delas de novo, porque a notícia mudou; 0 ficam para a próxima
+11:14:51.433 | INFO    | Task run 'paginas-b45' - Finished in state Completed()
+~/projeto-g1/materias.py:98: XMLParsedAsHTMLWarning: It looks like you're using an HTML parser to parse an XML document.
+
+Assuming this really is an XML document, what you're doing might work, but you should know that using an XML parser will be more reliable. To parse this document as XML, make sure you have the Python package 'lxml' installed, and pass the keyword argument `features="xml"` into the BeautifulSoup constructor.
+
+If you want or need to use an HTML parser on this document, you can make this warning go away by filtering it. To do that, run this code before calling the BeautifulSoup constructor:
+
+    from bs4 import XMLParsedAsHTMLWarning
+    import warnings
+
+    warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
+
+  pagina = BeautifulSoup(html, "html.parser")
+11:14:58.707 | INFO    | g1 - gravei 141 linhas em dados/noticias.csv
+11:14:58.708 | INFO    | g1 - conferência: 141 notícias, 0 repetidas, 0 sem data, 0 sem título, 128 com a página lida
+11:14:58.708 | INFO    | g1 - notícias do dia 2026-10-27 ao dia 2026-11-15
+11:14:58.709 | INFO    | Task run 'tabela_e_conferencia-137' - Finished in state Completed()
+11:14:58.710 | INFO    | g1 - transformar 1 de 3: a silver
+~/projeto-g1/texto.py:30: XMLParsedAsHTMLWarning: It looks like you're using an HTML parser to parse an XML document.
+
+Assuming this really is an XML document, what you're doing might work, but you should know that using an XML parser will be more reliable. To parse this document as XML, make sure you have the Python package 'lxml' installed, and pass the keyword argument `features="xml"` into the BeautifulSoup constructor.
+
+If you want or need to use an HTML parser on this document, you can make this warning go away by filtering it. To do that, run this code before calling the BeautifulSoup constructor:
+
+    from bs4 import XMLParsedAsHTMLWarning
+    import warnings
+
+    warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
+
+  pagina = BeautifulSoup(html, "html.parser")
+~/projeto-g1/assinatura.py:20: XMLParsedAsHTMLWarning: It looks like you're using an HTML parser to parse an XML document.
+
+Assuming this really is an XML document, what you're doing might work, but you should know that using an XML parser will be more reliable. To parse this document as XML, make sure you have the Python package 'lxml' installed, and pass the keyword argument `features="xml"` into the BeautifulSoup constructor.
+
+If you want or need to use an HTML parser on this document, you can make this warning go away by filtering it. To do that, run this code before calling the BeautifulSoup constructor:
+
+    from bs4 import XMLParsedAsHTMLWarning
+    import warnings
+
+    warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
+
+  marca = BeautifulSoup(html, "html.parser").select_one(".content-publication-data__from")
+11:15:13.523 | INFO    | g1 - 141 notícias; 3 repetidas; 1 pares para você ler (uv run python silver.py mostra)
+11:15:13.523 | INFO    | g1 - transformar 2 de 3: as regras
+11:15:13.525 | INFO    | g1 - lidas 141 = válidas 141 + rejeitadas 0
+11:15:13.527 | INFO    | g1 - gravei 141 notícias em dados/silver/noticias.parquet e 0 rejeições em dados/silver/rejeitados.csv
+11:15:13.528 | INFO    | g1 - transformar 3 de 3: a gold
+11:15:13.542 | INFO    | Task run 'transformar-a19' - ┌────────────┬──────────┬───────┬─────────┬────────────┬──────────────────┐
+│    dia     │ noticias │ do_g1 │ de_fora │ sem_pagina │ palavras_mediana │
+│    date    │  int64   │ int64 │  int64  │   int64    │      double      │
+├────────────┼──────────┼───────┼─────────┼────────────┼──────────────────┤
+│ 2026-10-27 │        2 │     1 │       1 │          0 │            751.5 │
+│ 2026-10-28 │        6 │     3 │       3 │          0 │            224.5 │
+│ 2026-10-29 │        4 │     3 │       1 │          0 │            409.0 │
+│ 2026-10-30 │       11 │     8 │       3 │          0 │            562.0 │
+│ 2026-10-31 │        5 │     4 │       1 │          0 │            598.0 │
+│ 2026-11-01 │        1 │     0 │       1 │          0 │            896.0 │
+│ 2026-11-02 │        4 │     2 │       2 │          0 │            637.0 │
+│ 2026-11-03 │        3 │     1 │       2 │          0 │            384.0 │
+│ 2026-11-04 │        7 │     6 │       1 │          0 │            680.0 │
+│ 2026-11-05 │        7 │     5 │       2 │          0 │            448.0 │
+│ 2026-11-06 │        7 │     3 │       4 │          0 │            715.0 │
+│ 2026-11-07 │        3 │     2 │       1 │          0 │            677.0 │
+│ 2026-11-08 │        2 │     1 │       1 │          0 │           1271.5 │
+│ 2026-11-09 │       11 │     8 │       3 │          0 │            679.5 │
+│ 2026-11-10 │       10 │     2 │       8 │          0 │            580.5 │
+│ 2026-11-11 │        6 │     4 │       2 │          0 │            558.5 │
+│ 2026-11-12 │       18 │    12 │       6 │          0 │            595.0 │
+│ 2026-11-13 │       16 │     9 │       7 │          0 │            533.5 │
+│ 2026-11-14 │        6 │     0 │       0 │          6 │             NULL │
+│ 2026-11-15 │        6 │     0 │       0 │          6 │             NULL │
+└────────────┴──────────┴───────┴─────────┴────────────┴──────────────────┘
+  20 rows                                                       6 columns
+11:15:13.544 | INFO    | g1 - gravei 20 linhas em dados/gold/por_dia.parquet
+11:15:13.547 | INFO    | Task run 'transformar-a19' - ┌─────────────┬──────────┬──────────┬──────────────────┐
+│    fonte    │ noticias │ porcento │ palavras_mediana │
+│   varchar   │  int64   │  double  │      double      │
+├─────────────┼──────────┼──────────┼──────────────────┤
+│ agência     │       49 │     35.5 │            587.0 │
+│ redação     │       47 │     34.1 │            448.0 │
+│ repórter    │       27 │     19.6 │            715.0 │
+│ sem página  │       12 │      8.7 │             NULL │
+│ publicidade │        3 │      2.2 │            195.0 │
+└─────────────┴──────────┴──────────┴──────────────────┘
+11:15:13.549 | INFO    | g1 - gravei 5 linhas em dados/gold/por_fonte.parquet
+11:15:13.550 | INFO    | Task run 'transformar-a19' - Finished in state Completed()
+11:15:13.574 | INFO    | g1 - notícias: 141 na silver; novas 0, mudaram 12, iguais 129; saíram do banco 0
+11:15:13.574 | INFO    | g1 - nomes: 0 novos, 0 mudaram de tipo; assinaturas: 13 saíram, 0 entraram
+11:15:13.574 | INFO    | g1 - conferido: 141 notícias, 81599 palavras e 132 assinaturas, na silver e no banco
+11:15:13.574 | INFO    | g1 - conferido: as views por_dia e por_fonte dão as mesmas linhas que a gold
+11:15:13.576 | INFO    | Task run 'carregar-97e' - Finished in state Completed()
+11:15:13.584 | INFO    | g1 - vigia: a notícia mais nova saiu há 2 h; 10 das 10 páginas mais novas sem texto ou sem assinatura; 0 notícias sem página; 1 avisos
+11:15:13.584 | INFO    | Task run 'vigiar-888' - ATENÇÃO: 10 das 10 páginas mais novas vieram sem texto ou sem assinatura. O G1 pode ter mudado a página: abra uma delas no navegador e procure o itemprop="articleBody" que o texto.py usa.
+11:15:13.585 | INFO    | Task run 'vigiar-888' - Finished in state Completed()
+11:15:13.594 | INFO    | Flow run 'marigold-mandrill' - Finished in state Completed()
+$ tail -n 1 avisos.log
+2026-11-15 11:15:13 ATENÇÃO: 10 das 10 páginas mais novas vieram sem texto ou sem assinatura. O G1 pode ter mudado a página: abra uma delas no navegador e procure o itemprop="articleBody" que o texto.py usa. (o que fazer: runbook.md)

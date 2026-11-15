@@ -1,0 +1,93 @@
+$ rm dados/bronze/materias/*_2026_11_1[45]_*.html
+$ uv run python fluxo.py
+11:15:14.575 | INFO    | Flow run 'poised-goshawk' - Beginning flow run 'poised-goshawk' for flow 'projeto-g1'
+11:15:14.578 | INFO    | Flow run 'poised-goshawk' - View at http://127.0.0.1:4200/runs/flow-run/381eb0a1-72b0-4900-8680-4eb4fb440198
+11:15:16.631 | INFO    | g1 - o feed não mudou desde 2026-11-15T13:28:33+00:00, nada para baixar
+11:15:16.634 | INFO    | Task run 'feed-4fd' - Finished in state Completed()
+11:15:16.707 | INFO    | g1 - feed: 100 notícias lidas, 0 novas, 100 já estavam guardadas. Total: 141
+11:15:16.708 | INFO    | Task run 'guardar-be6' - Finished in state Completed()
+11:15:16.712 | INFO    | g1 - já tenho dados/bronze/sitemap/2026-11-14_1.xml, não peço de novo
+11:15:16.714 | INFO    | g1 - já tenho dados/bronze/sitemap/2026-11-14_2.xml, não peço de novo
+11:15:18.773 | INFO    | g1 - baixei o mapa de 2026-11-15, parte 1: 103892 bytes em dados/bronze/sitemap/2026-11-15_1.xml
+11:15:20.829 | INFO    | g1 - baixei o mapa de 2026-11-15, parte 2: 215 bytes em dados/bronze/sitemap/2026-11-15_2.xml
+11:15:46.016 | INFO    | g1 - matérias: 12 baixadas nesta rodada, 0 delas de novo, porque a notícia mudou; 0 ficam para a próxima
+11:15:46.021 | INFO    | Task run 'paginas-4f5' - Finished in state Completed()
+11:15:54.026 | INFO    | g1 - gravei 141 linhas em dados/noticias.csv
+11:15:54.027 | INFO    | g1 - conferência: 141 notícias, 0 repetidas, 0 sem data, 0 sem título, 140 com a página lida
+11:15:54.027 | INFO    | g1 - notícias do dia 2026-10-27 ao dia 2026-11-15
+11:15:54.028 | INFO    | Task run 'tabela_e_conferencia-e36' - Finished in state Completed()
+11:15:54.029 | INFO    | g1 - transformar 1 de 3: a silver
+11:16:10.173 | INFO    | g1 - 141 notícias; 3 repetidas; 1 pares para você ler (uv run python silver.py mostra)
+11:16:10.174 | INFO    | g1 - transformar 2 de 3: as regras
+11:16:10.176 | INFO    | g1 - lidas 141 = válidas 141 + rejeitadas 0
+11:16:10.178 | INFO    | g1 - gravei 141 notícias em dados/silver/noticias.parquet e 0 rejeições em dados/silver/rejeitados.csv
+11:16:10.179 | INFO    | g1 - transformar 3 de 3: a gold
+11:16:10.192 | INFO    | Task run 'transformar-ea5' - ┌────────────┬──────────┬───────┬─────────┬────────────┬──────────────────┐
+│    dia     │ noticias │ do_g1 │ de_fora │ sem_pagina │ palavras_mediana │
+│    date    │  int64   │ int64 │  int64  │   int64    │      double      │
+├────────────┼──────────┼───────┼─────────┼────────────┼──────────────────┤
+│ 2026-10-27 │        2 │     1 │       1 │          0 │            751.5 │
+│ 2026-10-28 │        6 │     3 │       3 │          0 │            224.5 │
+│ 2026-10-29 │        4 │     3 │       1 │          0 │            409.0 │
+│ 2026-10-30 │       11 │     8 │       3 │          0 │            562.0 │
+│ 2026-10-31 │        5 │     4 │       1 │          0 │            598.0 │
+│ 2026-11-01 │        1 │     0 │       1 │          0 │            896.0 │
+│ 2026-11-02 │        4 │     2 │       2 │          0 │            637.0 │
+│ 2026-11-03 │        3 │     1 │       2 │          0 │            384.0 │
+│ 2026-11-04 │        7 │     6 │       1 │          0 │            680.0 │
+│ 2026-11-05 │        7 │     5 │       2 │          0 │            448.0 │
+│ 2026-11-06 │        7 │     3 │       4 │          0 │            715.0 │
+│ 2026-11-07 │        3 │     2 │       1 │          0 │            677.0 │
+│ 2026-11-08 │        2 │     1 │       1 │          0 │           1271.5 │
+│ 2026-11-09 │       11 │     8 │       3 │          0 │            679.5 │
+│ 2026-11-10 │       10 │     2 │       8 │          0 │            580.5 │
+│ 2026-11-11 │        6 │     4 │       2 │          0 │            558.5 │
+│ 2026-11-12 │       18 │    12 │       6 │          0 │            595.0 │
+│ 2026-11-13 │       16 │     9 │       7 │          0 │            533.5 │
+│ 2026-11-14 │        6 │     3 │       3 │          0 │            748.5 │
+│ 2026-11-15 │        6 │     4 │       2 │          0 │            819.0 │
+└────────────┴──────────┴───────┴─────────┴────────────┴──────────────────┘
+  20 rows                                                       6 columns
+11:16:10.194 | INFO    | g1 - gravei 20 linhas em dados/gold/por_dia.parquet
+11:16:10.196 | INFO    | Task run 'transformar-ea5' - ┌─────────────┬──────────┬──────────┬──────────────────┐
+│    fonte    │ noticias │ porcento │ palavras_mediana │
+│   varchar   │  int64   │  double  │      double      │
+├─────────────┼──────────┼──────────┼──────────────────┤
+│ agência     │       54 │     39.1 │            582.5 │
+│ redação     │       51 │     37.0 │            476.5 │
+│ repórter    │       30 │     21.7 │            740.5 │
+│ publicidade │        3 │      2.2 │            195.0 │
+└─────────────┴──────────┴──────────┴──────────────────┘
+11:16:10.198 | INFO    | g1 - gravei 4 linhas em dados/gold/por_fonte.parquet
+11:16:10.199 | INFO    | Task run 'transformar-ea5' - Finished in state Completed()
+11:16:10.222 | INFO    | g1 - notícias: 141 na silver; novas 0, mudaram 12, iguais 129; saíram do banco 0
+11:16:10.222 | INFO    | g1 - nomes: 0 novos, 0 mudaram de tipo; assinaturas: 0 saíram, 13 entraram
+11:16:10.222 | INFO    | g1 - conferido: 141 notícias, 91563 palavras e 145 assinaturas, na silver e no banco
+11:16:10.222 | INFO    | g1 - conferido: as views por_dia e por_fonte dão as mesmas linhas que a gold
+11:16:10.223 | INFO    | Task run 'carregar-040' - Finished in state Completed()
+11:16:10.230 | INFO    | g1 - vigia: a notícia mais nova saiu há 2 h; 0 das 10 páginas mais novas sem texto ou sem assinatura; 0 notícias sem página; 0 avisos
+11:16:10.231 | INFO    | Task run 'vigiar-ce4' - Finished in state Completed()
+11:16:10.239 | INFO    | Flow run 'poised-goshawk' - Finished in state Completed()
+$ uv run pytest
+========================================================================================= test session starts ==========================================================================================
+platform darwin -- Python 3.13.5, pytest-9.2.0, pluggy-1.7.0
+rootdir: ~/projeto-g1
+configfile: pyproject.toml
+testpaths: testes
+plugins: anyio-4.16.0
+collected 49 items
+
+testes/test_assinatura.py ...                                                                                                                                                                    [  6%]
+testes/test_carregar.py ........                                                                                                                                                                 [ 22%]
+testes/test_gold.py .                                                                                                                                                                            [ 24%]
+testes/test_janela.py .....                                                                                                                                                                      [ 34%]
+testes/test_ler.py ....                                                                                                                                                                          [ 42%]
+testes/test_materias.py .....                                                                                                                                                                    [ 53%]
+testes/test_repetidas.py ..                                                                                                                                                                      [ 57%]
+testes/test_silver.py ...                                                                                                                                                                        [ 63%]
+testes/test_sitemap.py ...                                                                                                                                                                       [ 69%]
+testes/test_texto.py ......                                                                                                                                                                      [ 81%]
+testes/test_validar.py ...                                                                                                                                                                       [ 87%]
+testes/test_vigiar.py ......                                                                                                                                                                     [100%]
+
+========================================================================================== 49 passed in 0.36s ==========================================================================================

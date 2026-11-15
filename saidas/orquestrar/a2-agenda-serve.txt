@@ -1,0 +1,75 @@
+$ uv run python fluxo.py agendar
+Your flow 'projeto-g1' is being served and polling for scheduled runs!
+
+To trigger a run for this flow, use the following command:
+
+        $ prefect deployment run 'projeto-g1/a-cada-3-horas'
+
+You can also run your flow via the Prefect UI: http://127.0.0.1:4200/deployments/deployment/b39de94a-bb36-4b22-a8eb-f4dfebb94bf6
+
+10:37:27.572 | INFO    | Flow run 'dangerous-manatee' - Beginning flow run 'dangerous-manatee' for flow 'projeto-g1'
+10:37:27.574 | INFO    | Flow run 'dangerous-manatee' - View at http://127.0.0.1:4200/runs/flow-run/bf6e2725-d8ea-4600-9d71-6b1e7f3004e8
+10:37:29.642 | INFO    | g1 - o feed não mudou desde 2026-11-15T13:28:33+00:00, nada para baixar
+10:37:29.645 | INFO    | Task run 'feed-617' - Finished in state Completed()
+10:37:29.699 | INFO    | g1 - feed: 100 notícias lidas, 0 novas, 100 já estavam guardadas. Total: 141
+10:37:29.700 | INFO    | Task run 'guardar-a4a' - Finished in state Completed()
+10:37:29.704 | INFO    | g1 - matérias: 0 baixadas nesta rodada, 0 ficam para a próxima
+10:37:29.704 | INFO    | Task run 'paginas-31d' - Finished in state Completed()
+10:37:37.578 | INFO    | g1 - gravei 141 linhas em dados/noticias.csv
+10:37:37.579 | INFO    | g1 - conferência: 141 notícias, 0 repetidas, 0 sem data, 0 sem título, 140 com a página lida
+10:37:37.579 | INFO    | g1 - notícias do dia 2026-10-27 ao dia 2026-11-15
+10:37:37.580 | INFO    | Task run 'tabela_e_conferencia-dad' - Finished in state Completed()
+10:37:37.581 | INFO    | g1 - transformar 1 de 3: a silver
+10:37:53.592 | INFO    | g1 - 141 notícias; 3 repetidas; 1 pares para você ler (uv run python silver.py mostra)
+10:37:53.593 | INFO    | g1 - transformar 2 de 3: as regras
+10:37:53.595 | INFO    | g1 - lidas 141 = válidas 141 + rejeitadas 0
+10:37:53.597 | INFO    | g1 - gravei 141 notícias em dados/silver/noticias.parquet e 0 rejeições em dados/silver/rejeitados.csv
+10:37:53.597 | INFO    | g1 - transformar 3 de 3: a gold
+10:37:53.610 | INFO    | Task run 'transformar-927' - ┌────────────┬──────────┬───────┬─────────┬────────────┬──────────────────┐
+│    dia     │ noticias │ do_g1 │ de_fora │ sem_pagina │ palavras_mediana │
+│    date    │  int64   │ int64 │  int64  │   int64    │      double      │
+├────────────┼──────────┼───────┼─────────┼────────────┼──────────────────┤
+│ 2026-10-27 │        2 │     1 │       1 │          0 │            751.5 │
+│ 2026-10-28 │        6 │     3 │       3 │          0 │            224.5 │
+│ 2026-10-29 │        4 │     3 │       1 │          0 │            409.0 │
+│ 2026-10-30 │       11 │     8 │       3 │          0 │            562.0 │
+│ 2026-10-31 │        5 │     4 │       1 │          0 │            598.0 │
+│ 2026-11-01 │        1 │     0 │       1 │          0 │            896.0 │
+│ 2026-11-02 │        4 │     2 │       2 │          0 │            637.0 │
+│ 2026-11-03 │        3 │     1 │       2 │          0 │            384.0 │
+│ 2026-11-04 │        7 │     6 │       1 │          0 │            680.0 │
+│ 2026-11-05 │        7 │     5 │       2 │          0 │            448.0 │
+│ 2026-11-06 │        7 │     3 │       4 │          0 │            715.0 │
+│ 2026-11-07 │        3 │     2 │       1 │          0 │            677.0 │
+│ 2026-11-08 │        2 │     1 │       1 │          0 │           1271.5 │
+│ 2026-11-09 │       11 │     8 │       3 │          0 │            679.5 │
+│ 2026-11-10 │       10 │     2 │       8 │          0 │            580.5 │
+│ 2026-11-11 │        6 │     4 │       2 │          0 │            558.5 │
+│ 2026-11-12 │       18 │    12 │       6 │          0 │            595.0 │
+│ 2026-11-13 │       16 │     9 │       7 │          0 │            533.5 │
+│ 2026-11-14 │        6 │     3 │       3 │          0 │            748.5 │
+│ 2026-11-15 │        6 │     4 │       2 │          0 │            819.0 │
+└────────────┴──────────┴───────┴─────────┴────────────┴──────────────────┘
+  20 rows                                                       6 columns
+10:37:53.613 | INFO    | g1 - gravei 20 linhas em dados/gold/por_dia.parquet
+10:37:53.615 | INFO    | Task run 'transformar-927' - ┌─────────────┬──────────┬──────────┬──────────────────┐
+│    fonte    │ noticias │ porcento │ palavras_mediana │
+│   varchar   │  int64   │  double  │      double      │
+├─────────────┼──────────┼──────────┼──────────────────┤
+│ agência     │       54 │     39.1 │            582.5 │
+│ redação     │       51 │     37.0 │            476.5 │
+│ repórter    │       30 │     21.7 │            740.5 │
+│ publicidade │        3 │      2.2 │            195.0 │
+└─────────────┴──────────┴──────────┴──────────────────┘
+10:37:53.617 | INFO    | g1 - gravei 4 linhas em dados/gold/por_fonte.parquet
+10:37:53.617 | INFO    | Task run 'transformar-927' - Finished in state Completed()
+10:37:53.640 | INFO    | g1 - notícias: 141 na silver; novas 0, mudaram 0, iguais 141; saíram do banco 0
+10:37:53.640 | INFO    | g1 - nomes: 0 novos, 0 mudaram de tipo; assinaturas: 0 saíram, 0 entraram
+10:37:53.640 | INFO    | g1 - conferido: 141 notícias, 91563 palavras e 145 assinaturas, na silver e no banco
+10:37:53.640 | INFO    | g1 - conferido: as views por_dia e por_fonte dão as mesmas linhas que a gold
+10:37:53.641 | INFO    | Task run 'carregar-0bc' - Finished in state Completed()
+10:37:53.709 | INFO    | Flow run 'dangerous-manatee' - Finished in state Completed()
+10:37:56.879 | INFO    | prefect.runner - Pausing all deployments...
+10:37:56.897 | INFO    | prefect.runner - All deployments have been paused!
+10:37:56.899 | INFO    | prefect.flows - Received KeyboardInterrupt, shutting down...
+^C

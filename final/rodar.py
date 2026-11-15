@@ -1,9 +1,9 @@
 """Roda o projeto inteiro, na ordem: extrair, transformar e carregar no Postgres. Pode rodar quantas vezes quiser: só o
 que é novo entra, e no banco só muda a notícia que mudou. O banco precisa estar de pé (docker compose up -d --wait)."""
 
-import acumular
 import carregar
 import conferir
+import janela
 import materias
 import tabela
 import transformar
@@ -16,8 +16,9 @@ def main():
     baixar_feed()
     registro.info("etapa 2 de 6: guardar só o que é novo")
     # Lê o feed mais novo guardado, mesmo quando o G1 respondeu 304: se a rodada anterior parou antes
-    # desta etapa, as notícias dela entram agora. As que já estão guardadas não entram de novo.
-    acumular.acumular(ler_feed(feed_mais_novo().read_bytes()), "feed")
+    # desta etapa, as notícias dela entram agora. As que já estão guardadas não entram de novo. Se o feed já não
+    # encosta na rodada anterior, o janela.py vai antes ao mapa do site dos dias do buraco.
+    janela.guardar_feed(ler_feed(feed_mais_novo().read_bytes()))
     registro.info("etapa 3 de 6: a página das notícias que faltam")
     materias.baixar_materias()
     registro.info("etapa 4 de 6: a tabela e a conferência")

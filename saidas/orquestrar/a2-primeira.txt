@@ -1,0 +1,65 @@
+$ uv run python fluxo.py
+10:32:44.931 | INFO    | Flow run 'hilarious-rabbit' - Beginning flow run 'hilarious-rabbit' for flow 'projeto-g1'
+10:32:44.933 | INFO    | Flow run 'hilarious-rabbit' - View at http://127.0.0.1:4200/runs/flow-run/4879daab-09eb-44b1-ba53-8fe7f4f7cd9b
+10:32:46.996 | INFO    | g1 - o feed não mudou desde 2026-11-15T13:28:33+00:00, nada para baixar
+10:32:47.000 | INFO    | Task run 'feed-b26' - Finished in state Completed()
+10:32:47.077 | INFO    | g1 - feed: 100 notícias lidas, 0 novas, 100 já estavam guardadas. Total: 113
+10:32:47.078 | INFO    | Task run 'guardar-6ee' - Finished in state Completed()
+10:32:47.081 | INFO    | g1 - matérias: 0 baixadas nesta rodada, 0 ficam para a próxima
+10:32:47.082 | INFO    | Task run 'paginas-6d2' - Finished in state Completed()
+10:32:53.485 | INFO    | g1 - gravei 113 linhas em dados/noticias.csv
+10:32:53.486 | INFO    | g1 - conferência: 113 notícias, 0 repetidas, 0 sem data, 0 sem título, 112 com a página lida
+10:32:53.486 | INFO    | g1 - notícias do dia 2026-10-31 ao dia 2026-11-15
+10:32:53.487 | INFO    | Task run 'tabela_e_conferencia-ea7' - Finished in state Completed()
+10:32:53.488 | INFO    | g1 - transformar 1 de 3: a silver
+10:33:06.488 | INFO    | g1 - 113 notícias; 3 repetidas; 1 pares para você ler (uv run python silver.py mostra)
+10:33:06.489 | INFO    | g1 - transformar 2 de 3: as regras
+10:33:06.491 | INFO    | g1 - lidas 113 = válidas 113 + rejeitadas 0
+10:33:06.492 | INFO    | g1 - gravei 113 notícias em dados/silver/noticias.parquet e 0 rejeições em dados/silver/rejeitados.csv
+10:33:06.493 | INFO    | g1 - transformar 3 de 3: a gold
+10:33:06.506 | INFO    | Task run 'transformar-7e0' - ┌────────────┬──────────┬───────┬─────────┬────────────┬──────────────────┐
+│    dia     │ noticias │ do_g1 │ de_fora │ sem_pagina │ palavras_mediana │
+│    date    │  int64   │ int64 │  int64  │   int64    │      double      │
+├────────────┼──────────┼───────┼─────────┼────────────┼──────────────────┤
+│ 2026-10-31 │        1 │     1 │       0 │          0 │             62.0 │
+│ 2026-11-01 │        1 │     0 │       1 │          0 │            896.0 │
+│ 2026-11-02 │        4 │     2 │       2 │          0 │            637.0 │
+│ 2026-11-03 │        3 │     1 │       2 │          0 │            384.0 │
+│ 2026-11-04 │        7 │     6 │       1 │          0 │            680.0 │
+│ 2026-11-05 │        7 │     5 │       2 │          0 │            448.0 │
+│ 2026-11-06 │        7 │     3 │       4 │          0 │            715.0 │
+│ 2026-11-07 │        3 │     2 │       1 │          0 │            677.0 │
+│ 2026-11-08 │        2 │     1 │       1 │          0 │           1271.5 │
+│ 2026-11-09 │       11 │     8 │       3 │          0 │            679.5 │
+│ 2026-11-10 │       10 │     2 │       8 │          0 │            580.5 │
+│ 2026-11-11 │        6 │     4 │       2 │          0 │            558.5 │
+│ 2026-11-12 │       18 │    12 │       6 │          0 │            595.0 │
+│ 2026-11-13 │       16 │     9 │       7 │          0 │            533.5 │
+│ 2026-11-14 │        6 │     3 │       3 │          0 │            748.5 │
+│ 2026-11-15 │        6 │     4 │       2 │          0 │            819.0 │
+└────────────┴──────────┴───────┴─────────┴────────────┴──────────────────┘
+  16 rows                                                       6 columns
+10:33:06.508 | INFO    | g1 - gravei 16 linhas em dados/gold/por_dia.parquet
+10:33:06.510 | INFO    | Task run 'transformar-7e0' - ┌─────────────┬──────────┬──────────┬──────────────────┐
+│    fonte    │ noticias │ porcento │ palavras_mediana │
+│   varchar   │  int64   │  double  │      double      │
+├─────────────┼──────────┼──────────┼──────────────────┤
+│ agência     │       45 │     40.9 │            592.0 │
+│ redação     │       38 │     34.5 │            534.0 │
+│ repórter    │       25 │     22.7 │            735.0 │
+│ publicidade │        2 │      1.8 │            566.0 │
+└─────────────┴──────────┴──────────┴──────────────────┘
+10:33:06.512 | INFO    | g1 - gravei 4 linhas em dados/gold/por_fonte.parquet
+10:33:06.513 | INFO    | Task run 'transformar-7e0' - Finished in state Completed()
+10:33:06.534 | INFO    | g1 - notícias: 113 na silver; novas 0, mudaram 0, iguais 113; saíram do banco 0
+10:33:06.535 | INFO    | g1 - nomes: 0 novos, 0 mudaram de tipo; assinaturas: 0 saíram, 0 entraram
+10:33:06.535 | INFO    | g1 - conferido: 113 notícias, 75424 palavras e 116 assinaturas, na silver e no banco
+10:33:06.535 | INFO    | g1 - conferido: as views por_dia e por_fonte dão as mesmas linhas que a gold
+10:33:06.536 | INFO    | Task run 'carregar-6ce' - Finished in state Completed()
+10:33:06.544 | INFO    | Flow run 'hilarious-rabbit' - Finished in state Completed()
+$ cat dados/estado.json
+{
+  "etag": "\"a24db6a40c491fdb8251ff5f11a6170d180555cb\"",
+  "baixado_em": "2026-11-15T13:28:33+00:00",
+  "mais_nova_do_feed": "2026-11-15T12:06:34+00:00"
+}

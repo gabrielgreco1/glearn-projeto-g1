@@ -1,0 +1,2 @@
+$ uv run python vigiar.py
+11:13:53 INFO vigia: a notícia mais nova saiu há 2 h; 0 das 10 páginas mais novas sem texto ou sem assinatura; 0 notícias sem página; 0 avisos

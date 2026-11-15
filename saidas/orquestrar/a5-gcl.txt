@@ -1,0 +1,18 @@
+$ uv run prefect gcl create projeto-g1 --limit 1
+Created global concurrency limit with name 'projeto-g1' and ID '9477d898-080d-4e55-b911-78a713e0992a'. Run `prefect gcl inspect projeto-g1` to view details.
+$ uv run prefect gcl ls
+                                               Global Concurrency Limits                                                
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━┳━━━┳━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━┓
+┃                               ID ┃ Name   ┃ A… ┃ … ┃ Active … ┃ Slot Decay Per … ┃ Created                      ┃ U… ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━╇━━━╇━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━┩
+│ 9477d898-080d-4e55-b911-78a713e0 │ projet │ T… │ 1 │ 0        │ 0.0              │ 2026-11-15T14:17:34.711562+… │ n… │
+└──────────────────────────────────┴────────┴────┴───┴──────────┴──────────────────┴──────────────────────────────┴────┘
+                       List Global Concurrency Limits using `prefect global-concurrency-limit ls`                       
+$ uv run prefect gcl ls
+                                                                   Global Concurrency Limits                                                                    
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃                                   ID ┃ Name       ┃ Active ┃ Limit ┃ Active Slots ┃ Slot Decay Per Second ┃ Created                          ┃ Updated       ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│ 9477d898-080d-4e55-b911-78a713e0992a │ projeto-g1 │ True   │ 1     │ 0            │ 0.0                   │ 2026-11-15T14:17:34.711562+00:00 │ 7 seconds ago │
+└──────────────────────────────────────┴────────────┴────────┴───────┴──────────────┴───────────────────────┴──────────────────────────────────┴───────────────┘
+                                           List Global Concurrency Limits using `prefect global-concurrency-limit ls`                                           

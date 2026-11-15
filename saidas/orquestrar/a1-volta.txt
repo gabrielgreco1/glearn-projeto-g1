@@ -1,0 +1,88 @@
+$ docker compose up -d --wait
+ Container projeto-g1-banco-1 Starting 
+ Container projeto-g1-banco-1 Started 
+ Container projeto-g1-banco-1 Waiting 
+ Container projeto-g1-banco-1 Healthy 
+$ uv run python fluxo.py
+10:30:12.330 | INFO    | Flow run 'elegant-turaco' - Beginning flow run 'elegant-turaco' for flow 'projeto-g1'
+10:30:12.332 | INFO    | Flow run 'elegant-turaco' - View at http://127.0.0.1:4200/runs/flow-run/97289dde-0115-461a-8e97-a4af1843504e
+10:30:14.396 | INFO    | g1 - o feed não mudou desde 2026-11-15T13:28:33+00:00, nada para baixar
+10:30:14.401 | INFO    | Task run 'feed-ed5' - Finished in state Completed()
+10:30:14.475 | INFO    | g1 - feed: 100 notícias lidas, 0 novas, 100 já estavam guardadas. Total: 113
+10:30:14.476 | INFO    | Task run 'guardar-f6c' - Finished in state Completed()
+10:30:14.479 | INFO    | g1 - matérias: 0 baixadas nesta rodada, 0 ficam para a próxima
+10:30:14.479 | INFO    | Task run 'paginas-c04' - Finished in state Completed()
+10:30:20.840 | INFO    | g1 - gravei 113 linhas em dados/noticias.csv
+10:30:20.841 | INFO    | g1 - conferência: 113 notícias, 0 repetidas, 0 sem data, 0 sem título, 112 com a página lida
+10:30:20.841 | INFO    | g1 - notícias do dia 2026-10-31 ao dia 2026-11-15
+10:30:20.842 | INFO    | Task run 'tabela_e_conferencia-94c' - Finished in state Completed()
+10:30:20.843 | INFO    | g1 - transformar 1 de 3: a silver
+10:30:33.855 | INFO    | g1 - 113 notícias; 3 repetidas; 1 pares para você ler (uv run python silver.py mostra)
+10:30:33.856 | INFO    | g1 - transformar 2 de 3: as regras
+10:30:33.858 | INFO    | g1 - lidas 113 = válidas 113 + rejeitadas 0
+10:30:33.859 | INFO    | g1 - gravei 113 notícias em dados/silver/noticias.parquet e 0 rejeições em dados/silver/rejeitados.csv
+10:30:33.860 | INFO    | g1 - transformar 3 de 3: a gold
+10:30:33.873 | INFO    | Task run 'transformar-a54' - ┌────────────┬──────────┬───────┬─────────┬────────────┬──────────────────┐
+│    dia     │ noticias │ do_g1 │ de_fora │ sem_pagina │ palavras_mediana │
+│    date    │  int64   │ int64 │  int64  │   int64    │      double      │
+├────────────┼──────────┼───────┼─────────┼────────────┼──────────────────┤
+│ 2026-10-31 │        1 │     1 │       0 │          0 │             62.0 │
+│ 2026-11-01 │        1 │     0 │       1 │          0 │            896.0 │
+│ 2026-11-02 │        4 │     2 │       2 │          0 │            637.0 │
+│ 2026-11-03 │        3 │     1 │       2 │          0 │            384.0 │
+│ 2026-11-04 │        7 │     6 │       1 │          0 │            680.0 │
+│ 2026-11-05 │        7 │     5 │       2 │          0 │            448.0 │
+│ 2026-11-06 │        7 │     3 │       4 │          0 │            715.0 │
+│ 2026-11-07 │        3 │     2 │       1 │          0 │            677.0 │
+│ 2026-11-08 │        2 │     1 │       1 │          0 │           1271.5 │
+│ 2026-11-09 │       11 │     8 │       3 │          0 │            679.5 │
+│ 2026-11-10 │       10 │     2 │       8 │          0 │            580.5 │
+│ 2026-11-11 │        6 │     4 │       2 │          0 │            558.5 │
+│ 2026-11-12 │       18 │    12 │       6 │          0 │            595.0 │
+│ 2026-11-13 │       16 │     9 │       7 │          0 │            533.5 │
+│ 2026-11-14 │        6 │     3 │       3 │          0 │            748.5 │
+│ 2026-11-15 │        6 │     4 │       2 │          0 │            819.0 │
+└────────────┴──────────┴───────┴─────────┴────────────┴──────────────────┘
+  16 rows                                                       6 columns
+10:30:33.876 | INFO    | g1 - gravei 16 linhas em dados/gold/por_dia.parquet
+10:30:33.877 | INFO    | Task run 'transformar-a54' - ┌─────────────┬──────────┬──────────┬──────────────────┐
+│    fonte    │ noticias │ porcento │ palavras_mediana │
+│   varchar   │  int64   │  double  │      double      │
+├─────────────┼──────────┼──────────┼──────────────────┤
+│ agência     │       45 │     40.9 │            592.0 │
+│ redação     │       38 │     34.5 │            534.0 │
+│ repórter    │       25 │     22.7 │            735.0 │
+│ publicidade │        2 │      1.8 │            566.0 │
+└─────────────┴──────────┴──────────┴──────────────────┘
+10:30:33.879 | INFO    | g1 - gravei 4 linhas em dados/gold/por_fonte.parquet
+10:30:33.880 | INFO    | Task run 'transformar-a54' - Finished in state Completed()
+10:30:33.904 | INFO    | g1 - notícias: 113 na silver; novas 0, mudaram 0, iguais 113; saíram do banco 0
+10:30:33.904 | INFO    | g1 - nomes: 0 novos, 0 mudaram de tipo; assinaturas: 0 saíram, 0 entraram
+10:30:33.904 | INFO    | g1 - conferido: 113 notícias, 75424 palavras e 116 assinaturas, na silver e no banco
+10:30:33.905 | INFO    | g1 - conferido: as views por_dia e por_fonte dão as mesmas linhas que a gold
+10:30:33.905 | INFO    | Task run 'carregar-38a' - Finished in state Completed()
+10:30:33.914 | INFO    | Flow run 'elegant-turaco' - Finished in state Completed()
+$ cat avisos.log
+2026-11-15 10:29:34 AVISO: projeto-g1, execução grinning-mongrel, terminou em Failed: Flow run encountered an exception: ConnectError: [Errno 61] Connection refused (o que fazer: runbook.md)
+2026-11-15 10:30:04 AVISO: projeto-g1, execução nano-quokka, terminou em Crashed: Execution was aborted by Python system exit call. (o que fazer: runbook.md)
+$ uv run pytest
+========================================================================================= test session starts ==========================================================================================
+platform darwin -- Python 3.13.5, pytest-9.2.0, pluggy-1.7.0
+rootdir: ~/projeto-g1
+configfile: pyproject.toml
+testpaths: testes
+plugins: anyio-4.16.0
+collected 35 items
+
+testes/test_assinatura.py ...                                                                                                                                                                    [  8%]
+testes/test_carregar.py ........                                                                                                                                                                 [ 31%]
+testes/test_gold.py .                                                                                                                                                                            [ 34%]
+testes/test_ler.py ....                                                                                                                                                                          [ 45%]
+testes/test_materias.py ..                                                                                                                                                                       [ 51%]
+testes/test_repetidas.py ..                                                                                                                                                                      [ 57%]
+testes/test_silver.py ...                                                                                                                                                                        [ 65%]
+testes/test_sitemap.py ...                                                                                                                                                                       [ 74%]
+testes/test_texto.py ......                                                                                                                                                                      [ 91%]
+testes/test_validar.py ...                                                                                                                                                                       [100%]
+
+========================================================================================== 35 passed in 0.27s ==========================================================================================

@@ -1,0 +1,100 @@
+$ uv run python fluxo.py
+10:33:13.081 | INFO    | Flow run 'worthy-chameleon' - Beginning flow run 'worthy-chameleon' for flow 'projeto-g1'
+10:33:13.083 | INFO    | Flow run 'worthy-chameleon' - View at http://127.0.0.1:4200/runs/flow-run/515d817c-47f7-4432-8c96-37b941e20500
+10:33:15.170 | INFO    | g1 - o feed não mudou desde 2026-11-15T13:28:33+00:00, nada para baixar
+10:33:15.173 | INFO    | Task run 'feed-89e' - Finished in state Completed()
+10:33:15.245 | WARNING | g1 - buraco: a notícia mais antiga do feed é de 04/11 10:33, e a mais nova que o programa já tinha visto no feed é de 27/10 09:00. Vou ao mapa do site de 9 dia(s), de 2026-10-27 a 2026-11-04
+10:33:17.353 | INFO    | g1 - baixei o mapa de 2026-10-27, parte 1: 439200 bytes em dados/bronze/sitemap/2026-10-27_1.xml
+10:33:20.681 | INFO    | g1 - baixei o mapa de 2026-10-27, parte 2: 215 bytes em dados/bronze/sitemap/2026-10-27_2.xml
+10:33:20.708 | INFO    | g1 - sitemap: 3 notícias lidas, 3 novas, 0 já estavam guardadas. Total: 116
+10:33:22.804 | INFO    | g1 - baixei o mapa de 2026-10-28, parte 1: 414201 bytes em dados/bronze/sitemap/2026-10-28_1.xml
+10:33:25.125 | INFO    | g1 - baixei o mapa de 2026-10-28, parte 2: 215 bytes em dados/bronze/sitemap/2026-10-28_2.xml
+10:33:25.144 | INFO    | g1 - sitemap: 6 notícias lidas, 6 novas, 0 já estavam guardadas. Total: 122
+10:33:28.643 | INFO    | g1 - baixei o mapa de 2026-10-29, parte 1: 478309 bytes em dados/bronze/sitemap/2026-10-29_1.xml
+10:33:31.411 | INFO    | g1 - baixei o mapa de 2026-10-29, parte 2: 25475 bytes em dados/bronze/sitemap/2026-10-29_2.xml
+10:33:33.724 | INFO    | g1 - baixei o mapa de 2026-10-29, parte 3: 215 bytes em dados/bronze/sitemap/2026-10-29_3.xml
+10:33:33.748 | INFO    | g1 - sitemap: 4 notícias lidas, 4 novas, 0 já estavam guardadas. Total: 126
+10:33:33.752 | INFO    | g1 - sitemap: 0 notícias lidas, 0 novas, 0 já estavam guardadas. Total: 126
+10:33:35.868 | INFO    | g1 - baixei o mapa de 2026-10-30, parte 1: 408981 bytes em dados/bronze/sitemap/2026-10-30_1.xml
+10:33:38.372 | INFO    | g1 - baixei o mapa de 2026-10-30, parte 2: 215 bytes em dados/bronze/sitemap/2026-10-30_2.xml
+10:33:38.395 | INFO    | g1 - sitemap: 11 notícias lidas, 11 novas, 0 já estavam guardadas. Total: 137
+10:33:40.477 | INFO    | g1 - baixei o mapa de 2026-10-31, parte 1: 252680 bytes em dados/bronze/sitemap/2026-10-31_1.xml
+10:33:42.791 | INFO    | g1 - baixei o mapa de 2026-10-31, parte 2: 215 bytes em dados/bronze/sitemap/2026-10-31_2.xml
+10:33:42.803 | INFO    | g1 - sitemap: 4 notícias lidas, 4 novas, 0 já estavam guardadas. Total: 141
+10:33:42.804 | INFO    | g1 - já tenho dados/bronze/sitemap/2026-11-01_1.xml, não peço de novo
+10:33:42.807 | INFO    | g1 - já tenho dados/bronze/sitemap/2026-11-01_2.xml, não peço de novo
+10:33:42.813 | INFO    | g1 - sitemap: 2 notícias lidas, 0 novas, 2 já estavam guardadas. Total: 141
+10:33:42.813 | INFO    | g1 - já tenho dados/bronze/sitemap/2026-11-02_1.xml, não peço de novo
+10:33:42.817 | INFO    | g1 - já tenho dados/bronze/sitemap/2026-11-02_2.xml, não peço de novo
+10:33:42.822 | INFO    | g1 - sitemap: 4 notícias lidas, 0 novas, 4 já estavam guardadas. Total: 141
+10:33:42.822 | INFO    | g1 - já tenho dados/bronze/sitemap/2026-11-03_1.xml, não peço de novo
+10:33:42.827 | INFO    | g1 - já tenho dados/bronze/sitemap/2026-11-03_2.xml, não peço de novo
+10:33:42.835 | INFO    | g1 - sitemap: 4 notícias lidas, 0 novas, 4 já estavam guardadas. Total: 141
+10:33:42.835 | INFO    | g1 - já tenho dados/bronze/sitemap/2026-11-04_1.xml, não peço de novo
+10:33:42.839 | INFO    | g1 - já tenho dados/bronze/sitemap/2026-11-04_2.xml, não peço de novo
+10:33:42.846 | INFO    | g1 - sitemap: 4 notícias lidas, 0 novas, 4 já estavam guardadas. Total: 141
+10:33:42.847 | INFO    | g1 - feed: 100 notícias lidas, 0 novas, 100 já estavam guardadas. Total: 141
+10:33:42.848 | INFO    | Task run 'guardar-6c7' - Finished in state Completed()
+10:34:28.395 | INFO    | g1 - matérias: 20 baixadas nesta rodada, 8 ficam para a próxima
+10:34:28.399 | INFO    | Task run 'paginas-f9d' - Finished in state Completed()
+10:34:35.921 | INFO    | g1 - gravei 141 linhas em dados/noticias.csv
+10:34:35.922 | INFO    | g1 - conferência: 141 notícias, 0 repetidas, 0 sem data, 8 sem título, 132 com a página lida
+10:34:35.922 | INFO    | g1 - notícias do dia 2026-10-27 ao dia 2026-11-15
+10:34:35.923 | INFO    | Task run 'tabela_e_conferencia-ddc' - Finished in state Completed()
+10:34:35.924 | INFO    | g1 - transformar 1 de 3: a silver
+10:34:51.177 | INFO    | g1 - 141 notícias; 3 repetidas; 1 pares para você ler (uv run python silver.py mostra)
+10:34:51.177 | INFO    | g1 - transformar 2 de 3: as regras
+10:34:51.179 | INFO    | g1 - lidas 141 = válidas 141 + rejeitadas 0
+10:34:51.181 | INFO    | g1 - gravei 141 notícias em dados/silver/noticias.parquet e 0 rejeições em dados/silver/rejeitados.csv
+10:34:51.181 | INFO    | g1 - transformar 3 de 3: a gold
+10:34:51.194 | INFO    | Task run 'transformar-4db' - ┌────────────┬──────────┬───────┬─────────┬────────────┬──────────────────┐
+│    dia     │ noticias │ do_g1 │ de_fora │ sem_pagina │ palavras_mediana │
+│    date    │  int64   │ int64 │  int64  │   int64    │      double      │
+├────────────┼──────────┼───────┼─────────┼────────────┼──────────────────┤
+│ 2026-10-27 │        3 │     0 │       0 │          3 │             NULL │
+│ 2026-10-28 │        6 │     1 │       0 │          5 │            232.0 │
+│ 2026-10-29 │        4 │     3 │       1 │          0 │            409.0 │
+│ 2026-10-30 │       11 │     8 │       3 │          0 │            562.0 │
+│ 2026-10-31 │        5 │     4 │       1 │          0 │            598.0 │
+│ 2026-11-01 │        1 │     0 │       1 │          0 │            896.0 │
+│ 2026-11-02 │        4 │     2 │       2 │          0 │            637.0 │
+│ 2026-11-03 │        3 │     1 │       2 │          0 │            384.0 │
+│ 2026-11-04 │        7 │     6 │       1 │          0 │            680.0 │
+│ 2026-11-05 │        7 │     5 │       2 │          0 │            448.0 │
+│ 2026-11-06 │        7 │     3 │       4 │          0 │            715.0 │
+│ 2026-11-07 │        3 │     2 │       1 │          0 │            677.0 │
+│ 2026-11-08 │        2 │     1 │       1 │          0 │           1271.5 │
+│ 2026-11-09 │       11 │     8 │       3 │          0 │            679.5 │
+│ 2026-11-10 │       10 │     2 │       8 │          0 │            580.5 │
+│ 2026-11-11 │        6 │     4 │       2 │          0 │            558.5 │
+│ 2026-11-12 │       18 │    12 │       6 │          0 │            595.0 │
+│ 2026-11-13 │       16 │     9 │       7 │          0 │            533.5 │
+│ 2026-11-14 │        6 │     3 │       3 │          0 │            748.5 │
+│ 2026-11-15 │        6 │     4 │       2 │          0 │            819.0 │
+└────────────┴──────────┴───────┴─────────┴────────────┴──────────────────┘
+  20 rows                                                       6 columns
+10:34:51.197 | INFO    | g1 - gravei 20 linhas em dados/gold/por_dia.parquet
+10:34:51.199 | INFO    | Task run 'transformar-4db' - ┌─────────────┬──────────┬──────────┬──────────────────┐
+│    fonte    │ noticias │ porcento │ palavras_mediana │
+│   varchar   │  int64   │  double  │      double      │
+├─────────────┼──────────┼──────────┼──────────────────┤
+│ agência     │       50 │     36.2 │            589.5 │
+│ redação     │       49 │     35.5 │            496.0 │
+│ repórter    │       29 │     21.0 │            746.0 │
+│ sem página  │        8 │      5.8 │             NULL │
+│ publicidade │        2 │      1.4 │            566.0 │
+└─────────────┴──────────┴──────────┴──────────────────┘
+10:34:51.201 | INFO    | g1 - gravei 5 linhas em dados/gold/por_fonte.parquet
+10:34:51.201 | INFO    | Task run 'transformar-4db' - Finished in state Completed()
+10:34:51.224 | INFO    | g1 - notícias: 141 na silver; novas 28, mudaram 0, iguais 113; saíram do banco 0
+10:34:51.224 | INFO    | g1 - nomes: 3 novos, 0 mudaram de tipo; assinaturas: 0 saíram, 20 entraram
+10:34:51.225 | INFO    | g1 - conferido: 141 notícias, 88436 palavras e 136 assinaturas, na silver e no banco
+10:34:51.225 | INFO    | g1 - conferido: as views por_dia e por_fonte dão as mesmas linhas que a gold
+10:34:51.225 | INFO    | Task run 'carregar-974' - Finished in state Completed()
+10:34:51.234 | INFO    | Flow run 'worthy-chameleon' - Finished in state Completed()
+$ cat dados/estado.json
+{
+  "etag": "\"a24db6a40c491fdb8251ff5f11a6170d180555cb\"",
+  "baixado_em": "2026-11-15T13:28:33+00:00",
+  "mais_nova_do_feed": "2026-11-15T12:06:34+00:00"
+}
