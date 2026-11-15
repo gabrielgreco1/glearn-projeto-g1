@@ -22,4 +22,12 @@ O banco continua com a última carga que deu certo, inteira: a carga é uma tran
 4. **`Failed` em `carregar`, com `a carga não fecha` ou `não bate com`.** O banco não ficou igual à silver ou à gold, e a carga foi desfeita: nada foi publicado. Rode `uv run python transformar.py` e depois `uv run python carregar.py`, e leia a mensagem de novo.
 5. **`Crashed` com `interrupt signal`.** Alguém apertou Ctrl+C ou a máquina desligou no meio. Rode de novo.
 
+## Linhas de ATENÇÃO
+
+A execução terminou em `Completed` e as notícias foram publicadas, mas a vigia (`vigiar.py`) viu algo fora do normal no banco. Nada parou; a linha diz o que olhar.
+
+1. **A notícia mais nova saiu há mais de 24 horas.** O maior silêncio medido no feed foi de 18 h 39 min. Abra o feed no navegador: se o primeiro item é novo e o projeto não o guardou, olhe o log da task `feed` (o etag, o 304); se o feed também está parado, o G1 mudou o endereço do feed ou deixou de atualizá-lo.
+2. **Metade das páginas mais novas veio sem texto ou sem assinatura.** O G1 pode ter mudado a página. Abra uma delas no navegador, veja o código (Ctrl+U) e procure o `itemprop="articleBody"` e a linha "Por ...". Se mudou, o seletor do `texto.py` ou do `assinatura.py` precisa acompanhar; depois de mudar, apague as páginas dessas notícias em `dados/bronze/materias/` e rode de novo.
+3. **Muitas notícias esperam a página.** Depois de um buraco, é normal: 20 por rodada, e a fila desce sozinha. Se ela não desce de uma rodada para a outra, olhe o log da task `paginas`.
+
 Para rodar de novo, com o agendamento ligado (`uv run python fluxo.py agendar`, num terminal que fica aberto): `uv run prefect deployment run projeto-g1/a-cada-3-horas`. Sem ele: `uv run python fluxo.py`.

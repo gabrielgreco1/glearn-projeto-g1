@@ -1,6 +1,6 @@
 """O projeto G1 como um flow do Prefect: as seis etapas do rodar.py, uma task cada, na ordem. As tasks que pedem ao G1
 (o feed e as páginas) são tentadas de novo quando a rede falha; uma recusa do site para sem nova tentativa.
-Se a execução termina mal, fica um aviso em avisos.log.
+Se a execução termina mal, fica um aviso em avisos.log. Se termina bem, mas a vigia vê algo estranho no banco, também.
 
 Uso: uv run python fluxo.py            roda uma vez, agora
      uv run python fluxo.py agendar    fica ligado e roda de 3 em 3 horas (Ctrl+C para parar)
@@ -18,6 +18,7 @@ import janela
 import materias
 import tabela
 import transformar as transformacao
+import vigiar as vigia
 from baixar import baixar_feed
 from ler import feed_mais_novo, ler_feed
 
@@ -48,12 +49,23 @@ transformar = task(transformacao.main, name="transformar")
 carregar = task(carga.main, name="carregar")
 
 
-def avisar(flow, flow_run, state):
-    """O Prefect chama esta função quando a execução termina em Failed ou Crashed. O aviso diz o que olhar primeiro."""
-    aviso = f"AVISO: {flow.name}, execução {flow_run.name}, terminou em {state.name}: {state.message}"
+def anotar(aviso):
+    """Mostra o aviso no log e acrescenta uma linha em avisos.log, com a hora."""
     print(aviso)
     with open("avisos.log", "a", encoding="utf-8") as arquivo:
         arquivo.write(f"{datetime.now():%Y-%m-%d %H:%M:%S} {aviso} (o que fazer: runbook.md)\n")
+
+
+def avisar(flow, flow_run, state):
+    """O Prefect chama esta função quando a execução termina em Failed ou Crashed. O aviso diz o que olhar primeiro."""
+    anotar(f"AVISO: {flow.name}, execução {flow_run.name}, terminou em {state.name}: {state.message}")
+
+
+@task
+def vigiar():
+    """O que nenhuma task acusa: cada aviso da vigia vira uma linha de ATENÇÃO, e a execução continua Completed."""
+    for aviso in vigia.avisos():
+        anotar(f"ATENÇÃO: {aviso}")
 
 
 @flow(log_prints=True, on_failure=[avisar], on_crashed=[avisar])
@@ -64,6 +76,7 @@ def projeto_g1():
     tabela_e_conferencia()
     transformar()
     carregar()
+    vigiar()
 
 
 if __name__ == "__main__":
