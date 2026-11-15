@@ -4,7 +4,7 @@ Aula na plataforma: https://learn.gabrielgreco.com/learn/trilha/pg-05-o-que-o-fe
 
 O `sitemap.py` recupera as notícias de tecnologia de um dia que o feed já não mostra, pelo mapa do site daquele dia.
 
-A pasta `projeto/` mostra como a sua pasta `projeto-g1/` deve estar no fim desta aula. Arquivos novos ou alterados nesta aula: sitemap.py.
+A pasta `projeto/` mostra como a sua pasta `projeto-g1/` deve estar no fim desta aula. Arquivos novos ou alterados nesta aula: sitemap.py, testes/test_sitemap.py, testes/amostra_mapa.xml.
 
 ## Como rodar esta pasta
 

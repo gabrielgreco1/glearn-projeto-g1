@@ -20,6 +20,8 @@ Para recuperar um dia que o feed já não mostra:
 uv run python sitemap.py 2026-11-01
 ```
 
+No Windows, os comandos são os mesmos no PowerShell. Para apagar a pasta `dados/` e começar do zero: `Remove-Item -Recurse -Force dados` (no macOS e no Linux, `rm -rf dados`).
+
 ## O que sai
 
 Tudo fica em `dados/`, que não vai para o Git:
@@ -28,8 +30,8 @@ Tudo fica em `dados/`, que não vai para o Git:
 - `bronze/sitemap/`: o mapa do site de cada dia recuperado.
 - `bronze/materias/`: a página de cada notícia, com o nome tirado do endereço.
 - `estado.json`: o que o programa lembra de uma rodada para a outra.
-- `noticias.jsonl`: uma notícia por linha, na ordem em que entraram.
-- `noticias.csv`: a tabela final, uma linha por notícia. As datas ficam como vieram da fonte; converter é trabalho da etapa Transformar. A tabela é para ler com programa (pandas, DuckDB). No Excel, um título que comece com `=` pode ser lido como fórmula.
+- `noticias.jsonl`: uma notícia por linha, na ordem em que entraram. Um dia recuperado pelo mapa do site entra no fim.
+- `noticias.csv`: a tabela final, uma linha por notícia, do dia mais antigo para o mais novo. As datas ficam como vieram da fonte; converter é trabalho da etapa Transformar. A tabela é para ler com programa (pandas, DuckDB). No Excel, um título que comece com `=` pode ser lido como fórmula.
 
 ## Regras de coleta
 
@@ -43,4 +45,5 @@ Tudo fica em `dados/`, que não vai para o Git:
 
 - Uma notícia guardada não é atualizada. Se a redação corrige o título depois, o arquivo fica com o título da primeira vez que o programa viu a notícia. A página da notícia, baixada pelo `materias.py`, traz o título da hora em que foi baixada.
 - As datas ficam como a fonte escreveu: o feed em `Sat, 14 Nov 2026 05:01:26 -0000`, o mapa do site e a página em outros formatos. Converter é trabalho da etapa Transformar.
+- O mapa do site não diz quando a notícia saiu. Nas linhas de origem `sitemap`, `publicado` é só o dia escrito no endereço (o dia em Brasília), e `lastmod` é a última mudança, que pode ser dias depois. A hora da publicação aparece em `publicado_pagina` quando a página é baixada.
 - Nada roda sozinho: o programa roda quando você manda.

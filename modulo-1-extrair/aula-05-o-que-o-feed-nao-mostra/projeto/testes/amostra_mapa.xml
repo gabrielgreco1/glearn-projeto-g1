@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Amostra escrita à mão para os testes. Os endereços são inventados; a estrutura é a do mapa do site do G1. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://g1.globo.com/tecnologia/noticia/2026/10/31/noticia-inventada.ghtml</loc>
+    <lastmod>2026-11-01T00:27:31.045000+00:00</lastmod>
+  </url>
+  <url>
+    <loc>https://g1.globo.com/economia/noticia/2026/11/01/outra-editoria.ghtml</loc>
+    <lastmod>2026-11-01T16:39:41.922000+00:00</lastmod>
+  </url>
+</urlset>
