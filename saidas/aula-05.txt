@@ -1,22 +1,22 @@
 # 2026-11-14, horário de Brasília. Pasta modulo-1-extrair/aula-05-…/projeto copiada para uma pasta limpa e rodada do zero.
 $ uv run python baixar.py
-14:47:40 INFO baixei o feed: 590554 bytes em dados/bronze/feed/2026-11-14/17-47-40.xml
+23:51:09 INFO baixei o feed: 590554 bytes em dados/bronze/feed/2026-11-15/02-51-09.xml
 $ uv run python acumular.py
-14:47:40 INFO feed: 100 notícias lidas, 100 novas, 0 já estavam guardadas. Total: 100
+23:51:09 INFO feed: 100 notícias lidas, 100 novas, 0 já estavam guardadas. Total: 100
 $ uv run python sitemap.py 2026-11-01
-14:47:43 INFO baixei o mapa de 2026-11-01, parte 1: 213508 bytes em dados/bronze/sitemap/2026-11-01_1.xml
-14:47:45 INFO baixei o mapa de 2026-11-01, parte 2: 215 bytes em dados/bronze/sitemap/2026-11-01_2.xml
-14:47:45 INFO sitemap: 2 notícias lidas, 2 novas, 0 já estavam guardadas. Total: 102
+23:51:11 INFO baixei o mapa de 2026-11-01, parte 1: 213508 bytes em dados/bronze/sitemap/2026-11-01_1.xml
+23:51:13 INFO baixei o mapa de 2026-11-01, parte 2: 215 bytes em dados/bronze/sitemap/2026-11-01_2.xml
+23:51:13 INFO sitemap: 2 notícias lidas, 2 novas, 0 já estavam guardadas. Total: 102
 $ uv run python sitemap.py 2026-11-01
-14:47:45 INFO já tenho dados/bronze/sitemap/2026-11-01_1.xml, não peço de novo
-14:47:45 INFO já tenho dados/bronze/sitemap/2026-11-01_2.xml, não peço de novo
-14:47:45 INFO sitemap: 2 notícias lidas, 0 novas, 2 já estavam guardadas. Total: 102
+23:51:13 INFO já tenho dados/bronze/sitemap/2026-11-01_1.xml, não peço de novo
+23:51:13 INFO já tenho dados/bronze/sitemap/2026-11-01_2.xml, não peço de novo
+23:51:13 INFO sitemap: 2 notícias lidas, 0 novas, 2 já estavam guardadas. Total: 102
 $ uv run python sitemap.py 2026-11-13
-14:47:47 INFO baixei o mapa de 2026-11-13, parte 1: 403281 bytes em dados/bronze/sitemap/2026-11-13_1.xml
-14:47:49 INFO baixei o mapa de 2026-11-13, parte 2: 215 bytes em dados/bronze/sitemap/2026-11-13_2.xml
-14:47:49 INFO sitemap: 13 notícias lidas, 0 novas, 13 já estavam guardadas. Total: 102
+23:51:16 INFO baixei o mapa de 2026-11-13, parte 1: 402447 bytes em dados/bronze/sitemap/2026-11-13_1.xml
+23:51:18 INFO baixei o mapa de 2026-11-13, parte 2: 215 bytes em dados/bronze/sitemap/2026-11-13_2.xml
+23:51:18 INFO sitemap: 13 notícias lidas, 0 novas, 13 já estavam guardadas. Total: 102
 $ uv run python sitemap.py 2030-01-01
 O dia 2030-01-01 ainda não chegou. O G1 responde com um mapa vazio.
 $ uv run pytest -q
-....                                                                     [100%]
-4 passed in 0.02s
+.......                                                                  [100%]
+7 passed in 0.03s

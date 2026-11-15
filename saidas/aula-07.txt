@@ -1,27 +1,42 @@
 # 2026-11-14, horário de Brasília. Pasta modulo-1-extrair/aula-07-…/projeto copiada para uma pasta limpa e rodada do zero.
 $ rm -rf dados
 $ uv run python rodar.py
-14:06:52 INFO etapa 1 de 4: o feed
-14:06:54 INFO baixei o feed: 590939 bytes em dados/bronze/feed/2026-11-14/17-06-54.xml
-14:06:54 INFO etapa 2 de 4: guardar só o que é novo
-14:06:55 INFO feed: 100 notícias lidas, 100 novas, 0 já estavam guardadas. Total: 100
-14:06:55 INFO etapa 3 de 4: a página das notícias que faltam
-14:07:36 INFO matérias: 20 baixadas nesta rodada, 80 ficam para a próxima
-14:07:36 INFO etapa 4 de 4: a tabela e a conferência
-14:07:37 INFO gravei 100 linhas em dados/noticias.csv
-14:07:37 INFO conferência: 100 notícias, 0 repetidas, 0 sem data, 0 sem título, 20 com a página lida
-14:07:37 INFO primeira guardada: Tue, 03 Nov 2026 16:58:54 -0000; última: Sat, 14 Nov 2026 13:55:00 -0000
+23:51:19 INFO etapa 1 de 4: o feed
+23:51:21 INFO baixei o feed: 590554 bytes em dados/bronze/feed/2026-11-15/02-51-21.xml
+23:51:21 INFO etapa 2 de 4: guardar só o que é novo
+23:51:21 INFO feed: 100 notícias lidas, 100 novas, 0 já estavam guardadas. Total: 100
+23:51:21 INFO etapa 3 de 4: a página das notícias que faltam
+23:52:03 INFO matérias: 20 baixadas nesta rodada, 80 ficam para a próxima
+23:52:03 INFO etapa 4 de 4: a tabela e a conferência
+23:52:04 INFO gravei 100 linhas em dados/noticias.csv
+23:52:04 INFO conferência: 100 notícias, 0 repetidas, 0 sem data, 0 sem título, 20 com a página lida
+23:52:04 INFO notícias do dia 2026-11-03 ao dia 2026-11-14
 $ uv run python rodar.py
-14:07:38 INFO etapa 1 de 4: o feed
-14:07:40 INFO o feed não mudou desde 2026-11-14T17:06:54+00:00, nada para baixar
-14:07:40 INFO etapa 2 de 4: guardar só o que é novo
-14:07:40 INFO feed: 100 notícias lidas, 0 novas, 100 já estavam guardadas. Total: 100
-14:07:40 INFO etapa 3 de 4: a página das notícias que faltam
-14:08:22 INFO matérias: 20 baixadas nesta rodada, 60 ficam para a próxima
-14:08:22 INFO etapa 4 de 4: a tabela e a conferência
-14:08:24 INFO gravei 100 linhas em dados/noticias.csv
-14:08:24 INFO conferência: 100 notícias, 0 repetidas, 0 sem data, 0 sem título, 40 com a página lida
-14:08:24 INFO primeira guardada: Tue, 03 Nov 2026 16:58:54 -0000; última: Sat, 14 Nov 2026 13:55:00 -0000
+23:52:04 INFO etapa 1 de 4: o feed
+23:52:06 INFO o feed não mudou desde 2026-11-15T02:51:21+00:00, nada para baixar
+23:52:06 INFO etapa 2 de 4: guardar só o que é novo
+23:52:06 INFO feed: 100 notícias lidas, 0 novas, 100 já estavam guardadas. Total: 100
+23:52:06 INFO etapa 3 de 4: a página das notícias que faltam
+23:52:48 INFO matérias: 20 baixadas nesta rodada, 60 ficam para a próxima
+23:52:48 INFO etapa 4 de 4: a tabela e a conferência
+23:52:50 INFO gravei 100 linhas em dados/noticias.csv
+23:52:50 INFO conferência: 100 notícias, 0 repetidas, 0 sem data, 0 sem título, 40 com a página lida
+23:52:51 INFO notícias do dia 2026-11-03 ao dia 2026-11-14
+$ uv run python sitemap.py 2026-11-01
+23:52:53 INFO baixei o mapa de 2026-11-01, parte 1: 213508 bytes em dados/bronze/sitemap/2026-11-01_1.xml
+23:52:55 INFO baixei o mapa de 2026-11-01, parte 2: 215 bytes em dados/bronze/sitemap/2026-11-01_2.xml
+23:52:55 INFO sitemap: 2 notícias lidas, 2 novas, 0 já estavam guardadas. Total: 102
+$ uv run python rodar.py
+23:52:55 INFO etapa 1 de 4: o feed
+23:52:57 INFO o feed não mudou desde 2026-11-15T02:51:21+00:00, nada para baixar
+23:52:57 INFO etapa 2 de 4: guardar só o que é novo
+23:52:57 INFO feed: 100 notícias lidas, 0 novas, 100 já estavam guardadas. Total: 102
+23:52:57 INFO etapa 3 de 4: a página das notícias que faltam
+23:53:39 INFO matérias: 20 baixadas nesta rodada, 42 ficam para a próxima
+23:53:39 INFO etapa 4 de 4: a tabela e a conferência
+23:53:43 INFO gravei 102 linhas em dados/noticias.csv
+23:53:43 INFO conferência: 102 notícias, 0 repetidas, 0 sem data, 0 sem título, 60 com a página lida
+23:53:43 INFO notícias do dia 2026-10-31 ao dia 2026-11-14
 $ uv run pytest
 ============================= test session starts ==============================
 platform darwin -- Python 3.13.5, pytest-9.2.0, pluggy-1.7.0
@@ -29,13 +44,14 @@ rootdir: .../projeto
 configfile: pyproject.toml
 testpaths: testes
 plugins: anyio-4.16.0
-collected 6 items
+collected 9 items
 
-testes/test_ler.py ....                                                  [ 66%]
-testes/test_materias.py ..                                               [100%]
+testes/test_ler.py ....                                                  [ 44%]
+testes/test_materias.py ..                                               [ 66%]
+testes/test_sitemap.py ...                                               [100%]
 
-============================== 6 passed in 0.08s ===============================
+============================== 9 passed in 0.06s ===============================
 $ head -3 dados/noticias.csv
-publicado,publicado_pagina,editoria,titulo,subtitulo,autor,secao,palavras,atualizado_em,origem,visto_em,link
-"Tue, 03 Nov 2026 16:58:54 -0000",,tecnologia,"Hackers usaram entrevista de emprego falsa para invadir sistema e roubar US$ 6,3 bi da Binance","Sistema foi invadido após ser comprometido por uma entrevista de emprego falsa. Segundo a empresa, uma ferramenta interna de IA também foi usada para obter controle sobre carteiras.",,,,,feed,2026-11-14T17:06:55+00:00,https://g1.globo.com/tecnologia/ciberseguranca/noticia/2026/11/03/hackers-binance-entrevista-de-emprego.ghtml
-"Tue, 03 Nov 2026 17:54:30 -0000",,tecnologia,"Documentos falsos e inteligência artificial: como KYC, biometria facial e análise de dispositivos trabalham juntos",Entenda por que conferir a verificação de documentos é apenas uma das etapas para validar uma identidade e avaliar riscos em jornadas digitais.,,,,,feed,2026-11-14T17:06:55+00:00,https://g1.globo.com/tecnologia/ciberseguranca/serasa/noticia/2026/11/03/documentos-falsos-e-inteligencia-artificial-como-kyc-biometria-facial-e-analise-de-dispositivos-trabalham-juntos.ghtml
+publicado,publicado_pagina,editoria,titulo,subtitulo,autor,secao,palavras,atualizado_em,lastmod,origem,visto_em,link
+2026-10-31,2026-10-31T21:17:00.416-03:00,tecnologia,Pluxee está fora do ar? Usuários relatam problemas no aplicativo,,Redação g1,Tecnologia,73,2026-10-31T21:27:31.045-03:00,2026-11-01T00:27:31.045000+00:00,sitemap,2026-11-15T02:52:55+00:00,https://g1.globo.com/tecnologia/noticia/2026/10/31/pluxee-esta-fora-do-ar-usuarios-relatam-problemas-no-aplicativo.ghtml
+2026-11-01,2026-11-01T06:50:10.296-03:00,tecnologia,"Binance retoma saques de bitcoin e ether após roubo de US$ 6,3 bilhões",,G1,Tecnologia,931,2026-11-01T13:39:41.922-03:00,2026-11-01T16:39:41.922000+00:00,sitemap,2026-11-15T02:52:55+00:00,https://g1.globo.com/tecnologia/noticia/2026/11/01/binance-retoma-saques-apos-roubo-de-us-63-bilhoes.ghtml

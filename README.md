@@ -27,7 +27,8 @@ Em 14 de novembro de 2026, com Python 3.13, uv 0.10.11, httpx 0.28.1, feedparser
 - Do zero (`rm -rf dados` e `uv run python rodar.py`): 1 pedido ao feed, 100 notícias novas, 20 páginas de notícia.
 - Segunda rodada, logo em seguida: o feed respondeu 304, nenhuma notícia nova, mais 20 páginas.
 - `uv run python sitemap.py 2026-11-01`: 2 notícias que o feed já não mostrava, lidas da parte 1 do mapa do dia (a parte 2 veio vazia).
-- `uv run pytest`: 6 testes.
+- A rodada seguinte põe essas 2 notícias no começo da tabela, no lugar do dia delas: `notícias do dia 2026-10-31 ao dia 2026-11-14`.
+- `uv run pytest`: 9 testes.
 
 Os números mudam com o tempo: o feed é outro a cada hora.
 

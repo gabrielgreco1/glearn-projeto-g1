@@ -21,7 +21,7 @@ def acumular(noticias, origem):
     """Acrescenta ao arquivo só as notícias que ainda não estão nele. Devolve as que entraram."""
     vistas = {noticia["id"] for noticia in ler_noticias()}
     novas = [noticia for noticia in noticias if noticia["id"] not in vistas]
-    novas.reverse()  # o feed vem da mais nova para a mais antiga; o arquivo cresce na ordem do tempo
+    novas.reverse()  # o feed vem da mais nova para a mais antiga; cada rodada entra na ordem do tempo
     visto_em = agora().isoformat()
     ARQUIVO.parent.mkdir(parents=True, exist_ok=True)
     with ARQUIVO.open("a", encoding="utf-8") as arquivo:

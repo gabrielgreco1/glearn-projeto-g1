@@ -17,6 +17,8 @@ load_dotenv()
 USER_AGENT = os.getenv("G1_USER_AGENT")
 if not USER_AGENT:
     raise SystemExit("Falta G1_USER_AGENT no arquivo .env. Copie o .env.example para .env e preencha.")
+if "seu-usuario" in USER_AGENT:
+    raise SystemExit("O G1_USER_AGENT do .env ainda tem o contato do exemplo (seu-usuario). Troque pelo seu e-mail ou pelo endereço do seu repositório.")
 
 FEED = "https://g1.globo.com/rss/g1/tecnologia/"
 CABECALHOS = {"User-Agent": USER_AGENT}

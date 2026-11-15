@@ -2,6 +2,7 @@
 
 Uso: uv run python sitemap.py 2026-11-01"""
 
+import re
 import sys
 import xml.etree.ElementTree as ET
 from datetime import date
@@ -45,15 +46,23 @@ def partes_do_dia(dia):
     return arquivos
 
 
+def dia_do_endereco(link):
+    """O dia que o G1 escreve no endereço da notícia, o da publicação em Brasília, ou vazio se não houver.
+    'https://g1.globo.com/tecnologia/noticia/2026/10/31/x.ghtml' vira '2026-10-31'."""
+    achado = re.search(r"/(\d{4})/(\d{2})/(\d{2})/", link)
+    return "-".join(achado.groups()) if achado else ""
+
+
 def ler_mapa(xml):
-    """Devolve as notícias da editoria que aparecem no mapa. O mapa traz o endereço e a data, sem o título."""
+    """Devolve as notícias da editoria que aparecem no mapa. O mapa traz o endereço e a última mudança, sem o título."""
     noticias = []
     for url in ET.fromstring(xml).findall("sm:url", NS):
         link = url.findtext("sm:loc", namespaces=NS).strip()
         if editoria(link) != EDITORIA or "/noticia/" not in link:
             continue
         noticias.append({"id": link, "titulo": "", "subtitulo": "", "link": link,
-                         "publicado": url.findtext("sm:lastmod", default="", namespaces=NS),  # como veio
+                         "publicado": dia_do_endereco(link),  # o mapa não diz quando a notícia saiu; o endereço diz o dia
+                         "lastmod": url.findtext("sm:lastmod", default="", namespaces=NS),  # a última mudança, como veio
                          "editoria": EDITORIA, "imagem": ""})
     return noticias
 
